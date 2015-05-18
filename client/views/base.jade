@@ -1,0 +1,12 @@
+head
+  title Tap into CMA
+  meta(name="viewport" content="width=device-width, initial-scale=1")
+
+template(name="base")
+  +yield
+
+template(name="tours")
+  ul
+    each tours
+      {{log this}}
+      li #{mainTitle}

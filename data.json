@@ -1,0 +1,104 @@
+[
+  {
+    "tourID" : 1,
+    "stops":
+    [
+      {
+        "group" : 1,
+        "title": "Stop 1",
+        "childStops": [
+          {
+            "title" : "Stop 1.1",
+            "speaker" : "Speaker 1",
+            "media" : "media 1"
+          },
+          {
+            "title" : "Stop 1.2",
+            "speaker" : "Speaker 2",
+            "media": "media 2"
+          },
+          {
+            "title" : "Stop 1.3",
+            "speaker" : "Speaker 3",
+            "media": "media 3"
+          }
+        ]
+      },
+      {
+        "group" : 1,
+        "title": "Stop 2",
+        "childStops": 
+        [
+          {
+            "title" : "Stop 2.1",
+            "speaker" : "Speaker 1",
+            "media" : "media 1"
+          },
+          {
+            "title" : "Stop 2.2",
+            "speaker" : "Speaker 2",
+            "media": "media 2"
+          },
+          {
+            "title" : "Stop 2.3",
+            "speaker" : "Speaker 3",
+            "media": "media 3"
+          }
+        ]
+      },
+      {
+        "group" : 0,
+        "title" : "Stop 3",
+        "speaker" : "Speaker 3",
+        "media": "media 3"
+      }
+    ]
+  },
+  {
+    "tourID" : 2,
+    "stops":
+    [
+      {
+        "group" : 1,
+        "childStops": [
+          {
+            "title" : "Stop 1.1",
+            "speaker" : "Speaker 1",
+            "media" : "media 1"
+          },
+          {
+            "title" : "Stop 1.2",
+            "speaker" : "Speaker 2",
+            "media": "media 2"
+          },
+          {
+            "title" : "Stop 1.3",
+            "speaker" : "Speaker 3",
+            "media": "media 3"
+          }
+        ]
+      },
+      {
+        "group" : 1,
+        "childStops": 
+        [
+          {
+            "title" : "Stop 2.1",
+            "speaker" : "Speaker 1",
+            "media" : "media 1"
+          },
+          {
+            "title" : "Stop 2.2",
+            "speaker" : "Speaker 2",
+            "media": "media 2"
+          },
+          {
+            "title" : "Stop 2.3",
+            "speaker" : "Speaker 3",
+            "media": "media 3"
+          }
+        ]
+      }
+    ]
+  }
+]

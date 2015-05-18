@@ -1,0 +1,8 @@
+template(name="tour")
+  ul
+    each tour.stops
+      li #{title}
+      if childStops
+        ul(style="padding-left: 15px")
+          each childStops
+            li #{title}

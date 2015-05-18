@@ -1,0 +1,8 @@
+template(name="upload")
+  form.upload
+    input(type="file" name="testFile")
+    input(type="file" name="testFile-2")
+    input(type="submit" value="Upload")
+    each files
+      .progress
+        .progress-bar(role="progressbar" aria-valuenow="{{ percent_uploaded }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percent_uploaded }}%") {{ percent_uploaded }}

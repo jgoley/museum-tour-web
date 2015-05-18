@@ -1,0 +1,45 @@
+template(name="createTour")
+  .container
+    .col-sm-6.col-sm-offset-3
+      +autoForm collection="Tours" id="createTour" 
+        h1 Create a Tour
+        +afQuickField name="mainTitle"
+        +afQuickField name="subTitle"
+        +afQuickField name="openDate"
+        +afQuickField name="closeDate"
+        +afQuickField name="baseNumber"
+
+        +afArrayField name="stops" template="tap"
+
+        input.btn.btn-primary(type="submit")
+    each files
+      .progress
+        .progress-bar(role="progressbar" aria-valuenow="{{ percent_uploaded }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percent_uploaded }}%") {{ percent_uploaded }}
+
+template(name="afArrayField_tap")
+  {{ afFieldLabelText name=this.atts.name }}
+  h1 stops
+  +afEachArrayItem name="stops" minCount=1 maxCount=100
+    +afQuickField name=this.current.title
+    +afQuickField name=this.current.group
+
+    if afFieldValueIs name=this.current.group value="single"
+      +afQuickField name=this.current.speaker
+      +afQuickField name=this.current.media
+      +afQuickField name=this.current.type
+    if afFieldValueIs name=this.current.group value="group"
+      +afEachArrayItem name=this.current.childStops minCount=1 maxCount=10
+        .autoform-array-item
+          +afQuickField name=this.name label=false
+          if afArrayFieldHasMoreThanMinimum name=this.arrayFieldName minCount=1 maxCount=10
+            button.autoform-remove-item(type='button') Remove
+                    
+        if afArrayFieldHasLessThanMaximum name=this.name minCount=0 maxCount=10
+          div(style='margin-top: 20px;')
+            button.autoform-add-item(type='button', data-autoform-field='{{this.arrayFieldName}}', data-autoform-mincount='{{this.minCount}}', data-autoform-maxcount='{{this.maxCount}}') Add
+
+    if afArrayFieldHasMoreThanMinimum name=../atts.name minCount=1 maxCount=10
+        button.autoform-remove-item(type='button') Remove
+
+  if afArrayFieldHasLessThanMaximum name=this.atts.name minCount=1 maxCount=10
+    button.autoform-add-item(type='button', data-autoform-field='{{this.atts.name}}', data-autoform-mincount='{{this.atts.minCount}}', data-autoform-maxcount='{{this.atts.maxCount}}') Add
