@@ -6,7 +6,14 @@ template(name="base")
   +yield
 
 template(name="tours")
+  h1 Tours:
   ul
     each tours
       {{log this}}
-      li #{mainTitle}
+      li 
+        h3 #{mainTitle} 
+          span #{subTitle}
+        span #{startDate} - #{endDate}
+        stops {{countStops}}
+  input(type="text")
+  input(type="submit")

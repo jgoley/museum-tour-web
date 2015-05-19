@@ -4,7 +4,7 @@
     "stops":
     [
       {
-        "group" : 1,
+        "type" : 1,
         "title": "Stop 1",
         "childStops": [
           {
@@ -25,7 +25,7 @@
         ]
       },
       {
-        "group" : 1,
+        "type" : 1,
         "title": "Stop 2",
         "childStops": 
         [
@@ -47,7 +47,7 @@
         ]
       },
       {
-        "group" : 0,
+        "type" : 0,
         "title" : "Stop 3",
         "speaker" : "Speaker 3",
         "media": "media 3"
@@ -59,7 +59,7 @@
     "stops":
     [
       {
-        "group" : 1,
+        "type" : 1,
         "childStops": [
           {
             "title" : "Stop 1.1",
@@ -79,7 +79,7 @@
         ]
       },
       {
-        "group" : 1,
+        "type" : 1,
         "childStops": 
         [
           {

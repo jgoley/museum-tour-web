@@ -16,11 +16,14 @@ hooks = {
         path: insertDoc.mainTitle.replace(' ', '-')
         (e,r) ->
           console.log(e,r)
+          return
       Tours.insert insertDoc
+      @done()
+      false
     else 
       Tours.insert insertDoc
-    @done()
-    false
+      @done()
+      false
 }
 
 AutoForm.addHooks('createTour', hooks);
