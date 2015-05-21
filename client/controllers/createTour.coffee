@@ -26,7 +26,7 @@ hooks = {
       false
 }
 
-AutoForm.addHooks('createTour', hooks);
+# AutoForm.addHooks('createTour', hooks);
 
 Template.createTour.helpers
   "files": () ->

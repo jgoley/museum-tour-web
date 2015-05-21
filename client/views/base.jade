@@ -9,10 +9,10 @@ template(name="tours")
   h1 Tours:
   ul
     each tours
-      {{log this}}
-      li 
-        h3 #{mainTitle} 
-          span #{subTitle}
+      li
+        a(href="tour/#{tourID}") 
+          h3 #{mainTitle}
+            span #{subTitle}
         span #{startDate} - #{endDate}
         stops {{countStops}}
   input(type="text")

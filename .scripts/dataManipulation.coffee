@@ -2958,7 +2958,6 @@ convertTour = (data) ->
   _.chain(data)
     .groupBy('tourID')
     .map((tour)->
-      console.log "The Tour",tour
       tourStops = 
         _.chain(tour)
           .groupBy('stopID')
@@ -2996,4 +2995,6 @@ convertTour = (data) ->
       'stops': tourStops
     )
     .value()
+
+console.log convertTour(legacyStops)
     

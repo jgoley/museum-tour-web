@@ -1,3 +1,6 @@
+@collections = @collections || {}
+@schema = @schema || {}
+
 @Tours = new Mongo.Collection 'tours'
 @TourStops = new Mongo.Collection 'tourStops'
 
@@ -10,11 +13,31 @@ stopTypes =
   {label: "Film", value: 5}
 ]
 
+tourTypes = 
+  [
+    {label: "Adult - Temporary", value: 0}
+    {label: "Family - Temporary", value: 1}
+    {label: "Adult - Permanent", value: 2}
+    {label: "Family - Permanent", value: 3}
+  ]
+
+icons = 
+  [
+    {label: "Ipod Graphic", value: 0}
+    {label: "Gladys Leaf", value: 1}
+  ]
+
+menu = 
+  [
+    {label: "Yes", value: 0}
+    {label: "No", value: 1}
+  ]
+
 if Meteor.isServer
   Meteor.publish "tours", () ->
     Tours.find()
   Meteor.publish "tourStops", (tourID) ->
-    TourStops.find()
+    TourStops.find({"tourID": tourID})
 
 Tours.attachSchema new SimpleSchema
   'mainTitle':
@@ -33,10 +56,38 @@ Tours.attachSchema new SimpleSchema
     type: Date
     label: "Closing Date"
     optional: true
-  'baseNumber':
+  'baseNum':
     type: String
     label: "Base Number"
     optional: true
+  'tourType'
+    type: String
+    optional: true
+    autoForm:
+      type: "select",
+      options: () ->
+        tourTypes
+  'icon'
+    type: String
+    optional: true
+    autoform:
+      type: "select",
+      options: () ->
+        icons
+  'menu'
+    type: String
+    autoform:
+      type: "select",
+      options: () ->
+        menu
+  'image'
+    type: String
+    optional: true
+    autoform:
+      afFieldInput:
+        type: "file"
+
+TourStops.attachSchema new SimpleSchema
   'stops':
     type: Array
     optional: true
