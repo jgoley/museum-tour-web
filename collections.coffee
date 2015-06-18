@@ -6,113 +6,91 @@
 
 stopTypes = 
 [
-  {label: "Audio", value: 1},
-  {label: "Video", value: 2},
-  {label: "Picture", value: 3},
-  {label: "Music", value: 4},
-  {label: "Film", value: 5}
+  {label: 'Audio', value: 1},
+  {label: 'Video', value: 2},
+  {label: 'Picture', value: 3},
+  {label: 'Music', value: 4},
+  {label: 'Film', value: 5}
 ]
 
-tourTypes = 
-  [
-    {label: "Adult - Temporary", value: 0}
-    {label: "Family - Temporary", value: 1}
-    {label: "Adult - Permanent", value: 2}
-    {label: "Family - Permanent", value: 3}
-  ]
-
-icons = 
-  [
-    {label: "Ipod Graphic", value: 0}
-    {label: "Gladys Leaf", value: 1}
-  ]
-
-menu = 
-  [
-    {label: "Yes", value: 0}
-    {label: "No", value: 1}
-  ]
-
 if Meteor.isServer
-  Meteor.publish "tours", () ->
+  Meteor.publish 'tours', () ->
     Tours.find()
-  Meteor.publish "tourStops", (tourID) ->
-    TourStops.find({"tourID": tourID})
+  Meteor.publish 'tourStops', (tourID) ->
+    TourStops.find({'tour': tourID})
+  Meteor.publish 'stop', (stopID) ->
+    TourStops.find({'_id': stopID})
 
 Tours.attachSchema new SimpleSchema
   'mainTitle':
     type: String
-    label: "Main Title"
+    label: 'Main Title'
     optional: true
   'subTitle':
     type: String
-    label: "Sub Title"
+    label: 'Sub Title'
     optional: true
   'openDate':
     type: Date
-    label: "Opening Date"
+    label: 'Opening Date'
     optional: true
   'closeDate':
     type: Date
-    label: "Closing Date"
+    label: 'Closing Date'
     optional: true
   'baseNum':
     type: String
-    label: "Base Number"
+    label: 'Base Number'
     optional: true
-  'tourType'
-    type: String
-    optional: true
-    autoForm:
-      type: "select",
-      options: () ->
-        tourTypes
-  'icon'
-    type: String
+  'tourType':
+    type: Number
+    allowedValues: [0, 1, 2, 3]
     optional: true
     autoform:
-      type: "select",
-      options: () ->
-        icons
-  'menu'
-    type: String
-    autoform:
-      type: "select",
-      options: () ->
-        menu
-  'image'
+      options:
+        [
+          {label: 'Adult - Temporary', value: 0},
+          {label: 'Family - Temporary', value: 1},
+          {label: 'Adult - Permanent', value: 2},
+          {label: 'Family - Permanent', value: 3}
+        ]
+  'menu':
+    type: Boolean,
+    defaultValue: false,
+    label: "Show stop type menu?"
+  'image':
     type: String
     optional: true
     autoform:
       afFieldInput:
-        type: "file"
-
-TourStops.attachSchema new SimpleSchema
+        type: 'file'
   'stops':
     type: Array
     optional: true
-    minCount: 1
-    maxCount: Infinity
-    autoform:
-      afFieldInput:
-        options: () ->
-          minCount: 1
   'stops.$':
-    type: Object
+    type: String
     optional: true
-  'stops.$.title':
+
+TourStops.attachSchema new SimpleSchema
+  'tour':
+    type: String
+    optional: true
+    autoform:
+      afFieldInput:
+        type: 'hidden'
+  'stopNumber':
+    type: Number
+    optional: true
+    autoform:
+      afFieldInput:
+        type: 'hidden'
+  'title':
     type: String
     optional: true
     autoform:
       afFieldInput:
         type: 'text'
-  'stops.$.title':
-    type: String
-    optional: true
-    autoform:
-      afFieldInput:
-        type: 'text'
-  'stops.$.group':
+  'type':
     type: String
     optional: true
     allowedValues: ['single', 'group'],
@@ -122,49 +100,48 @@ TourStops.attachSchema new SimpleSchema
         {value: 'group', label: 'Group stop'}
       ]
       noselect: true
-
-  'stops.$.speaker':
+  'speaker':
     type: String
     optional: true
-  'stops.$.media':
+  'media':
     type: String
     optional: true
     autoform:
       afFieldInput:
-        type: "file"
-        template: "customFile"
-  'stops.$.type':
-    type: String
+        type: 'file'
+        template: 'customFile'
+  'mediaType':
+    type: Number
     optional: true
     autoform:
-      type: "select",
+      type: 'select',
       options: () ->
         stopTypes
-  'stops.$.childStops':
+  'childStops':
     type: Array
     optional: true
     minCount: 1
     maxCount: Infinity
-    label: "Child Stops"
-  'stops.$.childStops.$':
+    label: 'Child Stops'
+  'childStops.$':
     type: Object
     optional: true
-  'stops.$.childStops.$.title':
+  'childStops.$.title':
     type: String
     optional: true
-  'stops.$.childStops.$.speaker':
+  'childStops.$.speaker':
     type: String
     optional: true
-  'stops.$.childStops.$.media':
+  'childStops.$.media':
     type: String
     optional: true
     autoform:
       afFieldInput:
-        type: "file"
-  'stops.$.childStops.$.type':
-    type: String
+        type: 'file'
+  'childStops.$.mediaType':
+    type: Number
     optional: true
     autoform:
-      type: "select",
+      type: 'select',
       options: () ->
         stopTypes

@@ -6,33 +6,67 @@ template(name="edit")
           h3 #{mainTitle}
             span #{subTitle}
 
-template(name="editTours")
+template(name="editTour")
   .container
     .col-sm-6.col-sm-offset-3
-      h1 Add Stops
-      +autoForm collection="TourStops" id="editTours"
+      h1 #{tour.mainTitle}: #{tour.subTitle}
+      {{log currentStops}}
+      unless stops
+        h1 Add Stops
+        +autoForm collection="TourStops" id="addFirstStop"
+          +addStop
+      else 
+        if stops
+          ul
+            each stops
+              li #{title}
+        h1 Add More Stops
+        +autoForm(collection="TourStops" id="addStops")
+          +addStop
+
+template(name="addStop")
+  +afQuickField name="tour" value=tour._id
+  +afQuickField name="title"
+  +afQuickField name="type"
+
+  if afFieldValueIs name='type' value="single"
+    +afQuickField name='speaker'
+    +afQuickField name='media'
+    +afQuickField name='mediaType'
+  if afFieldValueIs name='type' value="group"
+    {{log childStops}}
+    +afEachArrayItem name='childStops' minCount=1 maxCount=10
+      .autoform-array-item
+        +afQuickField name=this.name label=false
+        if afArrayFieldHasMoreThanMinimum name=this.arrayFieldName minCount=1 maxCount=10
+          button.autoform-remove-item(type='button') Remove
+                  
+      if afArrayFieldHasLessThanMaximum name=this.name minCount=0 maxCount=10
+        div(style='margin-top: 20px;')
+          button.autoform-add-item(type='button', data-autoform-field='{{this.arrayFieldName}}', data-autoform-mincount='{{this.minCount}}', data-autoform-maxcount='{{this.maxCount}}') Add
+
+  input.btn.btn-primary(type="submit")
 
 template(name="afArrayField_tap")
   {{ afFieldLabelText name=this.atts.name }}
   h1 stops
-  +afEachArrayItem name="stops" minCount=1 maxCount=100
-    +afQuickField name=this.current.title
-    +afQuickField name=this.current.group
+  +afQuickField name=this.title
+  +afQuickField name=this.type
 
-    if afFieldValueIs name=this.current.group value="single"
-      +afQuickField name=this.current.speaker
-      +afQuickField name=this.current.media
-      +afQuickField name=this.current.type
-    if afFieldValueIs name=this.current.group value="group"
-      +afEachArrayItem name=this.current.childStops minCount=1 maxCount=10
-        .autoform-array-item
-          +afQuickField name=this.name label=false
-          if afArrayFieldHasMoreThanMinimum name=this.arrayFieldName minCount=1 maxCount=10
-            button.autoform-remove-item(type='button') Remove
-                    
-        if afArrayFieldHasLessThanMaximum name=this.name minCount=0 maxCount=10
-          div(style='margin-top: 20px;')
-            button.autoform-add-item(type='button', data-autoform-field='{{this.arrayFieldName}}', data-autoform-mincount='{{this.minCount}}', data-autoform-maxcount='{{this.maxCount}}') Add
+  if afFieldValueIs name=type value="single"
+    +afQuickField name=speaker
+    +afQuickField name=media
+    +afQuickField name=mediaType
+  if afFieldValueIs name=type value="group"
+    +afEachArrayItem name=this.current.childStops minCount=1 maxCount=10
+      .autoform-array-item
+        +afQuickField name=this.name label=false
+        if afArrayFieldHasMoreThanMinimum name=this.arrayFieldName minCount=1 maxCount=10
+          button.autoform-remove-item(type='button') Remove
+                  
+      if afArrayFieldHasLessThanMaximum name=this.name minCount=0 maxCount=10
+        div(style='margin-top: 20px;')
+          button.autoform-add-item(type='button', data-autoform-field='{{this.arrayFieldName}}', data-autoform-mincount='{{this.minCount}}', data-autoform-maxcount='{{this.maxCount}}') Add
 
     if afArrayFieldHasMoreThanMinimum name=../atts.name minCount=1 maxCount=10
         button.autoform-remove-item(type='button') Remove

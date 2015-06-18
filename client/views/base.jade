@@ -8,9 +8,10 @@ template(name="base")
 template(name="tours")
   h1 Tours:
   ul
+    {{logCollection tours}}
     each tours
       li
-        a(href="tour/#{tourID}") 
+        a(href="tour/#{_id}") 
           h3 #{mainTitle}
             span #{subTitle}
         span #{startDate} - #{endDate}

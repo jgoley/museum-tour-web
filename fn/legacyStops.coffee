@@ -2971,23 +2971,25 @@ convertTour = (data) ->
                     'title': childStop.title.trim()
                     'speaker': childStop.speaker.trim()
                     'media': childStop.source
-                    'stopType': +childStop.stopType            
+                    'mediaType': +childStop.stopType            
                     )
                   .value()
               {
-                'type': 0
-                'stopID': +stop[0].stopID
+                'tour': stop[0].tourID
                 'title': stop[0].groupTitle.trim()
+                'type': 'group'
+                'stopNumber': +stop[0].stopID
                 'childStops': childStops
               }
             else
               {
-                'type': 1
-                'stopID': +stop[0].stopID
-                'title': stop[0].groupTitle.trim()
+                'tour': stop[0].tourID
+                'type': 'single'
+                'title': stop[0].title.trim()
+                'stopNumber': +stop[0].stopID
+                'mediaType': +stop[0].stopType
                 'speaker': stop[0].speaker.trim()
                 'media': stop[0].source
-                'stopType': +stop[0].stopType
               }
           )
           .value()
@@ -2996,8 +2998,9 @@ convertTour = (data) ->
     )
     .value()
 
-# Meteor.startup () ->
-#     unless @TourStops.findOne()
-#         _.each convertTour(legacyStops), (stop) ->
-#             @TourStops.insert(stop)
+Meteor.startup () ->
+  _.each convertTour(legacyStops), (tour) ->
+    _.each tour.stops, (stop) ->
+      # TourStops.insert(stop)
+
     

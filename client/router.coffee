@@ -20,9 +20,21 @@ Router.route 'tour',
   waitOn: () ->
     [
       Meteor.subscribe "tourStops", @params._id
+      Meteor.subscribe "tours", @params._id
     ]
   data: () ->
-    tour: TourStops.findOne(@params._id)
+    tour: Tours.findOne(@params._id)
+    stops: TourStops.find({tour: @params._id})
+
+Router.route 'stop',
+  path: '/tour/:tourID/stop/:stopID'
+  template: 'stop'
+  waitOn: () ->
+    [
+      Meteor.subscribe "stop", @params.stopID
+    ]
+  data: () ->
+    TourStops.findOne({_id: @params.stopID})
 
 Router.route 'createTour',
   path: 'create'
@@ -38,16 +50,26 @@ Router.route 'edit',
   data: () ->
     tours: Tours.find()
 
-Router.route 'editTours',
+Router.route 'editTour',
   path: 'edit/:_id'
-  template: 'editTours'
+  template: 'editTour'
   waitOn: () ->
     [
       Meteor.subscribe "tours"
+      Meteor.subscribe "tourStops", @params._id
     ]
   data: () ->
-    tours: Tours.findOne(@params._id)
+    tour: Tours.findOne(@params._id)
+    stops: TourStops.find({"tour": @params._id})
 
+
+Router.route 'allStops',
+  waitOn: () ->
+    [
+      Meteor.subscribe "tourStops", @params._id
+    ]
+  data: () ->
+    stops: TourStops.find()
 
 # Router.route 'edit',
 #   path: 'edit/:tourID'

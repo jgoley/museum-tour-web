@@ -2,18 +2,19 @@ template(name="tour")
 
   img(src='#{tour.main_images}/#{tour.tourImg}' class='tourImage')
   div(class="tourTitle-wrap {{removeBorder}}")
-    div
-      h1 #{tour.mainTitle}
-        span #{tour.subTitle}
+  div
+    h1 #{tour.mainTitle}: #{tour.subTitle}
   ul
-    each tour.stops
-      li #{title}
-        a(href='#{stopLink}')
-          span.stopID #{stopID} 
-          span.stopType #{stopType}
-          ul 
-            each types stop
-              li(class='#{type}')
-          span #{stop.title}
+    each stops
+      {{log this}}
+      li
+        a(href='#{tour}/stop/#{_id}') #{title}
+          if isGroup
+            span.group G
+            ul
+              each group
+                li(class="type-#{this}")
+          span.title #{title}
+        //- span.stopType #{stopType}
 
 //-   # NEWSLETTER SIGNUP

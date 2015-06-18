@@ -2,7 +2,13 @@ template(name="createTour")
   .container
     .col-sm-6.col-sm-offset-3
       h1 Create a Tour
-      +quickForm collection="Tours" id="createTour" type="insert"
-    each files
-      .progress
-        .progress-bar(role="progressbar" aria-valuenow="{{ percent_uploaded }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percent_uploaded }}%") {{ percent_uploaded }}
+      +autoForm collection="Tours" id="createTour" type="insert"
+        +afQuickField name='mainTitle'
+        +afQuickField name='subTitle'
+        +afQuickField name='openDate'
+        +afQuickField name='closeDate'
+        +afQuickField name='baseNum'
+        +afQuickField name='tourType'
+        +afQuickField name='menu'
+        +afQuickField name='image'
+        button(type="submit" class="btn btn-primary") Create Tour
