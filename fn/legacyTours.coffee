@@ -1,10 +1,10 @@
-tours=
+legacyTours=
 [
     {
         "tourID": 1,
         "tourType": 0,
         "baseNum": 100,
-        "mainTitle": "Japan &amp; the Jazz Age",
+        "mainTitle": "Japan & the Jazz Age",
         "subTitle":  "",
         "openDate": "2014-02-07",
         "closeDate": "2014-04-20",
@@ -16,7 +16,7 @@ tours=
         "tourID": 2,
         "tourType": 1,
         "baseNum": 100,
-        "mainTitle": "Japan &amp; the Jazz Age",
+        "mainTitle": "Japan & the Jazz Age",
         "subTitle": "",
         "openDate": "2014-02-07",
         "closeDate": "2014-04-20",
@@ -98,16 +98,28 @@ tours=
     }
 ]
 
-# tours = 
-#     _.map tours, (tour)->
-#         tour.openDate = new Date(tour.openDate)
-#         tour.closeDate = new Date(tour.closeDate)
+tours = 
+  _.chain(legacyTours)
+    .map((tour)->
+      'tourID': tour.tourID
+      'mainTitle': tour.mainTitle,
+      'subTitle': tour.subTitle,
+      'openDate': new Date(tour.openDate),
+      'closeDate': new Date(tour.closeDate),
+      'baseNum': tour.baseNum,
+      'tourType': tour.tourType,
+      'menu': if tour.menu is 0 then false else true,
+      'image': tour.image,
+      'stops': []
+      )
+    .value()
 
 # console.log tours
 
+
 # Meteor.startup () ->
-#     unless @Tours.findOne()
-#         _.each tours, (tour) ->
-#             @Tours.insert(tour)
+#   unless Tours.findOne({})
+#     _.each tours, (tour) ->
+#       Tours.insert(tour)
 
 # console.log tours

@@ -1,8 +1,37 @@
-@collections = @collections || {}
-@schema = @schema || {}
+@Tap = @Tap || {}
+@Tap.Collections = {}
 
-@Tours = new Mongo.Collection 'tours'
-@TourStops = new Mongo.Collection 'tourStops'
+Tours = new Mongo.Collection 'tours'
+TourStops = new Mongo.Collection 'tourStops'
+
+@Tap.Collections.Tours = Tours
+@Tap.Collections.TourStops = TourStops
+
+if Meteor.isServer
+  Meteor.publish 'tours', () ->
+    Tours.find()
+  Meteor.publish 'tourStops', (tourID) ->
+    TourStops.find({'tour': tourID})
+  Meteor.publish 'allStops', () ->
+    TourStops.find()
+  Meteor.publish 'stop', (stopID) ->
+    TourStops.find({'_id': stopID})
+
+Tours.allow
+  insert: (userId, doc) ->
+    true
+  update: (userId, doc, fields, modifier) ->
+    true
+  remove: (userId, doc) ->
+    true
+
+TourStops.allow
+  insert: (userId, doc) ->
+    true
+  update: (userId, doc, fields, modifier) ->
+    true
+  remove: (userId, doc) ->
+    true
 
 stopTypes = 
 [
@@ -12,14 +41,6 @@ stopTypes =
   {label: 'Music', value: 4},
   {label: 'Film', value: 5}
 ]
-
-if Meteor.isServer
-  Meteor.publish 'tours', () ->
-    Tours.find()
-  Meteor.publish 'tourStops', (tourID) ->
-    TourStops.find({'tour': tourID})
-  Meteor.publish 'stop', (stopID) ->
-    TourStops.find({'_id': stopID})
 
 Tours.attachSchema new SimpleSchema
   'mainTitle':

@@ -1,10 +1,14 @@
 Template.tour.helpers
-  group: () ->
-    console.log "Group?",@group
-    if @group is "group"
-      types = _.chain(@childStops)
-        .map((stop) -> stop.type)
-        .uniq()
-        .value()
-      console.log types
-      types
+  isGroup: () ->
+    @type is "group"
+  
+  childStopsNumber : () ->
+    @childStops.length
+      
+  getTypes : () ->
+    types = _.chain(@childStops)
+      .map((stop) -> stop.mediaType)
+      .uniq()
+      .value()
+    console.log types
+    types

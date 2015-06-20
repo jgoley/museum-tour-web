@@ -1971,6 +1971,18 @@ legacyStops =
   {
       "tourID": "5",
       "stopID": "207",
+      "groupTitle": "Turtles and Mrs. Shelley's Pet",
+      "groupID": "0",
+      "stopType": "2",
+      "title": "NULL",
+      "description": "NULL",
+      "speaker": "NULL",
+      "speakerImage": "NULL",
+      "source": "NULL"
+  },
+  {
+      "tourID": "5",
+      "stopID": "207",
       "groupTitle": "NULL",
       "groupID": "1",
       "stopType": "2",
@@ -1991,18 +2003,6 @@ legacyStops =
       "speaker": "Scott Pfaff",
       "speakerImage": "scott",
       "source": "turtles"
-  },
-  {
-      "tourID": "5",
-      "stopID": "207",
-      "groupTitle": "Turtles and Mrs. Shelley's Pet",
-      "groupID": "0",
-      "stopType": "2",
-      "title": "NULL",
-      "description": "NULL",
-      "speaker": "NULL",
-      "speakerImage": "NULL",
-      "source": "NULL"
   },
   {
       "tourID": "5",
@@ -2379,6 +2379,18 @@ legacyStops =
   {
       "tourID": "7",
       "stopID": "106",
+      "groupTitle": "The Goldfish ",
+      "groupID": "0",
+      "stopType": "0",
+      "title": "NULL",
+      "description": "NULL",
+      "speaker": "NULL",
+      "speakerImage": "NULL",
+      "source": "NULL"
+  },
+  {
+      "tourID": "7",
+      "stopID": "106",
       "groupTitle": "NULL",
       "groupID": "2",
       "stopType": "2",
@@ -2402,8 +2414,8 @@ legacyStops =
   },
   {
       "tourID": "7",
-      "stopID": "106",
-      "groupTitle": "The Goldfish ",
+      "stopID": "105",
+      "groupTitle": "Sirens ",
       "groupID": "0",
       "stopType": "0",
       "title": "NULL",
@@ -2438,18 +2450,6 @@ legacyStops =
   },
   {
       "tourID": "7",
-      "stopID": "105",
-      "groupTitle": "Sirens ",
-      "groupID": "0",
-      "stopType": "0",
-      "title": "NULL",
-      "description": "NULL",
-      "speaker": "NULL",
-      "speakerImage": "NULL",
-      "source": "NULL"
-  },
-  {
-      "tourID": "7",
       "stopID": "104",
       "groupTitle": "Evening Illuminations at the Paris Exposition",
       "groupID": "0",
@@ -2459,6 +2459,18 @@ legacyStops =
       "speaker": "Will South",
       "speakerImage": " Chief Curator",
       "source": ""
+  },
+  {
+      "tourID": "7",
+      "stopID": "103",
+      "groupTitle": "Luxembourg ",
+      "groupID": "0",
+      "stopType": "0",
+      "title": "NULL",
+      "description": "NULL",
+      "speaker": "NULL",
+      "speakerImage": "NULL",
+      "source": "NULL"
   },
   {
       "tourID": "7",
@@ -2482,18 +2494,6 @@ legacyStops =
       "description": "NULL",
       "speaker": "Will South",
       "speakerImage": " Chief Curator",
-      "source": "NULL"
-  },
-  {
-      "tourID": "7",
-      "stopID": "103",
-      "groupTitle": "Luxembourg ",
-      "groupID": "0",
-      "stopType": "0",
-      "title": "NULL",
-      "description": "NULL",
-      "speaker": "NULL",
-      "speakerImage": "NULL",
       "source": "NULL"
   },
   {
@@ -2954,61 +2954,55 @@ legacyStops =
   }
 ]
 
-Meteor.startup () ->
 
-  # tours = Tours.find().fetch()
-  # console.log tours
-  # # _.each tours, (tour)->
-  # #   console.log tour
+Template.convert.rendered = ()->
+  tours = @data.tours.fetch()
+  # _.each tours, (tour)->
+  #   console.log tour
 
-  # convertTour = (data) ->
-  #   _.chain(data)
-  #     .groupBy('tourID')
-  #     .map((tour, i)->
-  #       console.log tours[i+1]
-  #       tourStops = 
-  #         _.chain(tour)
-  #           .groupBy('stopID')
-  #           .map( (stop) ->
-  #             if stop.length > 1 # Is a group
-  #               childStops = 
-  #                 _.chain(stop)
-  #                   .sortBy('groupID')
-  #                   .filter( (childStop, i) -> return i > 0)
-  #                   .map( (childStop) ->
-  #                     'title': childStop.title.trim()
-  #                     'speaker': childStop.speaker.trim()
-  #                     'media': childStop.source
-  #                     'mediaType': +childStop.stopType            
-  #                     )
-  #                   .value()
-  #               {
-  #                 'tour': ''#tours[i+1]._id
-  #                 'title': stop[0].groupTitle.trim()
-  #                 'type': 'group'
-  #                 'stopNumber': +stop[0].stopID
-  #                 'childStops': childStops
-  #               }
-  #             else
-  #               {
-  #                 'tour': ''#tours[i+1]._id
-  #                 'type': 'single'
-  #                 'title': stop[0].title.trim()
-  #                 'stopNumber': +stop[0].stopID
-  #                 'mediaType': +stop[0].stopType
-  #                 'speaker': stop[0].speaker.trim()
-  #                 'media': stop[0].source
-  #               }
-  #           )
-  #           .value()
-  #       'tourID': +tour[0].tourID
-  #       'stops': tourStops
-  #     )
-  #     .value()
-  # console.log convertTour(legacyStops)
-
-  # _.each convertTour(legacyStops), (tour) ->
-  #   _.each tour.stops, (stop) ->
-  #     TourStops.insert(stop)
-
-    
+  convertTour = (data) ->
+    _.chain(data)
+      .groupBy('tourID')
+      .map((tour, i)->
+        tourStops = 
+          _.chain(tour)
+            .groupBy('stopID')
+            .map( (stop) ->
+              if stop.length > 1 # Is a group
+                childStops = 
+                  _.chain(stop)
+                    .sortBy('groupID')
+                    .filter( (childStop, i) -> return i > 0)
+                    .map( (childStop) ->
+                      'title': childStop.title.trim()
+                      'speaker': childStop.speaker.trim()
+                      'media': childStop.source
+                      'mediaType': +childStop.stopType            
+                      )
+                    .value()
+                {
+                  'tour': tours[i-1]._id
+                  'title': stop[0].groupTitle.trim()
+                  'type': 'group'
+                  'stopNumber': +stop[0].stopID
+                  'childStops': childStops
+                }
+              else
+                {
+                  'tour': tours[i-1]._id
+                  'type': 'single'
+                  'title': stop[0].groupTitle.trim()
+                  'stopNumber': +stop[0].stopID
+                  'mediaType': +stop[0].stopType
+                  'speaker': stop[0].speaker.trim()
+                  'media': stop[0].source
+                }
+            )
+            .value()
+        'tourID': +tour[0].tourID
+        'stops': tourStops
+      )
+      .value()
+  _.each convertTour(legacyStops), (tour)->
+    _.each tour.stops, (stop)->
+      # TourStops.insert(stop)

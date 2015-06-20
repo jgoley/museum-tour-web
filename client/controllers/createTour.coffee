@@ -1,3 +1,6 @@
+TourStops = ()->
+  @Tap.Collections.TourStops
+
 AutoForm.debug()
 
 uploadFiles = (files) ->
@@ -21,12 +24,12 @@ editHooks = {
         path: ''
         (e,r) ->
           console.log(e,r)
-      TourStops.insert insertDoc
+      .insert insertDoc
       @done()
       false
     else
       console.log "adding tour", insertDoc
-      TourStops.insert insertDoc
+      TourStops().insert insertDoc
       @done()
       false
 
@@ -44,7 +47,7 @@ firstStopHooks = {
       #   path: ''
       #   (e,r) ->
           # console.log(e,r)
-    TourStops.insert insertDoc, (e, id) ->
+    TourStops().insert insertDoc, (e, id) ->
       console.log e, id
 
     # TourStops.update {_id: stop._id}, $push: {stops: {$each: updateDoc.$set.stops} }
@@ -74,7 +77,7 @@ addStopsHooks = {
     # else
     # console.log "adding tour", insertDoc, updateDoc, currentDoc
     console.log "INsertDoc", insertDoc, updateDoc
-    TourStops.insert insertDoc, (e, id) ->
+    TourStops().insert insertDoc, (e, id) ->
       console.log e, id
     # stop = TourStops.findOne({tourID: window.location.pathname.split('/')[2]})
     # console.log stop
@@ -89,14 +92,14 @@ addStopsHooks = {
 AutoForm.addHooks('addFirstStop', firstStopHooks);
 AutoForm.addHooks('addStops', addStopsHooks);
 
-Template.edit.helpers
-  "files": () ->
-    S3.collection.find()
+# Template.edit.helpers
+#   "files": () ->
+#     S3.collection.find()
 
 Template.editTour.helpers
   "getID": () ->
     @_id
   "currentStops" : () ->
     console.log @tour._id
-    console.log TourStops.findOne({'tour': @tour._id})
+    console.log TourStops().findOne({'tour': @tour._id})
     TourStops.findOne({'tour': @tour._id})

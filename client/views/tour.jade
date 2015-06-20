@@ -6,15 +6,18 @@ template(name="tour")
     h1 #{tour.mainTitle}: #{tour.subTitle}
   ul
     each stops
-      {{log this}}
       li
         a(href='#{tour}/stop/#{_id}') #{title}
           if isGroup
             span.group G
-            ul
-              each group
-                li(class="type-#{this}")
-          span.title #{title}
+            span.group ({{childStopsNumber}})
+        ul.media-types.list-unstyled
+          if isGroup
+            each getTypes
+              li(class="type-#{this}") #{this}
+          else 
+            li(class="type-#{mediaType}") #{mediaType}
+
         //- span.stopType #{stopType}
 
 //-   # NEWSLETTER SIGNUP

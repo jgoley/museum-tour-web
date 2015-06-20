@@ -1,3 +1,7 @@
 template(name="stop")
-  {{log this}}
-  h1 #{title}
+  if isGroup
+    ul
+      each childStops
+        li #{title}
+  else
+    h1 #{title}    

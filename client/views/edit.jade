@@ -1,27 +1,43 @@
-template(name="edit")
-  ul
-    each tours
-      li
-        a(href="edit/#{_id}") 
-          h3 #{mainTitle}
-            span #{subTitle}
-
 template(name="editTour")
   .container
-    .col-sm-6.col-sm-offset-3
       h1 #{tour.mainTitle}: #{tour.subTitle}
-      {{log currentStops}}
       unless stops
         h1 Add Stops
         +autoForm collection="TourStops" id="addFirstStop"
           +addStop
       else 
-        if stops
-          ul
+        table.table.tour-stops
+          tbody
             each stops
-              li #{title}
+              unless editStop
+                tr
+                  td
+                    span #{stopNumber}
+                  td
+                    span #{title}
+                  td
+                    span #{mediaType}
+                  if childStops
+                    td
+                      button.btn.btn-sucess.show-children Show Children
+                each childStops
+                  tr.child-stops(class="childStops-#{../stopNumber}").hidden
+                    td
+                      span #{title}
+                    td
+                      span #{mediaType}
+              else
+                div.editing
+                  input.form-control(value="#{stopNumber}" name="stopNumber")
+                  input.form-control(value="#{title}" name="title")
+                  input.form-control(value="#{type}" name="type")
+                  input.form-control(value="#{mediaType}" name="mediaType")
+                  button.btn.btn-success.save Save
+                  button.btn.btn-default.cancel Cancel
+
+      .col-sm-6.col-sm-offset-3
         h1 Add More Stops
-        +autoForm(collection="TourStops" id="addStops")
+        +autoForm(collection=tourStops id="addStops")
           +addStop
 
 template(name="addStop")
