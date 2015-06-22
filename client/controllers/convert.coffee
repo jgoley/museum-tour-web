@@ -1,4 +1,4 @@
-legacyStops = 
+legacyStops =
 [
   {
       "tourID": "1",
@@ -2586,7 +2586,7 @@ legacyStops =
       "groupTitle": "NULL",
       "groupID": "3",
       "stopType": "6",
-      "title": "NULL",
+      "title": "Chicago",
       "description": "",
       "speaker": "NULL",
       "speakerImage": "",
@@ -2954,6 +2954,8 @@ legacyStops =
   }
 ]
 
+TourStops = () ->
+  @Tap.Collections.TourStops
 
 Template.convert.rendered = ()->
   tours = @data.tours.fetch()
@@ -2964,20 +2966,23 @@ Template.convert.rendered = ()->
     _.chain(data)
       .groupBy('tourID')
       .map((tour, i)->
-        tourStops = 
+        tourStops =
           _.chain(tour)
             .groupBy('stopID')
             .map( (stop) ->
               if stop.length > 1 # Is a group
-                childStops = 
+                childStops =
                   _.chain(stop)
                     .sortBy('groupID')
                     .filter( (childStop, i) -> return i > 0)
-                    .map( (childStop) ->
+                    .map( (childStop, order) ->
+                      'tour': tours[i-1]._id
                       'title': childStop.title.trim()
                       'speaker': childStop.speaker.trim()
-                      'media': childStop.source
-                      'mediaType': +childStop.stopType            
+                      'media': ''
+                      'mediaType': +childStop.stopType
+                      'type': 'child'
+                      'order': order+1
                       )
                     .value()
                 {
@@ -2995,7 +3000,7 @@ Template.convert.rendered = ()->
                   'stopNumber': +stop[0].stopID
                   'mediaType': +stop[0].stopType
                   'speaker': stop[0].speaker.trim()
-                  'media': stop[0].source
+                  'media': ''
                 }
             )
             .value()
@@ -3003,6 +3008,7 @@ Template.convert.rendered = ()->
         'stops': tourStops
       )
       .value()
-  _.each convertTour(legacyStops), (tour)->
-    _.each tour.stops, (stop)->
-      # TourStops.insert(stop)
+  unless TourStops().findOne({})
+    _.each convertTour(legacyStops), (tour)->
+      _.each tour.stops, (stop)->
+        TourStops().insert(stop)

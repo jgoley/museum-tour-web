@@ -1,7 +1,9 @@
 template(name="stop")
-  if isGroup
+  if stop.childStops
+    h1 #{stop.title}
     ul
-      each childStops
+      each getChildStops
+        {{log this}}
         li #{title}
   else
-    h1 #{title}    
+    h1 #{stop.title}

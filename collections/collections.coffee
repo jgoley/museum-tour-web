@@ -16,6 +16,10 @@ if Meteor.isServer
     TourStops.find()
   Meteor.publish 'stop', (stopID) ->
     TourStops.find({'_id': stopID})
+  Meteor.publish 'childStops', (stopID) ->
+    stops = TourStops.find({'parent': stopID}, {$sort: {order: 1}})
+
+  Sortable.collections = ['tourStops']
 
 Tours.allow
   insert: (userId, doc) ->
@@ -33,7 +37,7 @@ TourStops.allow
   remove: (userId, doc) ->
     true
 
-stopTypes = 
+stopTypes =
 [
   {label: 'Audio', value: 1},
   {label: 'Video', value: 2},
@@ -92,77 +96,77 @@ Tours.attachSchema new SimpleSchema
     type: String
     optional: true
 
-TourStops.attachSchema new SimpleSchema
-  'tour':
-    type: String
-    optional: true
-    autoform:
-      afFieldInput:
-        type: 'hidden'
-  'stopNumber':
-    type: Number
-    optional: true
-    autoform:
-      afFieldInput:
-        type: 'hidden'
-  'title':
-    type: String
-    optional: true
-    autoform:
-      afFieldInput:
-        type: 'text'
-  'type':
-    type: String
-    optional: true
-    allowedValues: ['single', 'group'],
-    autoform:
-      options: [
-        {value: 'single', label: 'Single stop'}
-        {value: 'group', label: 'Group stop'}
-      ]
-      noselect: true
-  'speaker':
-    type: String
-    optional: true
-  'media':
-    type: String
-    optional: true
-    autoform:
-      afFieldInput:
-        type: 'file'
-        template: 'customFile'
-  'mediaType':
-    type: Number
-    optional: true
-    autoform:
-      type: 'select',
-      options: () ->
-        stopTypes
-  'childStops':
-    type: Array
-    optional: true
-    minCount: 1
-    maxCount: Infinity
-    label: 'Child Stops'
-  'childStops.$':
-    type: Object
-    optional: true
-  'childStops.$.title':
-    type: String
-    optional: true
-  'childStops.$.speaker':
-    type: String
-    optional: true
-  'childStops.$.media':
-    type: String
-    optional: true
-    autoform:
-      afFieldInput:
-        type: 'file'
-  'childStops.$.mediaType':
-    type: Number
-    optional: true
-    autoform:
-      type: 'select',
-      options: () ->
-        stopTypes
+# TourStops.attachSchema new SimpleSchema
+#   'tour':
+#     type: String
+#     optional: true
+#     autoform:
+#       afFieldInput:
+#         type: 'hidden'
+#   'stopNumber':
+#     type: Number
+#     optional: true
+#     autoform:
+#       afFieldInput:
+#         type: 'hidden'
+#   'title':
+#     type: String
+#     optional: true
+#     autoform:
+#       afFieldInput:
+#         type: 'text'
+#   'type':
+#     type: String
+#     optional: true
+#     allowedValues: ['single', 'group'],
+#     autoform:
+#       options: [
+#         {value: 'single', label: 'Single stop'}
+#         {value: 'group', label: 'Group stop'}
+#       ]
+#       noselect: true
+#   'speaker':
+#     type: String
+#     optional: true
+#   'media':
+#     type: String
+#     optional: true
+#     autoform:
+#       afFieldInput:
+#         type: 'file'
+#         template: 'customFile'
+#   'mediaType':
+#     type: Number
+#     optional: true
+#     autoform:
+#       type: 'select',
+#       options: () ->
+#         stopTypes
+#   'childStops':
+#     type: Array
+#     optional: true
+#     minCount: 1
+#     maxCount: Infinity
+#     label: 'Child Stops'
+#   'childStops.$':
+#     type: Object
+#     optional: true
+#   'childStops.$.title':
+#     type: String
+#     optional: true
+#   'childStops.$.speaker':
+#     type: String
+#     optional: true
+#   'childStops.$.media':
+#     type: String
+#     optional: true
+#     autoform:
+#       afFieldInput:
+#         type: 'file'
+#   'childStops.$.mediaType':
+#     type: Number
+#     optional: true
+#     autoform:
+#       type: 'select',
+#       options: () ->
+#         stopTypes

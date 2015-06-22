@@ -27,7 +27,7 @@ Router.route 'tour',
     ]
   data: () ->
     tour: Tours().findOne(@params._id)
-    stops: TourStops().find({tour: @params._id})
+    stops: TourStops().find({$and:[{tour: @params._id}, {$or: [{type: 'single'}, {type: 'group'}]}]}, {sort: {'stopNumber': 1}})
 
 Router.route 'stop',
   path: '/tour/:tourID/stop/:stopID'
@@ -35,9 +35,11 @@ Router.route 'stop',
   waitOn: () ->
     [
       Meteor.subscribe "stop", @params.stopID
+      Meteor.subscribe "childStops", @params.stopID
     ]
   data: () ->
-    TourStops().findOne({_id: @params.stopID})
+    stop: TourStops().findOne({_id: @params.stopID})
+    childStops: TourStops().find({parent: @params.stopID}, {$sort: {order: 1}})
 
 Router.route 'editStop',
   path: '/tour/:tourID/stop/edit/:stopID'
@@ -75,7 +77,7 @@ Router.route 'editTour',
     ]
   data: () ->
     tour: Tours().findOne(@params._id)
-    stops: TourStops().find({"tour": @params._id})
+    stops: TourStops().find({$and:[{tour: @params._id}, {$or: [{type: 'single'}, {type: 'group'}]}]}, {sort: {'stopNumber': 1}})
 
 Router.route 'allStops',
   waitOn: () ->
@@ -92,3 +94,13 @@ Router.route 'convert',
     ]
   data: () ->
     tours: Tours().find()
+
+Router.route 'childStops',
+  waitOn: () ->
+    [
+      Meteor.subscribe "tours"
+      Meteor.subscribe "allStops"
+    ]
+  data: () ->
+    tours: Tours()
+    stops: TourStops()

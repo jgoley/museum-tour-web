@@ -5,7 +5,7 @@ template(name="tour")
   div
     h1 #{tour.mainTitle}: #{tour.subTitle}
   ul
-    each stops
+    each showStops
       li
         a(href='#{tour}/stop/#{_id}') #{title}
           if isGroup
@@ -15,7 +15,7 @@ template(name="tour")
           if isGroup
             each getTypes
               li(class="type-#{this}") #{this}
-          else 
+          else
             li(class="type-#{mediaType}") #{mediaType}
 
         //- span.stopType #{stopType}

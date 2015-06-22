@@ -1,3 +1,4 @@
 Template.stop.helpers
-  isGroup: () ->
-    @type is 'group'
+  getChildStops: () ->
+    @childStops.fetch()
+
