@@ -31,7 +31,6 @@ template(name="editTour")
                       div.editing-child
                         +editing stop=this
 
-
 template(name="editing")
   input.form-control(value="#{stop.title}" name="title" placeholder="Title")
   if notParent
@@ -42,12 +41,14 @@ template(name="editing")
       each stopTypesForm
         option(value="#{value}" selected="#{selected}") #{label}
     if stop.media
-
       p #[strong File]:
         span #[a(href="https://s3.amazonaws.com/tap-cma/#{stop.tour}/#{stop.media}") #{stop.media}]
         a.delete-file() delete
     else
       input.form-control(type='file' name="media")
+    each files
+      .progress
+        .progress-bar(role="progressbar" aria-valuenow="{{ percent_uploaded }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percent_uploaded }}%") {{ percent_uploaded }}
   button.btn.btn-success.save Save
   button.btn.btn-default.cancel Cancel
 

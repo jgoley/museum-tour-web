@@ -45,34 +45,63 @@ Template.editing.helpers
     @stop.type is 'child' or @stop.type is 'single'
   isChild : () ->
     @stop.type is 'child'
+  files: () ->
+    console.log "Files", S3.collection.find()
+    S3.collection.find()
+  progress: () ->
+    Math.round this.uploader.progress() * 100
+
+uploadFile = (file, tour) ->
+  console.log "Running"
+  new Promise (resolve, reject) ->
+    console.log "Running in promise"
+    S3.upload
+      files:file
+      unique_name: false
+      path: tour
+      (e,r) ->
+        console.log e,r
+        resolve(r)
+
+uploadUpdate = (values, stop)->
+  if values.file.length
+    uploadFile(values.file[0], stop.tour).then ()->
+      console.log 'Returned from prmose'
+      updateStop(stop, values)
+  else
+    updateStop(stop, values)
+
+updateStop = (stop, values) ->
+  if stop.type is 'single'
+    sessionString = stop._id
+  else
+    sessionString = "child-" + stop.parent + '-' + stop._id
+  console.log sessionString
+  TourStops().update( {_id: stop._id}, {$set:values.values}, () ->
+      setTimeout (->
+        Session.set sessionString, false
+        return
+      ), 1000
+    )
 
 getValues = (e) ->
   inputs = $(e.target).parent().find('.form-control').get()
   values = {}
+  files= []
   that = @
   _.each inputs, (input)->
     if input.files
       file = input.files
-      S3.upload
-        files:file
-        unique_name: false
-        path: that.stop.tour
-        (e,r) ->
-          console.log(e,r)
       values['media'] = file[0].name.split(' ').join('+')
+      files.push(file)
     else
       values[input.name] = input.value
-  TourStops().update({_id: @stop._id}, {$set:values})
+  values: values
+  file: files
 
 Template.editing.events
   'click .save': (e)->
-
-    if ($(e.target).parent().hasClass('editing-parent'))
-      getValues.call(this, e)
-      Session.set(@stop._id,false)
-    else
-      getValues.call(this, e)
-      Session.set("child-" + @stop.parent + '-' + @stop._id, false)
+      uploadUpdate(getValues.call(this, e), @stop)
   'click .cancel': (e)->
     if ($(e.target).parent().hasClass('editing-parent'))
       Session.set(@stop._id,false)
