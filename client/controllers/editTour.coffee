@@ -6,14 +6,6 @@ Tours = () ->
 Template.editTour.helpers
   settings: () ->
     fields: ['stopNumber','title', 'type','mediaType' ]
-  tours: () ->
-    Tours()
-  tourStops: () ->
-    TourStops()
-  tourStopsFetched: ()->
-    TourStops().find()
-  childStops: ()->
-    TourStops().find()
   editStop: () ->
     Session.get(@._id);
   showChildStops: () ->
@@ -25,8 +17,14 @@ Template.editTour.helpers
     Session.get("child-" + @parent + '-' + @_id)
   childStops : () ->
     if @childStops
-      childStops = TourStops().find({parent: @_id}, {$sort: {'order': 1}}).fetch()
-      childStops
+      parent = @_id
+      allTourChildren = Template.instance().data.childStops.fetch()
+      _.chain(allTourChildren)
+        .filter((childStop) ->
+          childStop.parent == parent
+        ).sortBy('order')
+        .value()
+
 
 Template.editing.helpers
   stopTypesForm: () ->
@@ -50,47 +48,44 @@ Template.editing.helpers
     S3.collection.find()
   progress: () ->
     Math.round this.uploader.progress() * 100
+  isUpdating : () ->
+    Session.get('updating'+@stop._id)
 
 uploadFile = (file, tour) ->
-  console.log "Running"
   new Promise (resolve, reject) ->
-    console.log "Running in promise"
     S3.upload
       files:file
       unique_name: false
       path: tour
       (e,r) ->
-        console.log e,r
         resolve(r)
 
-uploadUpdate = (values, stop)->
+updateStop = (values, stop)->
   if values.file.length
     uploadFile(values.file[0], stop.tour).then ()->
-      console.log 'Returned from prmose'
-      updateStop(stop, values)
+      saveStop(stop, values)
   else
-    updateStop(stop, values)
+    saveStop(stop, values)
 
-updateStop = (stop, values) ->
+saveStop = (stop, values) ->
   if stop.type is 'single'
     sessionString = stop._id
   else
     sessionString = "child-" + stop.parent + '-' + stop._id
-  console.log sessionString
   TourStops().update( {_id: stop._id}, {$set:values.values}, () ->
       setTimeout (->
+        Session.set('updating'+stop._id, false)
         Session.set sessionString, false
         return
-      ), 1000
+      ), 2000
     )
 
 getValues = (e) ->
   inputs = $(e.target).parent().find('.form-control').get()
   values = {}
   files= []
-  that = @
   _.each inputs, (input)->
-    if input.files
+    if input.files and input.files.length
       file = input.files
       values['media'] = file[0].name.split(' ').join('+')
       files.push(file)
@@ -101,7 +96,8 @@ getValues = (e) ->
 
 Template.editing.events
   'click .save': (e)->
-      uploadUpdate(getValues.call(this, e), @stop)
+      Session.set('updating'+@stop._id, true)
+      updateStop(getValues.call(this, e), @stop)
   'click .cancel': (e)->
     if ($(e.target).parent().hasClass('editing-parent'))
       Session.set(@stop._id,false)

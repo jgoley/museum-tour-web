@@ -17,7 +17,7 @@ if Meteor.isServer
   Meteor.publish 'stop', (stopID) ->
     TourStops.find({'_id': stopID})
   Meteor.publish 'childStops', (stopID) ->
-    stops = TourStops.find({'parent': stopID}, {$sort: {order: 1}})
+    TourStops.find({'parent': stopID}, {$sort: {order: 1}})
 
   Sortable.collections = ['tourStops']
 

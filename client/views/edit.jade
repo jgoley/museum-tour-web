@@ -46,9 +46,11 @@ template(name="editing")
         a.delete-file() delete
     else
       input.form-control(type='file' name="media")
+  if isUpdating
     each files
       .progress
         .progress-bar(role="progressbar" aria-valuenow="{{ percent_uploaded }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percent_uploaded }}%") {{ percent_uploaded }}
+    p updating
   button.btn.btn-success.save Save
   button.btn.btn-default.cancel Cancel
 
