@@ -8,148 +8,90 @@ template(name="editTour")
       else
         ul.list-unstyled.parent-stops
           +sortable items=stops sortField="stopNumber" options=sortableOptions
-            li.parent
+            li.parent(class="#{type}")
               span #{stopNumber}
-                span.title #{title}
+              span.title #{title}
+              a.delete Delete
               if editStop
                 div.editing-parent
-                  +editing stop=this
-              if childStops
-                span G
+                  +editing stop=this type=this.type
+              if isGroup
                 unless showChildStops
                   a.show-children Show ChildStops
                 else
                   a.hide-children hide ChildStops
-              a.delete Delete
-            if showChildStops
-              ul.child-stops
-                each childStops
-                  li.child(data-index="#{index}")
-                    span #{order}
-                    span.title #{title}
-                    if editChildStop
-                      div.editing-child
-                        +editing stop=this
+                  //- else
+                  //-   a Add Children
+                if showChildStops
+                  ul.child-stops
+                    each getChildStops
+                      li.child(data-index="#{index}")
+                        span #{order}
+                        span.title #{title}
+                        if editChildStop
+                          div.editing-child
+                            +editing stop=this type=this.type
+                        a.delete delete
+                    unless addChild
+                      a.btn.btn-primary.add-child Add Child
+                    if addChild
+                      .addStop
+                        +addStop type='new-child' tour=tour parent=_id siblings=childStops
+              else
+                a.convert convert
+        if showAddStop
+          .addStop
+            +addStop type='new-parent' stops=stops tour= ../tour
+        else
+          a.btn.btn-primary.show-add-stop Add stop
 
 template(name="editing")
-  input.form-control(value="#{stop.title}" name="title" placeholder="Title")
-  if notParent
+  if notParent type
     if isChild
       input.form-control(value="#{stop.order}" name="order" placeholder="Order Number")
-    input.form-control(value="#{stop.speaker}" name="speaker" placeholder="Speaker")
-    select.form-control(name="mediaType")
-      each stopTypesForm
-        option(value="#{value}" selected="#{selected}") #{label}
-    if stop.media
-      p #[strong File]:
-        span #[a(href="https://s3.amazonaws.com/tap-cma/#{stop.tour}/#{stop.media}") #{stop.media}]
-        a.delete-file() delete
-    else
-      input.form-control(type='file' name="media")
+    +stopData stop=stop
+  else
+    input.form-control(value="#{stop.title}" name="title" placeholder="Title")
+  button.btn.btn-success.save Save
+  button.btn.btn-default.cancel Cancel
+
+template(name="stopData")
+  input.form-control(value="#{stop.title}" name="title" placeholder="Title")
+  input.form-control(value="#{stop.speaker}" name="speaker" placeholder="Speaker")
+  +mediaTypes stop=stop
+  if stop.media
+    p #[strong File]:
+      span #[a(href="https://s3.amazonaws.com/tap-cma/#{stop.tour}/#{stop.media}") {{formatFile}}]
+      a.delete-file() delete
+  else
+    input.form-control(type='file' name="media")
   if isUpdating
     each files
       .progress
         .progress-bar(role="progressbar" aria-valuenow="{{ percent_uploaded }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percent_uploaded }}%") {{ percent_uploaded }}
     p updating
-  button.btn.btn-success.save Save
-  button.btn.btn-default.cancel Cancel
 
-  //- table.table.tour-stops
-  //-   tbody
-  //-     each stops
-  //-       unless editStop
-  //-         tr
-  //-           td
-  //-             span #{stopNumber}
-  //-           td
-  //-             span #{title}
-  //-           td
-  //-             span #{mediaType}
-  //-           if childStops
-  //-             td
-  //-               button.btn.btn-sucess.show-children Show Children
-  //-         each childStops
-  //-           tr.child-stops(class="childStops-#{../stopNumber}").hidden
-  //-             td
-  //-               span #{title}
-  //-             td
-  //-               span #{mediaType}
-  //-       else
-  //-         div.editing
-  //-           input.form-control(value="#{stopNumber}" name="stopNumber")
-  //-           input.form-control(value="#{title}" name="title")
-  //-           input.form-control(value="#{type}" name="type")
-  //-           input.form-control(value="#{mediaType}" name="mediaType")
-  //-           button.btn.btn-success.save Save
-  //-           button.btn.btn-default.cancel Cancel
+template(name='mediaTypes')
+  select.form-control(name="mediaType")
+    each stopTypesForm
+      option(value="#{value}" selected="{{selected ../stop}}") #{label}
 
+template(name='addStop')
+  if isParent
+    input.form-control(type='radio' name="type" value="single" checked="checked")
+    | Single
+    input.form-control(type='radio' name="type" value="group")
+    | Group
+  input.form-control(value="" name="title" placeholder="Title")
+  if showSingleData
+    input.form-control(type='file' name="media")
+    input.form-control(value="" name="speaker" placeholder="Speaker")
+    +mediaTypes
+  if isCreating
+    each files
+      .progress
+        .progress-bar(role="progressbar" aria-valuenow="{{ percent_uploaded }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percent_uploaded }}%") {{ percent_uploaded }}
+    p updating
+  button.btn.btn-success.add-stop Add Stop
+  button.btn.btn-default.cancel-add-stop Cancel
 
-template(name="addStop")
-  +afQuickField name="tour" value=tour._id
-  +afQuickField name="title"
-  +afQuickField name="type"
-
-  if afFieldValueIs name='type' value="single"
-    +afQuickField name='speaker'
-    +afQuickField name='media'
-    +afQuickField name='mediaType'
-  if afFieldValueIs name='type' value="group"
-    +afEachArrayItem name='childStops' minCount=1 maxCount=10
-      .autoform-array-item
-        +afQuickField name=this.name label=false
-        if afArrayFieldHasMoreThanMinimum name=this.arrayFieldName minCount=1 maxCount=10
-          button.autoform-remove-item(type='button') Remove
-
-      if afArrayFieldHasLessThanMaximum name=this.name minCount=0 maxCount=10
-        div(style='margin-top: 20px;')
-          button.autoform-add-item(type='button', data-autoform-field='{{this.arrayFieldName}}', data-autoform-mincount='{{this.minCount}}', data-autoform-maxcount='{{this.maxCount}}') Add
-
-  input.btn.btn-primary(type="submit")
-
-template(name="editStopForm")
-  +afQuickField name="title"
-  +afQuickField name="type"
-
-  unless this.childStops
-    +afQuickField name='speaker'
-    +afQuickField name='media'
-    +afQuickField name='mediaType'
-  else
-    +afEachArrayItem name='childStops' minCount=1 maxCount=10
-      .autoform-array-item
-        +afQuickField name=this.name label=false
-        if afArrayFieldHasMoreThanMinimum name=this.arrayFieldName minCount=1 maxCount=10
-          button.autoform-remove-item(type='button') Remove
-
-      if afArrayFieldHasLessThanMaximum name=this.name minCount=0 maxCount=10
-        div(style='margin-top: 20px;')
-          button.autoform-add-item(type='button', data-autoform-field='{{this.arrayFieldName}}', data-autoform-mincount='{{this.minCount}}', data-autoform-maxcount='{{this.maxCount}}') Add
-
-  input.btn.btn-primary(type="submit")
-
-template(name="afArrayField_tap")
-  {{ afFieldLabelText name=this.atts.name }}
-  h1 stops
-  +afQuickField name=this.title
-  +afQuickField name=this.type
-
-  if afFieldValueIs name=type value="single"
-    +afQuickField name=speaker
-    +afQuickField name=media
-    +afQuickField name=mediaType
-  if afFieldValueIs name=type value="group"
-    +afEachArrayItem name=this.current.childStops minCount=1 maxCount=10
-      .autoform-array-item
-        +afQuickField name=this.name label=false
-        if afArrayFieldHasMoreThanMinimum name=this.arrayFieldName minCount=1 maxCount=10
-          button.autoform-remove-item(type='button') Remove
-
-      if afArrayFieldHasLessThanMaximum name=this.name minCount=0 maxCount=10
-        div(style='margin-top: 20px;')
-          button.autoform-add-item(type='button', data-autoform-field='{{this.arrayFieldName}}', data-autoform-mincount='{{this.minCount}}', data-autoform-maxcount='{{this.maxCount}}') Add
-
-    if afArrayFieldHasMoreThanMinimum name=../atts.name minCount=1 maxCount=10
-        button.autoform-remove-item(type='button') Remove
-
-  if afArrayFieldHasLessThanMaximum name=this.atts.name minCount=1 maxCount=10
-    button.autoform-add-item(type='button', data-autoform-field='{{this.atts.name}}', data-autoform-mincount='{{this.atts.minCount}}', data-autoform-maxcount='{{this.atts.maxCount}}') Add

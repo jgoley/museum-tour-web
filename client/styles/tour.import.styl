@@ -4,3 +4,30 @@
   li
     display inline-block
     margin 0 2px
+
+.parent-stops
+  li
+    position relative
+    padding 4px 0
+    border-bottom #CCC 1px solid
+    background white
+    &.group
+      background lighten(#EE8755, 90%)
+    .delete
+      position absolute
+      right 10px
+      top: 3px
+      color #CCC
+      transition .2s
+      &:hover
+        color #666
+        transition .2s
+    ul
+      li
+        position relative
+
+.sortable-ghost
+  background #f0f0f0 !important
+
+.child-stops
+  transition .2s
