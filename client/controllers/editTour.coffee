@@ -59,7 +59,8 @@ Template.mediaTypes.helpers
       {label: 'Film', value: 5}
     ]
   selected : (stop) ->
-    if stop and @value is stop.mediaType
+    console.log "Stop from selected",stop
+    if stop and @value is +stop.mediaType
       'selected'
 
 Template.addStop.helpers

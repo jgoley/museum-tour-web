@@ -1,20 +1,18 @@
 head
   title Tap into CMA
   meta(name="viewport" content="width=device-width, initial-scale=1")
-
+  script(src="//use.typekit.net/rvk0pii.js")
+  script try{Typekit.load();}catch(e){}
 template(name="base")
   +yield
 
 template(name="tours")
   h1 Tours:
   ul
-    {{logCollection tours}}
     each tours
       li
-        a(href="tour/#{_id}") 
+        a(href="tour/#{_id}")
           h3 #{mainTitle}
             span #{subTitle}
-        span #{startDate} - #{endDate}
-        stops {{countStops}}
   input(type="text")
   input(type="submit")

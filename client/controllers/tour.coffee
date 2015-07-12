@@ -1,3 +1,6 @@
+TourStops = () ->
+  @Tap.Collections.TourStops
+
 Template.tour.helpers
   showStops: ()->
     _.filter @stops.fetch(), (stop)->
@@ -6,12 +9,13 @@ Template.tour.helpers
   isGroup: () ->
     @type is "group"
 
-  childStopsNumber : () ->
+  getChildStopCount : () ->
     @childStops.length
 
   getTypes : () ->
     types = _.chain(@childStops)
-      .map((stop) -> stop.mediaType)
+      .map((stop) -> +TourStops().findOne(stop).mediaType)
       .uniq()
+      .sortBy((stop)-> stop)
       .value()
     types

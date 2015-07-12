@@ -16,6 +16,7 @@ Router.route 'home',
     ]
   data: () ->
     tours: Tours().find()
+    # currentTours: Tours().find({ $startDate })
 
 Router.route 'tour',
   path: '/tour/:_id'

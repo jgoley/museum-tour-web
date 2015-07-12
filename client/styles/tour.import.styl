@@ -1,33 +1,91 @@
-.media-types
-  display inline-block
-  margin 0 2px
-  li
-    display inline-block
-    margin 0 2px
+.tour-title
+  margin 0
+  padding 5px 0
+  background $secondary
+  font-weight normal
+  text-align center
 
-.parent-stops
-  li
-    position relative
-    padding 4px 0
-    border-bottom #CCC 1px solid
-    background white
-    &.group
-      background lighten(#EE8755, 90%)
-    .delete
-      position absolute
-      right 10px
-      top: 3px
-      color #CCC
+.tour-image
+  min-height 200px
+  width 100%
+  background-size cover
+  background-position center center
+
+.tour-stops
+  list-style-type none
+  border-top 2px solid $primary
+  border-bottom 2px solid $primary
+
+.tour-stop
+  position relative
+  border-bottom 1px solid lighten($secondary, 30%)
+  &:last-of-type
+    border 0
+  &::after
+    position absolute
+    right 10px
+    top 50%
+    transform translate(0, -50%)
+    @extend .font-awesome
+    content '\f054'
+    color darken($l-gray, 15%)
+  a
+    display block
+    color $body-text
+    padding 10px 20px
+    transition .2s
+    &:hover
+      background lighten($secondary, 90%)
+      text-decoration none
       transition .2s
-      &:hover
-        color #666
-        transition .2s
-    ul
-      li
-        position relative
 
-.sortable-ghost
-  background #f0f0f0 !important
+.stop-info
+  span
+  ul
+    vertical-align middle
 
-.child-stops
-  transition .2s
+.seperator
+  margin 0 2px
+  color #CCC
+
+.stop-number
+  font-weight 400
+  color $primary
+
+
+.stop-title
+  margin 0
+  font-size 18px
+  font-weight bold
+  letter-spacing .03em
+
+.group
+.group-count
+  color #999
+  font-size 80%
+
+.group-count
+  margin-left 3px
+
+$types = {
+  '1' : 'a'
+  '2' : 'v'
+  '3' : 'm'
+  '4' : 'p'
+  '5' : 'l'
+}
+
+.media-types
+  li
+    &::before
+      margin 0 1px
+      font-family 'icons'
+      font-size 90%
+      content ''
+      color #ccc
+      font-smoothing antialiased
+  for $type, $code in $types
+    .type-{$type}
+      &::before
+        content $code
+

@@ -8,6 +8,7 @@ meteor-platform
 insecure
 underscore
 mquandalle:jade
+mquandalle:stylus
 coffeescript
 iron:router
 jquery
@@ -16,6 +17,7 @@ aldeed:collection2
 suxez:jasny-bootstrap
 lepozepo:s3
 edgee:slingshot
-stylus
 aslagle:reactive-table
 rubaxa:sortable
+fortawesome:fontawesome
+momentjs:moment

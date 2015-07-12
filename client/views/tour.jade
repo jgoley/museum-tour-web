@@ -1,23 +1,24 @@
 template(name="tour")
-
-  img(src='#{tour.main_images}/#{tour.tourImg}' class='tourImage')
-  div(class="tourTitle-wrap {{removeBorder}}")
+  {{log this}}
+  .tour-image(style="background-image: '#{tour.main_images}/#{tour.tourImg}'")
   div
-    h1 #{tour.mainTitle}: #{tour.subTitle}
-  ul
+    h1.tour-title #{tour.mainTitle}: #{tour.subTitle}
+  ul.tour-stops
     each showStops
-      li
-        a(href='#{tour}/stop/#{_id}') #{title}
-          if isGroup
-            span.group G
-            span.group ({{childStopsNumber}})
-        ul.media-types.list-unstyled
-          if isGroup
-            each getTypes
-              li(class="type-#{this}") #{this}
-          else
-            li(class="type-#{mediaType}") #{mediaType}
-
-        //- span.stopType #{stopType}
+      li.tour-stop
+        a(href='#{tour}/stop/#{_id}')
+          .stop-info
+            span.stop-number #{stopNumber}
+            span.fa.fa-ellipsis-v.seperator
+            if isGroup
+              span.group Group
+              span.group-count ({{getChildStopCount}})
+            ul.media-types.list-unstyled
+              if isGroup
+                each getTypes
+                  li(class="type-#{this}")
+              else
+                li(class="type-#{mediaType}")
+          span.stop-title #{title}
 
 //-   # NEWSLETTER SIGNUP
