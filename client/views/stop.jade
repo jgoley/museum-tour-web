@@ -1,9 +1,51 @@
 template(name="stop")
-  if stop.childStops
-    h1 #{stop.title}
-    ul
-      each getChildStops
-        {{log this}}
-        li #{title}
-  else
-    h1 #{stop.title}
+  .tour-stop
+    if stop.childStops
+      h1.group-title
+        span.stopNumber #{stop.stopNumber}
+        | #{stop.title}
+      ul.child-stops
+        each getChildStops
+          li.child-stop
+            .child-stop-info
+              h2.tap-list-title.child-stop-title
+                span
+                  span.child-stop-number #{../stop.stopNumber}.#{order}
+                  span #{title}
+              unless isNull speaker
+                p.child-stop-subTitle #{speaker}
+            +stopContent stop=this
+    else
+      h1.single-title
+        span.stopNumber #{stop.stopNumber}
+        | #{stop.title}
+      unless isNull stop.speaker
+        p.child-stop-subTitle.single #{stop.speaker}
+      +stopContent stop=stop
+    .row.stop-nav
+      .col-xs-6
+        if prevStop
+          a.stop-nav-button(href="{{prevStop._id}}")
+            i.fa.fa-arrow-circle-left
+            span Previous stop
+        else
+          .inactive
+            i.fa.fa-arrow-circle-left
+            span Previous stop
+
+      .col-xs-6
+        if nextStop
+          a.stop-nav-button(href="{{nextStop._id}}")
+            span Next stop
+            i.fa.fa-arrow-circle-right
+        else
+          .inactive
+            i.fa.fa-arrow-circle-right
+            span Next stop
+
+template(name="stopContent")
+  if isVideo stop
+    video(src="https://s3.amazonaws.com/tap-cma/#{stop.tour}/#{stop.media}" controls autoplay="{{autoplay stop}}")
+  if isImage stop
+    img(src="https://s3.amazonaws.com/tap-cma/#{stop.tour}/#{stop.media}" controls)
+

@@ -7,19 +7,31 @@ TourStops = new Mongo.Collection 'tourStops'
 @Tap.Collections.Tours = Tours
 @Tap.Collections.TourStops = TourStops
 
+Sortable.collections = ['tourStops']
+
 if Meteor.isServer
-  Meteor.publish 'tours', () ->
+  Meteor.publish 'tours', ->
     Tours.find()
   Meteor.publish 'tourStops', (tourID) ->
     TourStops.find({'tour': tourID})
-  Meteor.publish 'allStops', () ->
+  Meteor.publish 'allStops', ->
     TourStops.find()
   Meteor.publish 'stop', (stopID) ->
     TourStops.find({'_id': stopID})
   Meteor.publish 'childStops', (stopID) ->
     TourStops.find({'parent': stopID}, {$sort: {order: 1}})
-
-  Sortable.collections = ['tourStops']
+  Meteor.publish 'currentTours', ->
+    today = new Date()
+    Tours.find({$and: [{'closeDate': {$gte: today}},{'openDate': {$lte: today}}]})
+  Meteor.publish 'currentTourStops', ->
+    today = new Date()
+    tours = Tours.find({$and: [{'closeDate': {$gte: today}},{'openDate': {$lte: today}}]}, {fields:{'_id': 1}}).fetch()
+    query = _.map tours, (tour)->
+      {'tour': tour._id}
+    TourStops.find({$and: [{$or: query}, {$or:[{'type': 'single'},{'type': 'group'}]}]}, {fields: {'_id': 1, 'tour': 1, 'stopNumber': 1}})
+  Meteor.publish 'archiveTours', ->
+    today = new Date()
+    Tours.find({'closeDate': {$lte: today}})
 
 Tours.allow
   insert: (userId, doc) ->

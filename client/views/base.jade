@@ -4,15 +4,6 @@ head
   script(src="//use.typekit.net/rvk0pii.js")
   script try{Typekit.load();}catch(e){}
 template(name="base")
-  +yield
-
-template(name="tours")
-  h1 Tours:
-  ul
-    each tours
-      li
-        a(href="tour/#{_id}")
-          h3 #{mainTitle}
-            span #{subTitle}
-  input(type="text")
-  input(type="submit")
+  +header
+  .main-content
+    +yield

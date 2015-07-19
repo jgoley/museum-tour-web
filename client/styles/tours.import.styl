@@ -1,0 +1,24 @@
+.tour-type
+  position absolute
+  left 3%
+  top 50%
+  transform translate(0, -50%)
+  width 30px
+  height 100%
+  @extend .icon
+  font-size 3em
+  &.adult
+    &::before
+      content '1'
+  &.family
+    &::before
+      content '2'
+
+.tap-list-title
+  &.tour-title
+    padding-left 40px
+
+.archive-tours
+  .tap-list-title
+    &.tour-title
+      padding-left 0

@@ -43,6 +43,7 @@ Template.editing.helpers
 
 Template.stopData.helpers
   isUpdating : () ->
+    console.log @
     Session.get('updating'+@stop._id)
   files: () ->
     S3.collection.find()

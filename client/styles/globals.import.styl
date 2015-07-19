@@ -5,3 +5,87 @@ ul
 
 body
   font-family inherit
+
+a
+  &:focus
+    text-decoration none
+
+.main-content
+  padding-top 50px
+
+.tap-list
+  margin-bottom 30px
+  list-style-type none
+  border-top 2px solid $primary
+  border-bottom 2px solid $primary
+  > li
+    position relative
+    border-bottom 1px solid lighten($secondary, 30%)
+    &:last-of-type
+      border 0
+  a
+    display block
+    color $body-text
+    padding 10px 7% 10px 3%
+    transition .2s
+    &:hover
+      background lighten($secondary, 90%)
+      text-decoration none
+      transition .2s
+    &::after
+      position absolute
+      right 10px
+      top 50%
+      transform translate(0, -50%)
+      @extend .font-awesome
+      content '\f054'
+      color darken($l-gray, 15%)
+
+.tap-list-title
+  margin 0
+  font-size 18px
+  font-weight bold
+  letter-spacing .02em
+  font-family $body-font
+  span
+    font-size 16px
+    display block
+    font-weight 400
+
+.main-title
+  margin 0
+  padding 10px 3% 0 3%
+  background $secondary
+  font-weight normal
+  &.tour-title
+    text-align center
+    padding .3em 2em
+
+.goto-stop-wrap
+  margin 20px 0
+  +desktop()
+    display none
+
+.goto-stop
+  input
+    height 45px
+    padding 0 10px
+    text-align center
+    margin-bottom 10px
+    font-size 1.4em
+    &[type=submit]
+      background-color desaturate(lighten($confirm,8%),10%)
+
+.goto-stop-btn
+  &[type=submit]
+    &[disabled]
+      background-color $m-gray
+      border-color darken(@background-color, 20%)
+      color darken(@background-color, 40%)
+
+.stopNumber-wrap
+  +above(2)
+    padding-right 0
+.goto-stop-btn-wrap
+  +above(2)
+    paddin-left 0

@@ -1,43 +1,25 @@
-.tour-title
-  margin 0
-  padding 5px 0
-  background $secondary
-  font-weight normal
-  text-align center
+// .tour-title
+//   margin 0
+//   padding 5px 0
+//   background $secondary
+//   font-weight normal
+//   text-align center
 
 .tour-image
-  min-height 200px
+  position relative
+  min-height 300px
   width 100%
   background-size cover
   background-position center center
 
-.tour-stops
-  list-style-type none
-  border-top 2px solid $primary
-  border-bottom 2px solid $primary
-
-.tour-stop
-  position relative
-  border-bottom 1px solid lighten($secondary, 30%)
-  &:last-of-type
-    border 0
-  &::after
+.main-title
+  &.tour-title
     position absolute
-    right 10px
-    top 50%
-    transform translate(0, -50%)
-    @extend .font-awesome
-    content '\f054'
-    color darken($l-gray, 15%)
-  a
-    display block
-    color $body-text
-    padding 10px 20px
-    transition .2s
-    &:hover
-      background lighten($secondary, 90%)
-      text-decoration none
-      transition .2s
+    bottom 0
+    background-color rgba(red($secondary), green($secondary), blue($secondary), .85)
+    border-bottom 2px solid darken($secondary, 10%)
+
+  width 100%
 
 .stop-info
   span
@@ -51,13 +33,6 @@
 .stop-number
   font-weight 400
   color $primary
-
-
-.stop-title
-  margin 0
-  font-size 18px
-  font-weight bold
-  letter-spacing .03em
 
 .group
 .group-count

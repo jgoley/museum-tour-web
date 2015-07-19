@@ -95,10 +95,34 @@ legacyTours=
         "image": "curran.jpg",
         "menu": 0,
         "icon": 2
-    }
+    },
+    {
+        "tourID":"9",
+        "tourType": 0,
+        "baseNum": 100,
+        "mainTitle":"From Marilyn to Mao",
+        "subTitle": "Andy Warhol's Famous Faces",
+        "openDate":"2015-06-12",
+        "closeDate":"2015-09-13",
+        "image":"warhol.jpg",
+        "menu": 0,
+        "icon":1
+  },
+  {
+        "tourID":"10",
+        "tourType": 1,
+        "baseNum": 200,
+        "mainTitle":"From Marilyn to Mao",
+        "subTitle": "Andy Warhol's Famous Faces",
+        "openDate":"2015-06-12",
+        "closeDate":"2015-09-13",
+        "image":"warhol.jpg",
+        "menu":0,
+        "icon":2
+  }
 ]
 
-tours = 
+tours =
   _.chain(legacyTours)
     .map((tour)->
       'tourID': tour.tourID
@@ -114,12 +138,11 @@ tours =
       )
     .value()
 
-# console.log tours
+Tours = () ->
+  @Tap.Collections.Tours
 
-
-# Meteor.startup () ->
-#   unless Tours.findOne({})
-#     _.each tours, (tour) ->
-#       Tours.insert(tour)
-
-# console.log tours
+Meteor.startup () ->
+  unless Tours().findOne({})
+    _.each tours, (tour) ->
+      Tours().insert(tour)
+  console.log tours

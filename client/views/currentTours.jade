@@ -1,0 +1,10 @@
+template(name="currentTours")
+  h1.main-title Current Tours
+  ul.tap-list.current-tours
+    each tours
+      li
+        a(href="tour/#{_id}")
+          .tour-type(class="{{type}}")
+          h2.tap-list-title.tour-title #{mainTitle}
+            span #{subTitle}
+  +stopSearch state=buttonState stopNumbers=stopNumbers

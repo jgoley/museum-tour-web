@@ -1,0 +1,10 @@
+template(name="stopSearch")
+  .goto-stop-wrap
+    .row
+      .col-xs-10.col-xs-offset-1
+        form.goto-stop
+          .row
+            .col-xs-12.col-sm-10.stopNumber-wrap
+              input.form-control.stopNumber(type="number" name="stopNumber" maxlength="4" placeholder="Tap & Enter a number")
+            .col-xs-12.col-sm-2.goto-stop-btn-wrap
+              input.btn.btn-success.btn-block.goto-stop-btn(type="submit" value="GO" disabled="{{buttonState}}")

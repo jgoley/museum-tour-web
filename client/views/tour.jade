@@ -1,9 +1,9 @@
 template(name="tour")
-  {{log this}}
-  .tour-image(style="background-image: '#{tour.main_images}/#{tour.tourImg}'")
-  div
-    h1.tour-title #{tour.mainTitle}: #{tour.subTitle}
-  ul.tour-stops
+  .tour-image(style="background-image: url(https://placeimg.com/1000/800/any)")
+    h1.main-title.tour-title #{tour.mainTitle}:
+      span #{tour.subTitle}
+  +stopSearch state=buttonState stopNumbers=stopNumbers
+  ul.tap-list.tour-stops
     each showStops
       li.tour-stop
         a(href='#{tour}/stop/#{_id}')
@@ -19,6 +19,4 @@ template(name="tour")
                   li(class="type-#{this}")
               else
                 li(class="type-#{mediaType}")
-          span.stop-title #{title}
-
-//-   # NEWSLETTER SIGNUP
+          span.tap-list-title.stop-title #{title}
