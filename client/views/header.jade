@@ -5,6 +5,8 @@ template(name="header")
     a.backBtn(href="")
       i.fa.fa-chevron-circle-left
       span Back
-      //- h1.menu-logo
-      //-   a(href="/") TAP into CMA
-    a.btn.menu-btn(href="#") Menu
+    .header-buttons
+      a.btn.menu-btn(href="#") Menu
+      if currentUser
+        a.btn.menu-btn.sign-out
+          span Sign Out

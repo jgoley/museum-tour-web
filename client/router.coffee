@@ -5,12 +5,7 @@ TourStops = () ->
   @Tap.Collections.TourStops
 
 Router.configure
-  layoutTemplate: 'base'
-
-if Meteor.isClient
-  Router.onStop ->
-    console.log Session.get('previousURL')
-    Session.set('previousURL', Router.current().url)
+  layoutTemplate: 'layout'
 
 Router.route 'currentTours',
   template: 'currentTours'
@@ -60,29 +55,13 @@ Router.route 'stop',
     childStops: TourStops().find({parent: @params.stopID}, {$sort: {order: 1}})
     tourStops: TourStops().find({$and:[{tour: @params.tourID}, {$or: [{type: 'single'}, {type: 'group'}]}]}, {sort: {'stopNumber': 1}})
 
-Router.route 'createTour',
-  path: 'create'
-  template: 'createTour'
-
-Router.route 'editTour',
-  path: 'edit/:_id'
-  template: 'editTour'
-  waitOn: () ->
-    [
-      Meteor.subscribe 'tours'
-      Meteor.subscribe 'tourStops', @params._id
-    ]
-  data: () ->
-    tour: Tours().findOne(@params._id)
-    stops: TourStops().find({$and:[{tour: @params._id}, {$or: [{type: 'single'}, {type: 'group'}]}]}, {sort: {'stopNumber': 1}})
-    childStops: TourStops().find({$and: [{tour: @params._id}, {type: 'child'}] })
-Router.route 'allStops',
-  waitOn: () ->
-    [
-      Meteor.subscribe 'allStops'
-    ]
-  data: () ->
-    stops: TourStops().find()
+# Router.route 'allStops',
+#   waitOn: () ->
+#     [
+#       Meteor.subscribe 'allStops'
+#     ]
+#   data: () ->
+#     stops: TourStops().find()
 
 Router.route 'convert',
   waitOn: () ->
@@ -99,5 +78,45 @@ Router.route 'childStops',
       Meteor.subscribe 'allStops'
     ]
   data: () ->
-    tours: Tours()
-    stops: TourStops()
+    tours: Tours().find()
+    stops: TourStops().find()
+
+Router.plugin('ensureSignedIn', {
+    only: ['admin', 'editTour', 'editTourDetails', 'createTour']
+});
+
+Router.route 'signIn',
+  path: '/sign-in'
+  template: 'signIn'
+
+Router.route 'admin',
+  waitOn: () ->
+    [
+      Meteor.subscribe 'tours'
+    ]
+  data: () ->
+    tours: Tours().find()
+
+Router.route 'createTour',
+  path: 'admin/create'
+
+Router.route 'editTour',
+  path: 'admin/edit/:_id/stops'
+  waitOn: () ->
+    [
+      Meteor.subscribe 'tours'
+      Meteor.subscribe 'tourStops', @params._id
+    ]
+  data: () ->
+    tour: Tours().findOne(@params._id)
+    stops: TourStops().find({$and:[{tour: @params._id}, {$or: [{type: 'single'}, {type: 'group'}]}]}, {sort: {'stopNumber': 1}})
+    childStops: TourStops().find({$and: [{tour: @params._id}, {type: 'child'}] })
+
+Router.route 'editTourDetails',
+  path: 'admin/edit/:_id/details'
+  waitOn: () ->
+    [
+      Meteor.subscribe 'tours'
+    ]
+  data: () ->
+    tour: Tours().findOne(@params._id)

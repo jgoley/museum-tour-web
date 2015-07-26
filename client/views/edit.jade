@@ -1,70 +1,124 @@
 template(name="editTour")
-  .container
-      h1 #{tour.mainTitle}: #{tour.subTitle}
-      unless stops
-        h1 Add Stops
-        +autoForm collection="TourStops" id="addFirstStop"
-          +addStop
-      else
-        ul.list-unstyled.parent-stops
-          +sortable items=stops sortField="stopNumber" options=sortableOptions
-            li.parent(class="#{type}")
-              span #{stopNumber}
-              span.title #{title}
-              a.delete Delete
-              if editStop
-                div.editing-parent
-                  +editing stop=this type=this.type
-              if isGroup
-                unless showChildStops
-                  a.show-children Show ChildStops
+  {{log this}}
+  h1.main-title #{tour.mainTitle}: #{tour.subTitle}
+  ul.list-unstyled.tap-edit-list.edit-parent-stops
+    +sortable items=stops sortField="stopNumber" options=sortableOptions
+      li.parent(class="#{type} {{isOpen}}")
+        i.handle.fa.fa-bars
+        span.stop-number #{stopNumber}
+        +stopTitle
+        .stop-count
+          if isGroup
+              each childStops
+                if hasMedia this
+                  i.fa.fa-square
                 else
-                  a.hide-children hide ChildStops
-                  //- else
-                  //-   a Add Children
-                if showChildStops
-                  ul.child-stops
-                    each getChildStops
-                      li.child(data-index="#{index}")
-                        span #{order}
-                        span.title #{title}
-                        if editChildStop
-                          div.editing-child
-                            +editing stop=this type=this.type
-                        a.delete delete
-                    unless addChild
-                      a.btn.btn-primary.add-child Add Child
-                    if addChild
-                      .addStop
-                        +addStop type='new-child' tour=tour parent=_id siblings=childStops
+                  i.fa.fa-square-o.no-file
               else
-                a.convert convert
-        if showAddStop
-          .addStop
-            +addStop type='new-parent' stops=stops tour= ../tour
-        else
-          a.btn.btn-primary.show-add-stop Add stop
+                i.fa.fa-exclamation-triangle.no-file-warning
+          else
+            if media
+              i.fa.fa-square
+            else
+              i.fa.fa-square-o.no-file
+        a.delete(href="#")
+          i.fa.fa-trash
+        if editStop
+          +editing stop=this type=this.type stops=../stops childStops=../childStops
+        if isGroup
+          if showChildStops
+            ul.edit-child-stops.list-unstyled
+              each getChildStops
+                li.child(class="{{isOpen}}" data-index="#{index}")
+                  span.stop-number
+                    span.parent-number #{../stopNumber}.
+                    span.order-number #{order}
+                  +stopTitle
+                  unless media
+                    i.fa.fa-exclamation-triangle.no-file-warning
+                  if editChildStop
+                    +editing stop=this type=this.type
+                  a.delete(href="#")
+                    i.fa.fa-trash
+              unless addChild
+                li.child.add-stop-link.add-child
+                  a.title
+                    i.fa.fa-plus-square
+                    span Add Child
+            if addChild
+              +addStop type='new-child' tour=tour parent=_id siblings=childStops
+    if showAddStop
+      .add-stop
+        +addStop type='new-parent' stops=stops tour= ../tour
+    else
+      li.parent.add-stop-link
+        .title
+          a.show-add-stop
+            i.fa.fa-plus-square
+            span Add stop
+
+template(name="stopTitle")
+  unless editStopTitle
+    span.title(class="#{type}-title") #{title}
+    a(href="").edit-title-btn
+      i.fa.fa-edit
+  else
+    form.edit-title-form
+      .edit-title
+        input.edit-title-input.form-control.inline(value="#{title}" name="title")
+        .action-btns-form
+          button.btn.btn-plain.save-title(type="submit")
+            i.fa.fa-check-circle
+          button.btn.btn-plain.cancel-edit-title(type="button")
+            i.fa.fa-times-circle
 
 template(name="editing")
-  if notParent type
-    if isChild
-      input.form-control(value="#{stop.order}" name="order" placeholder="Order Number")
-    +stopData stop=stop
-  else
-    input.form-control(value="#{stop.title}" name="title" placeholder="Title")
-  button.btn.btn-success.save Save
-  button.btn.btn-default.cancel Cancel
+  form(class="edit-stop edit-#{type}")
+    if notParent type
+      .row
+        .col-sm-6
+          if isChild
+            .row
+              .col-sm-2
+                label
+                  span Order
+                  input.form-control(value="#{stop.order}" name="order" placeholder="Order Number" type="number")
+          +stopData stop=stop
+          .action-btns
+            button.btn.btn-success.save(type="submit") Save
+            button.btn.btn-default.cancel(type="button") Cancel
 
+    .other-edit-options
+      label Other Options
+      if isChild
+        button.btn.btn-default.convert-single(href="") Convert to Single Stop
+      else
+        .row
+          .col-sm-2
+            button.btn.btn-default.convert-group Convert to Group
+          .col-sm-7.col-sm-offset-1
+            .row.add-to-group-wrap
+              form.add-to-group
+                .col-sm-8
+                  select.parent-stops-list.form-control(name="parent")
+                    each parentStops
+                      option(value=_id)= title
+                .col-sm-4
+                  button.btn.btn-default Add to group
 template(name="stopData")
-  input.form-control(value="#{stop.title}" name="title" placeholder="Title")
-  input.form-control(value="#{stop.speaker}" name="speaker" placeholder="Speaker")
-  +mediaTypes stop=stop
+  label
+    span Speaker or Subtitle
+    input.form-control(value="#{stop.speaker}" name="speaker" placeholder="Speaker")
+  .row
+    .col-sm-6
+      +mediaTypes stop=stop
   if stop.media
-    p #[strong File]:
-      span #[a(href="https://s3.amazonaws.com/tap-cma/#{stop.tour}/#{stop.media}") {{formatFile}}]
-      a.delete-file() delete
+    label.outside File:
+    span #[a(href="https://s3.amazonaws.com/tap-cma/#{stop.tour}/#{stop.media}") {{formatFile}}]
+    a.delete-file(href="#")
+      i.fa.fa-trash
   else
-    input.form-control(type='file' name="media")
+    +fileUpload name="media" label="Media File"
   if isUpdating
     each files
       .progress
@@ -72,26 +126,49 @@ template(name="stopData")
     p updating
 
 template(name='mediaTypes')
-  select.form-control(name="mediaType")
-    each stopTypesForm
-      option(value="#{value}" selected="{{selected ../stop}}") #{label}
+  label Media Type
+    select.form-control(name="mediaType")
+      each stopTypesForm
+        option(value="#{value}" selected="{{selected ../stop}}") #{label}
 
 template(name='addStop')
-  if isParent
-    input.form-control(type='radio' name="type" value="single" checked="checked")
-    | Single
-    input.form-control(type='radio' name="type" value="group")
-    | Group
-  input.form-control(value="" name="title" placeholder="Title")
-  if showSingleData
-    input.form-control(type='file' name="media")
-    input.form-control(value="" name="speaker" placeholder="Speaker")
-    +mediaTypes
-  if isCreating
-    each files
-      .progress
-        .progress-bar(role="progressbar" aria-valuenow="{{ percent_uploaded }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percent_uploaded }}%") {{ percent_uploaded }}
-    p updating
-  button.btn.btn-success.add-stop Add Stop
-  button.btn.btn-default.cancel-add-stop Cancel
+  .addStop(class=type)
+    h2=addTitle
+    form.add-stop
+      .row
+        .col-sm-6
+          if isParent
+            .radio
+              label
+                input(type='radio' name="type" value="single" checked="checked")
+                | Single
+            .radio
+              label
+                input(type='radio' name="type" value="group")
+                | Group
+          .row
+            .col-sm-8
+              label
+                span Title
+                input.form-control(value="" name="title" )
+          if showSingleData
+            .row
+              .col-sm-8
+                label Speaker or Sub-title
+                  input.form-control(value="" name="speaker")
+            .row
+              .col-sm-4
+                +mediaTypes
+            .row
+              .col-sm-8
+                +fileUpload name="media" label="Media File"
+          if isCreating
+            each files
+              .progress
+                .progress-bar(role="progressbar" aria-valuenow="{{ percent_uploaded }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percent_uploaded }}%") {{ percent_uploaded }}
+            p updating
+          .action-btns
+            button.btn.btn-success(type="submit")
+              span Add Stop
+            button.btn.btn-default.cancel-add-stop(type="button") Cancel
 

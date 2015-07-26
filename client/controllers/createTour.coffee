@@ -1,100 +1,39 @@
-TourStops = ()->
-  @Tap.Collections.TourStops
-
-AutoForm.debug()
+Tours = ()->
+  @Tap.Collections.Tours
 
 uploadFiles = (files) ->
-  console.log "Files"
-  S3.upload
-    files:files
-    unique_name: false
-    path: ''
-    (e,r) ->
-      console.log(e,r)
-
-editHooks = {
-  onSubmit: (insertDoc, updateDoc, currentDoc) ->
-    console.log "Doc",insertDoc
-    files = _.map $("input[type=file]"), (file)->
-      file.files[0]
-    if files.length > 0
-      S3.upload
-        files:files
-        unique_name: false
-        path: ''
-        (e,r) ->
-          console.log(e,r)
-      .insert insertDoc
-      @done()
-      false
-    else
-      console.log "adding tour", insertDoc
-      TourStops().insert insertDoc
-      @done()
-      false
-
-}
-
-firstStopHooks = {
-  onSubmit: (insertDoc, updateDoc, currentDoc) ->
-    console.log "Doc",insertDoc
-    files = _.map $("input[type=file]"), (file)->
-      file.files[0]
-    # if files.length > 0
-      # S3.upload
-      #   files:files
-      #   unique_name: false
-      #   path: ''
-      #   (e,r) ->
-          # console.log(e,r)
-    TourStops().insert insertDoc, (e, id) ->
-      console.log e, id
-
-    # TourStops.update {_id: stop._id}, $push: {stops: {$each: updateDoc.$set.stops} }
-    @done()
-    false
-    # else
-    #   console.log "adding tour", insertDoc
-    #   TourStops.insert insertDoc
-    #   @done()
-    #   false
-}
-
-addStopsHooks = {
-  onSubmit: (insertDoc, updateDoc, currentDoc) ->
-    files = _.map $("input[type=file]"), (file)->
-      file.files[0]
-    # if files.length > 0
-    #   S3.upload
-    #     files:files
-    #     unique_name: false
-    #     path: ''
-    #     (e,r) ->
-    #       console.log(e,r)
-    #   TourStops.update insertDoc
-    #   @done()
-    #   false
-    # else
-    # console.log "adding tour", insertDoc, updateDoc, currentDoc
-    console.log "INsertDoc", insertDoc, updateDoc
-    TourStops().insert insertDoc, (e, id) ->
-      console.log e, id
-    # stop = TourStops.findOne({tourID: window.location.pathname.split('/')[2]})
-    # console.log stop
-      Tours.update {_id: window.location.pathname.split('/')[2]}, $push: {stops: id }
-
-    @done()
-    false
-
-}
 
 
-AutoForm.addHooks('addFirstStop', firstStopHooks);
-AutoForm.addHooks('addStops', addStopsHooks);
+Template.createTour.helpers
+  'files': ->
+    S3.collection.find()
 
-# Template.edit.helpers
-#   "files": () ->
-#     S3.collection.find()
+Template.createTour.events
+  'submit .create-tour': (e, template) ->
+    e.preventDefault()
+    form = e.target
+    fileName = form.image.files[0]?.name
+    values =
+      'mainTitle': form.mainTitle?.value
+      'subTitle': form.subTitle?.value
+      'openDate': new Date(form.openDate?.value)
+      'closeDate': new Date(form.closeDate?.value)
+      'baseNum': +form.baseNum?.value
+      'tourType': +form.tourType?.value
+      'image': fileName
+
+    Tours().insert values, (e, tourID)->
+      if fileName
+        files = form.image.files
+        if files.length > 0
+          S3.upload
+            files:files
+            unique_name: false
+            path: tourID
+            (e,r) ->
+              Router.go '/admin/edit/'+tourID
+      else
+        Router.go '/admin/edit/'+tourID
 
 Template.editTour.helpers
   "getID": () ->
@@ -103,3 +42,5 @@ Template.editTour.helpers
     console.log @tour._id
     console.log TourStops().findOne({'tour': @tour._id})
     TourStops.findOne({'tour': @tour._id})
+  'tour': ->
+    Tours()

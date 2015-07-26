@@ -43,6 +43,12 @@ header
     margin-bottom 20px
     height auto
     padding 0
+  .header-buttons
+    position absolute
+    right 0
+    top 50%
+    margin-right 3%
+    transform translate(0, -50%)
   a
     &.btn
       padding 15px
@@ -58,16 +64,13 @@ header
     &:focus
       text-decoration none
     &.menu-btn
-      position absolute
-      right 0
-      top 50%
-      transform translate(0,-50%)
-      margin-right 3%
       &:hover
       &:focus
         background white
         color $body-text
         text-decoration none
+    &.sign-out
+      margin-left 10px
     &.backBtn
       position absolute
       left 3%

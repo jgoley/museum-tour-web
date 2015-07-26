@@ -1,0 +1,11 @@
+template(name="admin")
+  {{log this}}
+  h1.main-title Edit Tours
+  a(href="{{pathFor 'createTour'}}").btn.btn-primary Create Tour
+  ul.tap-edit-list.current-tours
+    each tours
+      li
+        a.btn.btn-primary(href="/admin/edit/#{_id}") Edit
+        h2.tap-list-title.tour-title #{mainTitle}
+          span #{subTitle}
+        .btn.btn-danger.delete-tour Delete

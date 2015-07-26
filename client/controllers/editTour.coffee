@@ -4,13 +4,17 @@ Tours = () ->
   @Tap.Collections.Tours
 
 Template.editTour.helpers
+  tour: ->
+    @tour
   settings: () ->
     fields: ['stopNumber','title', 'type','mediaType' ]
   editStop: () ->
-    Session.get(@._id);
+    if @type is 'single'
+      Session.get(@._id);
   showChildStops: () ->
-    Session.get("childStops" + @_id)
+    Session.get(@_id)
   sortableOptions : () ->
+    handle: '.handle'
     onEnd: () ->
       console.log "ended"
   editChildStop: (parent) ->
@@ -30,23 +34,36 @@ Template.editTour.helpers
     Session.get('add-child-'+@_id)
   showAddStop: () ->
     Session.get('add-stop')
+  isOpen: () ->
+    if Session.get(@._id) or Session.get("child-" + @parent + '-' + @_id)
+      'open'
+    else
+      ''
+  hasMedia: (stopID) ->
+    TourStops().findOne({_id: stopID}).media
+
+Template.stopTitle.helpers
+  editStopTitle: () ->
+    Session.get('edit-title-'+@._id)
 
 Template.editing.helpers
   notParent : (type) ->
-    console.log type
     type is 'child' or type is 'single' or type is 'new'
   isChild : () ->
     if @stop
       @stop.type is 'child'
   progress: () ->
     Math.round this.uploader.progress() * 100
+  parentStops: ->
+    _.filter @stops.fetch(), (stop) ->
+      stop.type is 'group'
 
 Template.stopData.helpers
   isUpdating : () ->
-    console.log @
+    console.log 'updating?',Session.get('updating'+@stop._id)
     Session.get('updating'+@stop._id)
   files: () ->
-    S3.collection.find()
+    uploadingFiles()
   formatFile : () ->
     @stop.media.split('+').join(' ')
 
@@ -65,29 +82,36 @@ Template.mediaTypes.helpers
       'selected'
 
 Template.addStop.helpers
+  addTitle: ->
+    if @type is 'new-parent'
+      'Add new stop'
+    else if @type is 'new-child'
+      'Add new child stop'
   showSingleData: () ->
     console.log @type, Session.get('newStopType')
     @type is 'new-child' || Session.get('newStopType') is 'single'
   isCreating: () ->
     Session.get('creating-stop')
   files: () ->
-    S3.collection.find()
+    uploadingFiles()
   isParent: () ->
     @type is 'new-parent'
 
 uploadFile = (file, tour) ->
+  console.log file, tour
   new Promise (resolve, reject) ->
     S3.upload
       files:file
       unique_name: false
       path: tour
       (e,r) ->
+        console.log e, r
         resolve(r)
 
 updateStop = (stop, values, method)->
-  if values.file.length
+  if values.file
     console.log 'uploading'
-    uploadFile(values.file[0], values.values.tour).then (e,r)->
+    uploadFile(values.file, values.values.tour).then (e,r)->
       console.log e,r
       saveStop(stop, values, method)
   else
@@ -99,7 +123,10 @@ saveStop = (stop, values, method) ->
       sessionString = stop._id
     else
       sessionString = "child-" + stop.parent + '-' + stop._id
-    TourStops().update( {_id: stop._id}, {$set:values.values}, () ->
+    console.log stop
+    console.log TourStops().find({_id: stop._id}).fetch()
+    TourStops().update( {_id: stop._id}, {$set:values.values}, (e,r) ->
+        console.log e,r
         setTimeout (->
           Session.set('updating'+stop._id, false)
           Session.set sessionString, false
@@ -108,7 +135,6 @@ saveStop = (stop, values, method) ->
       )
   else
     TourStops().insert values.values, (e, id) ->
-      console.log e,id
       Session.set('add-stop', false)
       Session.set('creating-stop', false)
       parent = values.values.parent
@@ -116,26 +142,23 @@ saveStop = (stop, values, method) ->
         Session.set('add-child-'+parent, false)
         TourStops().update({_id:parent}, {$push: {childStops: id}})
 
-getValues = (e) ->
-  inputs = $(e.target).parent().find('.form-control').get()
-  values = {}
-  files= []
-  _.each inputs, (input)->
-    if input.files and input.files.length
-      file = input.files
-      values['media'] = file[0].name.split(' ').join('+')
-      files.push(file)
-    else if input.type is 'radio' and input.checked is true
-      values[input.name] = input.value
-    else if input.type is 'radio'
-      return
-    else
-      values[input.name] = input.value
-  values: values
-  file: files
+# getValues = (e) ->
+#   inputs = $(e.target).parent().find('.form-control').get()
+#   values = {}
+#   files= []
+#   _.each inputs, (input)->
+#     console.log input
+#     if input.files and input.files.length
+#       file = input.files
+#       values['media'] = file[0].name.split(' ').join('+')
+#       files.push(file)
+#     else
+#       values[input.name] = input.value
+#   values: values
+#   file: files
 
 getLastStopNum = (stops) ->
-  _.last(stops).stopNumber
+  _.last(stops)?.stopNumber
 
 createStop = (values, method) ->
 
@@ -145,20 +168,36 @@ deleteFile = (stop)->
   S3.delete(path, (e,s)-> console.log e,s)
   TourStops().update({_id: stop._id}, {$set:{media: ''}})
 
+uploadingFiles = ->
+  files= _.filter S3.collection.find().fetch(), (file) ->
+    file.status is 'uploading'
+  files
+
+
 Template.editing.events
-  'click .save': (e)->
-      values = getValues.call(this, e)
-      values.values.tour = @stop.tour
-      Session.set('updating'+@stop._id, true)
-      updateStop(@stop, values, 'update')
+
   'click .cancel': (e)->
-    if ($(e.target).parent().hasClass('editing-parent'))
+    if @type is 'single'
+      console.log @
       Session.set(@stop._id,false)
     else
       Session.set("child-" + @stop.parent + '-' + @stop._id, false)
+
   'click .delete-file' : ()->
     console.log @
     deleteFile(@stop)
+
+  'submit .add-to-group': (e, template) ->
+    e.preventDefault()
+    parentID = e.target.parent.value
+    data = template.data
+    stop = data.stop
+    console.log data
+    childStops = _.filter data.childStops.fetch(), (stop) -> stop.parent is parentID
+    order = _.last(childStops).order + 1
+
+    TourStops().update {_id: stop._id}, {$set: {type: 'child', parent: parentID, order: order} }, (e,r) ->
+      TourStops().update {_id: parentID}, {$addToSet: {childStops: stop._id} }
 
 Template.addStop.rendered = () ->
   Session.set('newStopType', 'single')
@@ -170,16 +209,30 @@ Template.addStop.events
       Session.set('newStopType', 'group')
     else
       Session.set('newStopType', 'single')
-  'click .add-stop' : (e) ->
-    console.log @
+
+  'submit .add-stop' : (e) ->
+    e.preventDefault()
     Session.set('creating-stop', true)
-    values = getValues(e)
+    form = e.target
+    if form.media?.files.length
+      file = form.media?.files
+    values =
+      values:
+        title: form.title?.value
+        speaker: form.speaker?.value
+        mediaType: form.mediaType?.value
+        media: file?[0].name.split(' ').join('+')
+      file: file
+    #Tour ID
+    values.values.type = Session.get('newStopType')
     if _.isObject(@tour)
       tour = @tour._id
     else tour = @tour
     values.values.tour = tour
+
     if @type is 'new-parent'
-      values.values.stopNumber = getLastStopNum(@stops.fetch())+1
+      values.values.stopNumber = getLastStopNum(@stops.fetch())+1 or @tour.baseNum+1
+
     else if @type is 'new-child'
       if @siblings and @siblings.length
         last = @siblings.length+1
@@ -189,43 +242,93 @@ Template.addStop.events
       values.values.order = last
       values.values.parent = @parent
       values.values.type = 'child'
+
     else
-      values.values.stopNumber = getLastStopNum(@stops.fetch())+1
+      values.values.stopNumber = getLastStopNum(@stops.fetch())+1 or @tour.baseNum+1
       that = @
-    console.log values
+
     updateStop('', values, 'create')
+
   'click .cancel-add-stop' : (e) ->
     Session.set('add-child-'+@parent, false)
 
 Template.editTour.events
-  'dblclick .parent-stops .title' : (e) ->
+  'click .edit-title-btn' : (e) ->
+    if Session.get('edit-title-'+@_id)
+      Session.set('edit-title-'+@_id,false)
+    else
+      Session.set('edit-title-'+@_id,true)
+
+  'click .group-title': (e)->
     console.log @
-    Session.set(@_id,true)
+    if Session.get(@_id)
+      Session.set(@_id,false)
+    else
+      Session.set(@_id,true)
 
-  'dblclick .child-stops .title' : (e) ->
-    Session.set("child-" + @parent + '-' + @_id, true)
+  'click .single-title': (e)->
+    console.log @
+    if Session.get(@_id)
+      Session.set(@_id,false)
+    else
+      Session.set(@_id,true)
 
-  'click .show-children': (e)->
-    Session.set("childStops" + @_id,true)
+  'click .child-title': (e)->
+    console.log @
+    if Session.get("child-" + @parent + '-' + @_id)
+      Session.set("child-" + @parent + '-' + @_id, false)
+    else
+      Session.set("child-" + @parent + '-' + @_id, true)
 
-  'click .convert': () ->
+  'click .cancel-edit-title': (e) ->
+    Session.set('edit-title-'+@_id,false)
+
+  'submit .edit-title-form': (e) ->
+    e.preventDefault()
+    TourStops().update({_id: @_id}, {$set:{title: e.target.title.value}})
+    Session.set('edit-title-'+@_id,false)
+
+  'click .convert-group': () ->
     convertStop = confirm('Are you sure you want to convert this stop to a group?')
     if convertStop
-      newChild = _.clone @
+      currentStop = @stop
+      newChild = _.clone currentStop
       delete newChild._id
       delete newChild.stopNumber
-      newChild.parent = @_id
+      newChild.parent = currentStop._id
       newChild.type = 'child'
       newChild.order = 1
-      console.log @,newChild
       parentQuery = "}, {$set: {type: 'group'}}"
-      that = @
       TourStops().insert newChild, (e, id) ->
         console.log "ID",id, e
-        TourStops().update {_id: that._id}, {$set: {type:'group', childStops: [id]}, $unset: {media: '', mediaType: '', speaker: ''}}, (e,r) -> console.log e,r
+        TourStops().update {_id: currentStop._id}, {$set: {type:'group', childStops: [id]}, $unset: {media: '', mediaType: '', speaker: ''}}, (e,r) -> console.log e,r
+
+  'click .convert-single': () ->
+    convertStop = confirm('Are you sure you want to convert this stop to a single stop?')
+    if convertStop
+      that = @
+      lastStopNumber = _.last(Template.instance().data.stops.fetch()).stopNumber
+      TourStops().update {_id: that.stop.parent}, {$pull:{childStops: that.stop._id}}, () ->
+        TourStops().update {_id: that.stop._id}, {$set: {type: 'single', stopNumber: lastStopNumber+1}, $unset: {parent: '', order: ''}}, (e,r) -> console.log e,r
 
   'click .add-child': () ->
     Session.set('add-child-'+@_id, true)
+
+  'submit .edit-stop': (e, instance) ->
+    e.preventDefault()
+    Session.set('updating'+@stop._id, true)
+    form = e.target
+    if form.media?.files.length
+      file = form.media?.files
+    values =
+      values:
+        speaker: form.speaker?.value
+        mediaType: form.mediaType?.value
+        media: file?[0].name.split(' ').join('+')
+        order: form.order?.value
+        tour: @stop?.tour
+      file: file
+    updateStop(@stop, values, 'update')
 
   'click .hide-children': (e)->
     Session.set("childStops" + @_id,false)
@@ -236,6 +339,10 @@ Template.editTour.events
 
   'click .show-add-stop': ()->
     Session.set('add-stop', true)
+    setTimeout (->
+      $('html, body').animate({ scrollTop: $(".add-stop").offset().top - 55 }, 800)
+      ), 0
+
 
   'click .cancel-add-stop': ()->
     Session.set('add-stop', false)
@@ -259,10 +366,8 @@ Template.editTour.events
         that = @
         siblings = _.filter Template.instance().data.childStops.fetch(), (stop) ->
           stop.parent is that.parent
-        console.log siblings
         higherSiblings = _.filter siblings, (stop) ->
           stop.order > that.order
-        console.log higherSiblings
         _.each higherSiblings, (stop) ->
           TourStops().update {_id: stop._id}, {$set: {order: stop.order-1}}
         TourStops().update({_id: @parent}, {$pull: {childStops: @_id}})
