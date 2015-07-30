@@ -7,3 +7,5 @@ Template.header.events
     window.history.back()
   'click .sign-out': ->
     Meteor.logout()
+  'click .menu-btn': ->
+    if Session.get 'offCanvas' then Session.set 'offCanvas', false else Session.set 'offCanvas', true

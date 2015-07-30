@@ -3,8 +3,10 @@ head
   meta(name="viewport" content="width=device-width, initial-scale=1")
   script(src="//use.typekit.net/rvk0pii.js")
   script try{Typekit.load();}catch(e){}
+  link(rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css")
 
 template(name="layout")
+  .curtain(class="{{showCurtain}}")
   +header
   .main-content
     +yield

@@ -41,6 +41,10 @@ Template.editTour.helpers
       ''
   hasMedia: (stopID) ->
     TourStops().findOne({_id: stopID}).media
+  hasStops: ->
+    @stops.count()
+  onlyOneStop: ->
+    Template.instance().data.stops.count() <= 1
 
 Template.stopTitle.helpers
   editStopTitle: () ->
@@ -57,6 +61,8 @@ Template.editing.helpers
   parentStops: ->
     _.filter @stops.fetch(), (stop) ->
       stop.type is 'group'
+  hasGroups: ->
+    @childStops.count() > 0
 
 Template.stopData.helpers
   isUpdating : () ->
@@ -65,7 +71,7 @@ Template.stopData.helpers
   files: () ->
     uploadingFiles()
   formatFile : () ->
-    @stop.media.split('+').join(' ')
+    @stop.media.split(' ').join('+')
 
 Template.mediaTypes.helpers
   stopTypesForm: () ->
@@ -142,27 +148,13 @@ saveStop = (stop, values, method) ->
         Session.set('add-child-'+parent, false)
         TourStops().update({_id:parent}, {$push: {childStops: id}})
 
-# getValues = (e) ->
-#   inputs = $(e.target).parent().find('.form-control').get()
-#   values = {}
-#   files= []
-#   _.each inputs, (input)->
-#     console.log input
-#     if input.files and input.files.length
-#       file = input.files
-#       values['media'] = file[0].name.split(' ').join('+')
-#       files.push(file)
-#     else
-#       values[input.name] = input.value
-#   values: values
-#   file: files
-
 getLastStopNum = (stops) ->
   _.last(stops)?.stopNumber
 
 createStop = (values, method) ->
 
 deleteFile = (stop)->
+  media = stop.media.split
   path = "/#{stop.tour}/#{stop.media}"
   console.log path
   S3.delete(path, (e,s)-> console.log e,s)
@@ -221,7 +213,7 @@ Template.addStop.events
         title: form.title?.value
         speaker: form.speaker?.value
         mediaType: form.mediaType?.value
-        media: file?[0].name.split(' ').join('+')
+        media: file?[0].name
       file: file
     #Tour ID
     values.values.type = Session.get('newStopType')
@@ -324,7 +316,7 @@ Template.editTour.events
       values:
         speaker: form.speaker?.value
         mediaType: form.mediaType?.value
-        media: file?[0].name.split(' ').join('+')
+        media: file?[0].name
         order: form.order?.value
         tour: @stop?.tour
       file: file
@@ -348,11 +340,22 @@ Template.editTour.events
     Session.set('add-stop', false)
 
   'click .delete': (e)->
-    deleteStop = confirm('Are you sure you want to delete this stop?')
+    if @type is 'group'
+      deleteStop = confirm('Are you sure you want to delete this stop?\nAll child stops will also be deleted!')
+    else
+      deleteStop = confirm('Are you sure you want to delete this stop?')
     if deleteStop
-      if @media
-        deleteFile(@)
-      if @type is 'group' or @type is 'single'
+      if @type is 'group'
+        _.each @childStops, (childStopId) ->
+          childStop = TourStops().findOne({_id:childStopId})
+          console.log childStop
+          if childStop.media
+            deleteFile(childStop)
+          TourStops().remove({_id: childStop._id})
+        TourStops().remove({_id: @_id})
+      else if @type is 'single'
+        if @media
+          deleteFile(@)
         stopNumber = @stopNumber
         TourStops().remove({_id: @_id})
         higherStops = _.filter Template.instance().data.stops.fetch(), (stop) ->
@@ -360,9 +363,6 @@ Template.editTour.events
         _.each higherStops, (stop) ->
           TourStops().update {_id: stop._id}, {$set: {stopNumber: stop.stopNumber-1}}
       else
-        #change order
-        console.log Template.instance().data.childStops.fetch()
-        console.log @parent,"p"
         that = @
         siblings = _.filter Template.instance().data.childStops.fetch(), (stop) ->
           stop.parent is that.parent

@@ -1,41 +1,41 @@
 template(name="createTour")
-  .container
-    .col-sm-6.col-sm-offset-3
-      unless tour
-        h1 Create a Tour
-      form.create-tour
-        label Main Title
-          input.form-control(name='mainTitle' type='text' value=tour.mainTitle)
-        label Sub Title
-          input.form-control(name='subTitle' type='text' value=tour.subTitle)
-        label Opening Date
-          input.form-control(name='openDate' type='date' value=tour.openDate)
-        label Closing Date
-          input.form-control(name='closeDate' type='date'  value=tour.closeDate)
-        label Base Number (ie '100')
-          input.form-control(name='baseNum' type='number' placeholder='100'  value=tour.baseNum)
-        label Tour Type
-          .radio
-            label
-              input(name='tourType' type='radio' value='0' checked)
-              | Adult
-          .radio
-            label
-              input(name='tourType' type='radio' value='1')
-              | Family
-        //- .checkbox
-        //-   label
-        //-     input(name='menu' type='checkbox')
-        //-     | Show Menu?
+  unless tour
+    .main-title-wrap
+      h1.main-title Create a Tour
+  .container-fluid
+    form.create-tour
+      label Main Title
+        input.form-control(name='mainTitle' type='text' value=tour.mainTitle)
+      label Sub Title
+        input.form-control(name='subTitle' type='text' value=tour.subTitle)
+      label Opening Date
+        input.form-control(name='openDate' type='date' value=tour.openDate)
+      label Closing Date
+        input.form-control(name='closeDate' type='date'  value=tour.closeDate)
+      label Base Number (ie '100')
+        input.form-control(name='baseNum' type='number' placeholder='100'  value=tour.baseNum)
+      label Tour Type
+        .radio
+          label
+            input(name='tourType' type='radio' value='0' checked)
+            | Adult
+        .radio
+          label
+            input(name='tourType' type='radio' value='1')
+            | Family
+      //- .checkbox
+      //-   label
+      //-     input(name='menu' type='checkbox')
+      //-     | Show Menu?
 
-        label Tour Image
-        unless tour.image
-          +fileUpload name='image'
-        else
-          p tour.image
+      label Tour Image
+      unless tour.image
+        +fileUpload name='image'
+      else
+        p tour.image
 
-        input.btn.btn-primary(type="submit" value="Create Tour")
+      button.btn.btn-success(type="submit") Create Tour
 
-        each files
-          .progress
-            .progress-bar(role="progressbar" aria-valuenow="{{ percent_uploaded }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percent_uploaded }}%") {{ percent_uploaded }}
+      each files
+        .progress
+          .progress-bar(role="progressbar" aria-valuenow="{{ percent_uploaded }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percent_uploaded }}%") {{ percent_uploaded }}

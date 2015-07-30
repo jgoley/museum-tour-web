@@ -1,0 +1,117 @@
+$border-color = darken($primary, 20%)
+
+.menu
+  position fixed
+  left -75%
+  top 0
+  bottom 0
+  width 75%
+  max-width 400px
+  background white
+  border-right 4px solid $border-color
+  z-index 1000
+  letter-spacing .05em
+  transition left .3s ease-in
+  +above(3)
+    position absolute
+    right 3%
+    left auto
+    bottom auto
+    max-width 100%
+    width 100%
+    background none
+    float right
+    border 0
+    nav
+      float right
+  &.showing
+    left 0% !important
+    transition all .3s ease-out
+
+  ul
+    border 0
+    font-size 1em
+    @extend .tap-list
+    +above(3)
+      display inline-block
+      vertical-align top
+    &:first-of-type
+      +above(3)
+        margin-right -4px
+    > li
+      font-weight bold
+      font-size 1.3em
+      +below(2)
+        font-size 1em
+      +above(3)
+        float left
+        border 0
+        border-right 1px solid $border-color
+      &:hover
+        color $primary
+      a
+        padding .8em
+        +above(3)
+          padding .55em .65em
+          font-size 1em
+          &::after
+            content ''
+          color white
+          &:hover
+            color $body-text
+        +between(3,4)
+          font-size .75em
+          padding .95em
+          font-weight normal
+        .fa
+          display inline-block
+          font-weight normal
+          line-height 0
+          margin-right 3px
+          +below(4)
+            display none
+          +above(4)
+            color lighten($primary-light,30%)
+          +mobile()
+            display inline-block
+      &.admin
+        +above(3)
+          &:first-of-type
+            border-left 3px solid $border-color
+      &:last-of-type
+        border-bottom 1px solid $primary-light
+        +above(3)
+          border 0
+    +above(3)
+      margin 0
+      border 0
+  h3
+    margin-top 1em
+    margin-bottom 0
+    padding .2em .4em
+    background $secondary-light
+    border-bottom 2px solid $secondary-dark
+    font-size 2em
+    +above(3)
+      display none
+  .sign-out
+    display block
+    margin 20px auto
+    width 80%
+    +above(3)
+      width auto
+      display inline-block
+      font-size 80%
+      margin 8px 15px
+      background-color rgba(255,255,255,.1)
+    +below(2)
+      color darken($primary, 20%)
+      border 1px solid $primary
+      background-color lighten($primary, 90%)
+
+  h1
+    @extend .logo
+    positin static
+    transform translate(0,0)
+    +above(3)
+      display none

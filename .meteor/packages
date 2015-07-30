@@ -16,10 +16,11 @@ aldeed:collection2
 lepozepo:s3
 edgee:slingshot
 rubaxa:sortable
-fortawesome:fontawesome
 reactive-var
 useraccounts:core
 accounts-password
 twbs:bootstrap-noglyph
 templating
 useraccounts:bootstrap
+jasny:bootstrap
+momentjs:moment

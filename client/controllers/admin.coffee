@@ -7,6 +7,8 @@ Template.admin.helpers
       'adult'
     else if @tourType is 1
       'family'
+  isFamily: ->
+    @tourType is 1
 
 Template.admin.events
   'click .delete-tour': (e, template) ->

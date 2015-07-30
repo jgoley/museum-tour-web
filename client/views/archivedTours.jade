@@ -1,9 +1,11 @@
-template(name="archiveTours")
-  h1.main-title Archived Tours
-  ul.tap-list.archive-tours
+template(name="archivedTours")
+  .main-title-wrap
+    h1.main-title Archived Tours
+  ul.tap-list.archived-tours
     each tours
       li
         a(href="tour/#{_id}")
           h2.tap-list-title.tour-title #{mainTitle}
             span #{subTitle}
+            span.dates {{formatDate openDate}} - {{formatDate closeDate}}
   +stopSearch state=buttonState stopNumbers=stopNumbers

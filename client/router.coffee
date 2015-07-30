@@ -6,6 +6,9 @@ TourStops = () ->
 
 Router.configure
   layoutTemplate: 'layout'
+  loadingTemplate: 'loading'
+
+Router.route 'loading'
 
 Router.route 'currentTours',
   template: 'currentTours'
@@ -19,12 +22,12 @@ Router.route 'currentTours',
     tours: Tours().find()
     stopNumbers: TourStops().find()
 
-Router.route 'archiveTours',
-  template: 'archiveTours'
-  path: 'archive-tours'
+Router.route 'archivedTours',
+  template: 'archivedTours'
+  path: 'archived-tours'
   waitOn: () ->
     [
-      Meteor.subscribe 'archiveTours'
+      Meteor.subscribe 'archivedTours'
     ]
   data: () ->
     tours: Tours().find()
@@ -55,13 +58,16 @@ Router.route 'stop',
     childStops: TourStops().find({parent: @params.stopID}, {$sort: {order: 1}})
     tourStops: TourStops().find({$and:[{tour: @params.tourID}, {$or: [{type: 'single'}, {type: 'group'}]}]}, {sort: {'stopNumber': 1}})
 
-# Router.route 'allStops',
-#   waitOn: () ->
-#     [
-#       Meteor.subscribe 'allStops'
-#     ]
-#   data: () ->
-#     stops: TourStops().find()
+Router.route 'help'
+Router.route 'feedback'
+
+Router.route 'allStops',
+  waitOn: () ->
+    [
+      Meteor.subscribe 'allStops'
+    ]
+  data: () ->
+    stops: TourStops().find()
 
 Router.route 'convert',
   waitOn: () ->
@@ -95,13 +101,14 @@ Router.route 'admin',
       Meteor.subscribe 'tours'
     ]
   data: () ->
-    tours: Tours().find()
+
+    tours: Tours().find({}, {sort: {'openDate': -1}})
 
 Router.route 'createTour',
   path: 'admin/create'
 
 Router.route 'editTour',
-  path: 'admin/edit/:_id/stops'
+  path: 'admin/edit/:_id'
   waitOn: () ->
     [
       Meteor.subscribe 'tours'

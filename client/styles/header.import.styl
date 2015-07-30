@@ -1,39 +1,16 @@
 header
-  width 100%
-  overflow hidden
-  background $primary //lighten($primary, 30%)
-  padding 0 10px 2px 10px
-  border-bottom 5px solid darken($primary,20%)
   position fixed
   top 0
-  z-index 1000
+  right 0
+  left 0
   height 50px
+  background $primary //lighten($primary, 30%)
+  padding 0
+  z-index 100
+  border-bottom 5px solid darken($primary,20%)
   &#group-header
     position relative
-  h1.menu-logo
-    background url(images/title.png) no-repeat
-    width 100px
-    margin 20px auto 10px auto
-    height 30px
-    text-indent -9999px
-    background-size 100px auto
-    position absolute
-    top 12px
-    left 10px
-    margin 0
-  h1.center-logo
-    left 50%
-    right 50%
-    margin-left -50px
-    opacity .4
-    transition .2s
-    &:hover
-      transition .2s
-      opacity 1
-    a
-      text-indent -9999px
-      display block
-      height 100%
+  // h1.menu-logo
   &.home
     height 105px
     padding 0
@@ -44,33 +21,35 @@ header
     height auto
     padding 0
   .header-buttons
-    position absolute
-    right 0
-    top 50%
-    margin-right 3%
-    transform translate(0, -50%)
-  a
+    centerVertically()
+    right 3%
+  button
     &.btn
-      padding 15px
+      padding 14px 12px
+      margin 15px 0
       text-align center
       font-size 1em
       color white
       line-height 0
       border 1px solid white
       border-radius 4px
+      background none
     &:active
       background none !important
-      color #999 !important
     &:focus
       text-decoration none
     &.menu-btn
+      transition .2s
       &:hover
       &:focus
-        background white
-        color $body-text
+        background white !important
         text-decoration none
+        transition .2s
+      +above(3)
+        display none
     &.sign-out
       margin-left 10px
+  a
     &.backBtn
       position absolute
       left 3%
@@ -81,5 +60,33 @@ header
       color white
       &:hover
         text-decoration none
+      +above(3)
+        display none
       .fa
         line-height 0
+
+.logo
+    position absolute
+    top 50%
+    left 50%
+    transform translate(-50%,-50%)
+    width 100px
+    height 30px
+    margin 3px 0 0 0
+    background url(images/title.png) no-repeat
+    background-size 100px auto
+    text-indent -9999px
+    opacity .4
+    transition opacity .2s
+    &:hover
+      transition opacity .2s
+      opacity 1
+    +above(3)
+      left 3%
+      right auto
+      transform translate(0,-50%)
+    a
+      text-indent -9999px
+      display block
+      height 100%
+

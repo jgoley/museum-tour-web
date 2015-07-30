@@ -1,61 +1,67 @@
 template(name="editTour")
-  {{log this}}
-  h1.main-title #{tour.mainTitle}: #{tour.subTitle}
-  ul.list-unstyled.tap-edit-list.edit-parent-stops
-    +sortable items=stops sortField="stopNumber" options=sortableOptions
-      li.parent(class="#{type} {{isOpen}}")
-        i.handle.fa.fa-bars
-        span.stop-number #{stopNumber}
-        +stopTitle
-        .stop-count
-          if isGroup
-              each childStops
-                if hasMedia this
-                  i.fa.fa-square
+  .main-title-wrap
+    h1.main-title #{tour.mainTitle}: #{tour.subTitle}
+    button.btn-plain.delete-tour(title="Delete Tour")
+      i.fa.fa-trash
+  if hasStops
+    ul.list-unstyled.tap-edit-list.edit-parent-stops
+      +sortable items=stops sortField="stopNumber" options=sortableOptions
+        li.parent(class="#{type} {{isOpen}}")
+          unless onlyOneStop
+            i.handle.fa.fa-bars
+          span.stop-number #{stopNumber}
+          +stopTitle
+          .stop-count
+            if isGroup
+                each childStops
+                  if hasMedia this
+                    i.fa.fa-square
+                  else
+                    i.fa.fa-square-o.no-file
                 else
-                  i.fa.fa-square-o.no-file
-              else
-                i.fa.fa-exclamation-triangle.no-file-warning
-          else
-            if media
-              i.fa.fa-square
+                  i.fa.fa-exclamation-triangle.no-file-warning
             else
-              i.fa.fa-square-o.no-file
-        a.delete(href="#")
-          i.fa.fa-trash
-        if editStop
-          +editing stop=this type=this.type stops=../stops childStops=../childStops
-        if isGroup
-          if showChildStops
-            ul.edit-child-stops.list-unstyled
-              each getChildStops
-                li.child(class="{{isOpen}}" data-index="#{index}")
-                  span.stop-number
-                    span.parent-number #{../stopNumber}.
-                    span.order-number #{order}
-                  +stopTitle
-                  unless media
-                    i.fa.fa-exclamation-triangle.no-file-warning
-                  if editChildStop
-                    +editing stop=this type=this.type
-                  a.delete(href="#")
-                    i.fa.fa-trash
-              unless addChild
-                li.child.add-stop-link.add-child
-                  a.title
-                    i.fa.fa-plus-square
-                    span Add Child
-            if addChild
-              +addStop type='new-child' tour=tour parent=_id siblings=childStops
-    if showAddStop
-      .add-stop
-        +addStop type='new-parent' stops=stops tour= ../tour
-    else
-      li.parent.add-stop-link
-        .title
-          a.show-add-stop
-            i.fa.fa-plus-square
-            span Add stop
+              if media
+                i.fa.fa-square
+              else
+                i.fa.fa-square-o.no-file
+          a.delete(href="#")
+            i.fa.fa-trash
+          if editStop
+            +editing stop=this type=this.type stops=../stops childStops=../childStops
+          if isGroup
+            if showChildStops
+              ul.edit-child-stops.list-unstyled
+                each getChildStops
+                  li.child(class="{{isOpen}}" data-index="#{index}")
+                    span.stop-number
+                      span.parent-number #{../stopNumber}.
+                      span.order-number #{order}
+                    +stopTitle
+                    unless media
+                      i.fa.fa-exclamation-triangle.no-file-warning
+                    if editChildStop
+                      +editing stop=this type=this.type
+                    a.delete(href="#")
+                      i.fa.fa-trash
+                unless addChild
+                  li.child.add-stop-link.add-child
+                    a.title
+                      i.fa.fa-plus-square
+                      span Add Child
+              if addChild
+                +addStop type='new-child' tour=tour parent=_id siblings=childStops
+      if showAddStop
+        .add-stop
+          +addStop type='new-parent' stops=stops tour= ../tour
+      else
+        li.parent.add-stop-link
+          .title
+            a.show-add-stop
+              i.fa.fa-plus-square
+              span Add stop
+  else
+    +addStop type='new-parent' stops=stops tour= ../tour
 
 template(name="stopTitle")
   unless editStopTitle
@@ -91,20 +97,27 @@ template(name="editing")
     .other-edit-options
       label Other Options
       if isChild
-        button.btn.btn-default.convert-single(href="") Convert to Single Stop
+        button.btn.btn-default.convert-single
+          i.fa.fa-square-o
+          span Convert to Single Stop
       else
         .row
           .col-sm-2
-            button.btn.btn-default.convert-group Convert to Group
-          .col-sm-7.col-sm-offset-1
-            .row.add-to-group-wrap
-              form.add-to-group
-                .col-sm-8
-                  select.parent-stops-list.form-control(name="parent")
-                    each parentStops
-                      option(value=_id)= title
-                .col-sm-4
-                  button.btn.btn-default Add to group
+            button.btn.btn-default.convert-group
+              i.fa.fa-clone
+              span Convert to Group
+          if hasGroups
+            .col-sm-7.col-sm-offset-1
+              .row.add-to-group-wrap
+                form.add-to-group
+                  .col-sm-8
+                    select.parent-stops-list.form-control(name="parent")
+                      each parentStops
+                        option(value=_id)= title
+                  .col-sm-4
+                    button.btn.btn-default
+                      i.fa.fa-plus-square
+                      span Add to group
 template(name="stopData")
   label
     span Speaker or Subtitle
@@ -114,7 +127,7 @@ template(name="stopData")
       +mediaTypes stop=stop
   if stop.media
     label.outside File:
-    span #[a(href="https://s3.amazonaws.com/tap-cma/#{stop.tour}/#{stop.media}") {{formatFile}}]
+    span #[a(href="https://s3.amazonaws.com/tap-cma/#{stop.tour}/{{formatFile}}") #{stop.media}]
     a.delete-file(href="#")
       i.fa.fa-trash
   else

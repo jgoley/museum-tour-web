@@ -1,11 +1,17 @@
 template(name="admin")
-  {{log this}}
-  h1.main-title Edit Tours
-  a(href="{{pathFor 'createTour'}}").btn.btn-primary Create Tour
+  .main-title-wrap
+    h1.main-title
+      span Tours
+      a(href="{{pathFor 'createTour'}}").btn.btn-default.btn-header Create Tour
+
   ul.tap-edit-list.current-tours
     each tours
       li
-        a.btn.btn-primary(href="/admin/edit/#{_id}") Edit
-        h2.tap-list-title.tour-title #{mainTitle}
-          span #{subTitle}
-        .btn.btn-danger.delete-tour Delete
+        a.edit-tour(href="/admin/edit/#{_id}")
+          span.title #{mainTitle}
+          span.sub-title #{subTitle}
+          if isFamily
+            span.tour-type-icon.fa.fa-child
+        .tour-edit-actions
+          a.delete-tour(href="")
+            i.fa.fa-trash

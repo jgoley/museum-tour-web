@@ -29,9 +29,9 @@ if Meteor.isServer
     query = _.map tours, (tour)->
       {'tour': tour._id}
     TourStops.find({$and: [{$or: query}, {$or:[{'type': 'single'},{'type': 'group'}]}]}, {fields: {'_id': 1, 'tour': 1, 'stopNumber': 1}})
-  Meteor.publish 'archiveTours', ->
+  Meteor.publish 'archivedTours', ->
     today = new Date()
-    Tours.find({'closeDate': {$lte: today}})
+    Tours.find({$query: {'closeDate': {$lte: today}}, $orderby: {'openDate': -1}})
 
 Tours.allow
   insert: (userId, doc) ->

@@ -11,7 +11,21 @@ a
     text-decoration none
 
 .main-content
-  padding-top 50px
+  padding 50px 0
+
+video
+img
+  display block
+  width 100%
+  margin 0
+  border-bottom 2px solid #888
+  +above(3)
+    width 60%
+    margin 0 auto
+
+.img-wrap
+.video-wrap
+  background-color black
 
 .tap-list
   margin-bottom 30px
@@ -29,7 +43,7 @@ a
     padding 10px 7% 10px 3%
     transition .2s
     &:hover
-      background lighten($secondary, 90%)
+      background white
       text-decoration none
       transition .2s
     &::after
@@ -43,7 +57,7 @@ a
 
 .tap-list-title
   margin 0
-  font-size 18px
+  font-size 1.3em
   font-weight bold
   letter-spacing .02em
   font-family $body-font
@@ -52,14 +66,17 @@ a
     display block
     font-weight 400
 
-.main-title
-  margin 0
+.main-title-wrap
+  position relative
   padding 10px 3% 0 3%
   background $secondary
+
+.main-title
+  margin 0
   font-weight normal
   &.tour-title
     text-align center
-    padding .3em 2em
+    padding .3em 1em
 
 .goto-stop-wrap
   margin 20px 0
@@ -84,14 +101,40 @@ a
       color darken(@background-color, 40%)
 
 .stopNumber-wrap
-  +above(2)
+  +above(3)
     padding-right 0
 .goto-stop-btn-wrap
-  +above(2)
+  +above(3)
     paddin-left 0
+
+.btn
+  padding 6px 25px
+  .fa
+    margin-right 3px
 
 .btn-plain
   margin 0
   padding 0
   border 0
   background none
+
+.curtain
+  position absolute
+  top 0
+  bottom 0
+  left 0
+  right 0
+  background rgba(0,0,0,.6)
+  content ''
+  z-index 100
+  transition .2s
+  opacity 0
+  visibility hidden
+  &.down
+    opacity .6
+    visibility visible
+    +above(3)
+      opacity 0
+      visibility hidden
+.container-fluid
+  padding 1em 3%

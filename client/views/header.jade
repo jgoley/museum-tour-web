@@ -1,12 +1,10 @@
 template(name="header")
   header
-    h1.menu-logo.center-logo
-      a(href="/") TAP into CMA
+    a(href="/")
+      h1.logo TAP into CMA
     a.backBtn(href="")
       i.fa.fa-chevron-circle-left
       span Back
     .header-buttons
-      a.btn.menu-btn(href="#") Menu
-      if currentUser
-        a.btn.menu-btn.sign-out
-          span Sign Out
+      button.btn.menu-btn Menu
+    +offCanvasMenu

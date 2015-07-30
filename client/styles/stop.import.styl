@@ -11,12 +11,6 @@
     .stopNumber
       color white
       font-weight 400
-  video
-  img
-    display block
-    width 100%
-    margin 0
-    border-bottom 2px solid #888
 
 .child-stop
   &:first-of-type
@@ -32,6 +26,8 @@
     border-bottom-right-radius 3px
     margin-left -4%
     padding 5px 10px 5px 4%
+    +above(3)
+      padding 5px 10px 5px 22%
   span
     display inline-block
     font-weight bold
@@ -52,6 +48,8 @@
   margin 0
   +desktop()
     font-size 1.2em
+  +above(3)
+    padding 3px 3% 8px 18%
   &.single
     background darken($secondary, 10%)
     padding 3px 3% 8px 3%
