@@ -17,6 +17,7 @@ $border-color = darken($primary, 20%)
     right 3%
     left auto
     bottom auto
+    z-index 100
     max-width 100%
     width 100%
     background none
@@ -111,7 +112,16 @@ $border-color = darken($primary, 20%)
 
   h1
     @extend .logo
-    positin static
+    position static
     transform translate(0,0)
     +above(3)
       display none
+
+.menu-header
+  margin-right -4px
+  padding .75em .8em
+  border-bottom 4px solid $border-color
+  background-color $primary-light
+  +above(3)
+    display none
+

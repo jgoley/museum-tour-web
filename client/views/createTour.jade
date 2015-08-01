@@ -3,21 +3,27 @@ template(name="createTour")
     .main-title-wrap
       h1.main-title Create a Tour
   .container-fluid
-    form.create-tour
-      label Main Title
-        input.form-control(name='mainTitle' type='text' value=tour.mainTitle)
-      label Sub Title
+    form.create-tour(data-parsley-validate)
+      label
+        span Main Title
+        input.form-control(name='mainTitle' type='text' value=tour.mainTitle required)
+      label
+        span Sub Title
         input.form-control(name='subTitle' type='text' value=tour.subTitle)
-      label Opening Date
-        input.form-control(name='openDate' type='date' value=tour.openDate)
-      label Closing Date
-        input.form-control(name='closeDate' type='date'  value=tour.closeDate)
-      label Base Number (ie '100')
-        input.form-control(name='baseNum' type='number' placeholder='100'  value=tour.baseNum)
-      label Tour Type
+      label
+        span Opening Date
+        input.form-control(name='openDate' type='date' value=tour.openDate required)
+      label
+        span Closing Date
+        input.form-control(name='closeDate' type='date'  value=tour.closeDate required)
+      label
+        span Base Number (ie '100')
+        input.form-control(name='baseNum' type='number' placeholder='100'  value=tour.baseNum required)
+      label
+        span Tour Type
         .radio
           label
-            input(name='tourType' type='radio' value='0' checked)
+            input(name='tourType' type='radio' value='0' checked required)
             | Adult
         .radio
           label
@@ -28,9 +34,10 @@ template(name="createTour")
       //-     input(name='menu' type='checkbox')
       //-     | Show Menu?
 
-      label Tour Image
+      label.outside
+        span Tour Image
       unless tour.image
-        +fileUpload name='image'
+        +fileUpload name='image' required=true
       else
         p tour.image
 

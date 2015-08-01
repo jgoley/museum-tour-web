@@ -24,3 +24,4 @@ templating
 useraccounts:bootstrap
 jasny:bootstrap
 momentjs:moment
+amr:parsley.js

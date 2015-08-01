@@ -69,9 +69,9 @@ template(name="stopTitle")
     a(href="").edit-title-btn
       i.fa.fa-edit
   else
-    form.edit-title-form
+    form.edit-title-form(data-parsley-validate)
       .edit-title
-        input.edit-title-input.form-control.inline(value="#{title}" name="title")
+        input.edit-title-input.form-control.inline(value="#{title}" name="title" required)
         .action-btns-form
           button.btn.btn-plain.save-title(type="submit")
             i.fa.fa-check-circle
@@ -79,7 +79,7 @@ template(name="stopTitle")
             i.fa.fa-times-circle
 
 template(name="editing")
-  form(class="edit-stop edit-#{type}")
+  form(class="edit-stop edit-#{type}" data-parsley-validate)
     if notParent type
       .row
         .col-sm-6
@@ -147,23 +147,23 @@ template(name='mediaTypes')
 template(name='addStop')
   .addStop(class=type)
     h2=addTitle
-    form.add-stop
+    form.add-stop(data-parsley-validate)
       .row
         .col-sm-6
           if isParent
             .radio
               label
-                input(type='radio' name="type" value="single" checked="checked")
+                input.new-stop-type(type='radio' name="type" value="single" checked=singleSelected)
                 | Single
             .radio
               label
-                input(type='radio' name="type" value="group")
+                input.new-stop-type(type='radio' name="type" value="group" checked=groupSelected)
                 | Group
           .row
             .col-sm-8
               label
                 span Title
-                input.form-control(value="" name="title" )
+                input.form-control(value="" name="title" required)
           if showSingleData
             .row
               .col-sm-8

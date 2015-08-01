@@ -6,7 +6,7 @@
     margin 0 2px
 
 .edit-parent-stops
-  li
+  > li
     position relative
     padding 5px 3%
     border-bottom #CCC 1px solid
@@ -42,10 +42,11 @@
       font-size 1em
 
 .edit-child-stops
-  margin 10px -3%
+  margin 10px -3.2%
   position relative
   border-top 2px solid $secondary
-  li
+  > li
+    position relative
     padding 5px 5%
     border-bottom 1px solid darken($l-gray, 5%)
     &:nth-child(even)
@@ -148,10 +149,10 @@
       color $primary
 
 .add-stop-link
-  background-color lighten($m-gray, 70%) !important
+  background-color #FFF !important
   transition .3s
   &:hover
-    background-color lighten($m-gray, 50%) !important
+    background-color lighten($secondary, 80%) !important
     transition .3s
   i
   span
@@ -171,12 +172,14 @@
     padding-left 15px
 
 .new-child
+  margin-bottom 20px
   padding-left 3.5%
 
 .new-parent
-  padding-left 6%
-  margin-top 10px
   margin-bottom 50px
+  padding-left 6%
+  padding-top 10px
+  border-top 3px solid $secondary
   .radio
     &:first-of-type
       margin-top 0

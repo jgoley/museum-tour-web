@@ -46,9 +46,15 @@ Template.editTour.helpers
   onlyOneStop: ->
     Template.instance().data.stops.count() <= 1
 
+Template.stopTitle.onRendered ->
+  parsley('.edit-title-form')
+
 Template.stopTitle.helpers
   editStopTitle: () ->
     Session.get('edit-title-'+@._id)
+
+Template.editing.onRendered ->
+  parsley('.edit-stop')
 
 Template.editing.helpers
   notParent : (type) ->
@@ -87,21 +93,10 @@ Template.mediaTypes.helpers
     if stop and @value is +stop.mediaType
       'selected'
 
-Template.addStop.helpers
-  addTitle: ->
-    if @type is 'new-parent'
-      'Add new stop'
-    else if @type is 'new-child'
-      'Add new child stop'
-  showSingleData: () ->
-    console.log @type, Session.get('newStopType')
-    @type is 'new-child' || Session.get('newStopType') is 'single'
-  isCreating: () ->
-    Session.get('creating-stop')
-  files: () ->
-    uploadingFiles()
-  isParent: () ->
-    @type is 'new-parent'
+parsley = (formElement) ->
+  $(formElement).parsley
+    trigger: 'change'
+
 
 uploadFile = (file, tour) ->
   console.log file, tour
@@ -165,7 +160,6 @@ uploadingFiles = ->
     file.status is 'uploading'
   files
 
-
 Template.editing.events
 
   'click .cancel': (e)->
@@ -191,9 +185,30 @@ Template.editing.events
     TourStops().update {_id: stop._id}, {$set: {type: 'child', parent: parentID, order: order} }, (e,r) ->
       TourStops().update {_id: parentID}, {$addToSet: {childStops: stop._id} }
 
-Template.addStop.rendered = () ->
-  Session.set('newStopType', 'single')
+Template.addStop.onCreated ->
+  @newTourType = new ReactiveVar('single')
 
+Template.addStop.onRendered ->
+  parsley('.add-stop')
+
+Template.addStop.helpers
+  addTitle: ->
+    if @type is 'new-parent'
+      'Add new stop'
+    else if @type is 'new-child'
+      'Add new child stop'
+  isCreating: ->
+    Session.get('creating-stop')
+  files: ->
+    uploadingFiles()
+  isParent: ->
+    @type is 'new-parent'
+  showSingleData: ->
+    Template.instance().newTourType.get() is 'single'
+  groupSelected: ->
+    Template.instance().newTourType.get() is 'group'
+  singleSelected: ->
+    Template.instance().newTourType.get() is 'single'
 
 Template.addStop.events
   'change input[type=radio]': () ->
@@ -201,6 +216,10 @@ Template.addStop.events
       Session.set('newStopType', 'group')
     else
       Session.set('newStopType', 'single')
+
+  'change .new-stop-type': (e, template) ->
+    console.log template.newTourType.get()
+    template.newTourType.set(e.target.value)
 
   'submit .add-stop' : (e) ->
     e.preventDefault()

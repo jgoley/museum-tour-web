@@ -3,6 +3,10 @@ Tours = ()->
 
 uploadFiles = (files) ->
 
+Template.createTour.onRendered ->
+  $('.create-tour').parsley
+    trigger: 'change'
+
 
 Template.createTour.helpers
   'files': ->
