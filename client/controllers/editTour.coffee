@@ -244,6 +244,14 @@ Template.addStop.events
   'click .cancel-add-stop' : (e) ->
     Session.set('add-child-'+@parent, false)
 
+removeStop = (stopID, template) ->
+  stopNumber = @stopNumber
+  higherStops = _.filter template.data.stops.fetch(), (stop) ->
+    stop.stopNumber > stopNumber
+  _.each higherStops, (stop) ->
+    TourStops().update {_id: stop._id}, {$set: {stopNumber: stop.stopNumber-1}}
+  TourStops().remove({_id: stopID})
+
 Template.editTour.events
   'click .edit-title-btn' : (e) ->
     if Session.get('edit-title-'+@_id)
@@ -351,17 +359,12 @@ Template.editTour.events
           console.log childStop
           if childStop.media
             deleteFile(childStop)
-          TourStops().remove({_id: childStop._id})
+          removeStop(@, Template.instance())
         TourStops().remove({_id: @_id})
       else if @type is 'single'
         if @media
           deleteFile(@)
-        stopNumber = @stopNumber
         TourStops().remove({_id: @_id})
-        higherStops = _.filter Template.instance().data.stops.fetch(), (stop) ->
-          stop.stopNumber > stopNumber
-        _.each higherStops, (stop) ->
-          TourStops().update {_id: stop._id}, {$set: {stopNumber: stop.stopNumber-1}}
       else
         that = @
         siblings = _.filter Template.instance().data.childStops.fetch(), (stop) ->
