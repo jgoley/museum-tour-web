@@ -1,9 +1,9 @@
-template(name="createTour")
+template(name="tourDetails")
   unless tour
     .main-title-wrap
       h1.main-title Create a Tour
   .container-fluid
-    form.create-tour(data-parsley-validate)
+    form(class="#{action}-tour" data-parsley-validate)
       label
         span Main Title
         input.form-control(name='mainTitle' type='text' value=tour.mainTitle required)
@@ -12,10 +12,10 @@ template(name="createTour")
         input.form-control(name='subTitle' type='text' value=tour.subTitle)
       label
         span Opening Date
-        input.form-control(name='openDate' type='date' value=tour.openDate required)
+        input.form-control(name='openDate' type='date' value='{{formatDate tour.openDate}}' required)
       label
         span Closing Date
-        input.form-control(name='closeDate' type='date'  value=tour.closeDate required)
+        input.form-control(name='closeDate' type='date'  value='{{formatDate tour.closeDate}}' required)
       label
         span Base Number (ie '100')
         input.form-control(name='baseNum' type='number' placeholder='100'  value=tour.baseNum required)
@@ -29,19 +29,19 @@ template(name="createTour")
           label
             input(name='tourType' type='radio' value='1')
             | Family
-      //- .checkbox
-      //-   label
-      //-     input(name='menu' type='checkbox')
-      //-     | Show Menu?
 
       label.outside
         span Tour Image
       unless tour.image
         +fileUpload name='image' required=true
       else
-        p tour.image
+        p
+          a(href="https://s3.amazonaws.com/tap-cma/#{tour._id}/#{tour.image}")= tour.image
 
-      button.btn.btn-success(type="submit") Create Tour
+      unless tour
+        button.btn.btn-success(type="submit") Create Tour
+      else
+        button.btn.btn-success(type="submit") Save Tour Details
 
       each files
         .progress

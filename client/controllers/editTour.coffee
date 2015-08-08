@@ -3,25 +3,26 @@ TourStops = () ->
 Tours = () ->
   @Tap.Collections.Tours
 
+Template.editTour.onCreated ->
+  @editTourDetails = new ReactiveVar(false)
+
 Template.editTour.helpers
-  tour: ->
-    @tour
-  settings: () ->
-    fields: ['stopNumber','title', 'type','mediaType' ]
-  editStop: () ->
+  editTourDetails: ->
+    Template.instance().editTourDetails.get()
+  editStop: ->
     if @type is 'single'
       Session.get(@._id);
-  showChildStops: () ->
+  showChildStops: ->
     Session.get(@_id)
-  sortableOptions : () ->
+  sortableOptions : ->
     handle: '.handle'
-    onEnd: () ->
+    onEnd: ->
       console.log "ended"
   editChildStop: (parent) ->
     Session.get("child-" + @parent + '-' + @_id)
-  isGroup: () ->
+  isGroup: ->
     @type is 'group'
-  getChildStops: () ->
+  getChildStops: ->
     if @childStops
       parent = @_id
       allTourChildren = Template.instance().data.childStops.fetch()
@@ -30,11 +31,11 @@ Template.editTour.helpers
           childStop.parent == parent
         ).sortBy('order')
         .value()
-  addChild: () ->
+  addChild: ->
     Session.get('add-child-'+@_id)
-  showAddStop: () ->
+  showAddStop: ->
     Session.get('add-stop')
-  isOpen: () ->
+  isOpen: ->
     if Session.get(@._id) or Session.get("child-" + @parent + '-' + @_id)
       'open'
     else
@@ -72,7 +73,6 @@ Template.editing.helpers
 
 Template.stopData.helpers
   isUpdating : () ->
-    console.log 'updating?',Session.get('updating'+@stop._id)
     Session.get('updating'+@stop._id)
   files: () ->
     uploadingFiles()
@@ -89,7 +89,6 @@ Template.mediaTypes.helpers
       {label: 'Film', value: 5}
     ]
   selected : (stop) ->
-    console.log "Stop from selected",stop
     if stop and @value is +stop.mediaType
       'selected'
 
@@ -99,7 +98,6 @@ parsley = (formElement) ->
 
 
 uploadFile = (file, tour) ->
-  console.log file, tour
   new Promise (resolve, reject) ->
     S3.upload
       files:file
@@ -111,9 +109,7 @@ uploadFile = (file, tour) ->
 
 updateStop = (stop, values, method)->
   if values.file
-    console.log 'uploading'
     uploadFile(values.file, values.values.tour).then (e,r)->
-      console.log e,r
       saveStop(stop, values, method)
   else
     saveStop(stop, values, method)
@@ -124,10 +120,16 @@ saveStop = (stop, values, method) ->
       sessionString = stop._id
     else
       sessionString = "child-" + stop.parent + '-' + stop._id
-    console.log stop
-    console.log TourStops().find({_id: stop._id}).fetch()
+      #update order of stops higher than edited stop
+      siblings = TourStops().find($and: [
+        { parent: stop.parent }
+        { _id: $ne: stop._id }
+        { order: $gte: +values.values.order }
+      ]).fetch()
+      _.each siblings, (sibling, i) ->
+        TourStops().update({_id: sibling._id}, {$set: {order: sibling.order + 1}})
+
     TourStops().update( {_id: stop._id}, {$set:values.values}, (e,r) ->
-        console.log e,r
         setTimeout (->
           Session.set('updating'+stop._id, false)
           Session.set sessionString, false
@@ -164,13 +166,11 @@ Template.editing.events
 
   'click .cancel': (e)->
     if @type is 'single'
-      console.log @
       Session.set(@stop._id,false)
     else
       Session.set("child-" + @stop.parent + '-' + @stop._id, false)
 
   'click .delete-file' : ()->
-    console.log @
     deleteFile(@stop)
 
   'submit .add-to-group': (e, template) ->
@@ -178,7 +178,6 @@ Template.editing.events
     parentID = e.target.parent.value
     data = template.data
     stop = data.stop
-    console.log data
     childStops = _.filter data.childStops.fetch(), (stop) -> stop.parent is parentID
     order = _.last(childStops).order + 1
 
@@ -272,6 +271,8 @@ removeStop = (stopID, template) ->
   TourStops().remove({_id: stopID})
 
 Template.editTour.events
+  'click .edit-tour': ->
+    Template.instance().editTourDetails.set(true)
   'click .edit-title-btn' : (e) ->
     if Session.get('edit-title-'+@_id)
       Session.set('edit-title-'+@_id,false)
@@ -361,7 +362,6 @@ Template.editTour.events
     setTimeout (->
       $('html, body').animate({ scrollTop: $(".add-stop").offset().top - 55 }, 800)
       ), 0
-
 
   'click .cancel-add-stop': ()->
     Session.set('add-stop', false)

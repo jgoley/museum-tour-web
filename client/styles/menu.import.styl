@@ -9,7 +9,7 @@ $border-color = darken($primary, 20%)
   max-width 400px
   background white
   border-right 4px solid $border-color
-  z-index 1000
+  z-index 100
   letter-spacing .05em
   transition left .3s ease-in
   +above(3)
@@ -25,10 +25,10 @@ $border-color = darken($primary, 20%)
     border 0
     nav
       float right
+      margin-right 3%
   &.showing
     left 0% !important
     transition all .3s ease-out
-
   ul
     border 0
     font-size 1em
@@ -60,6 +60,7 @@ $border-color = darken($primary, 20%)
           color white
           &:hover
             color $body-text
+            background-color white
         +between(3,4)
           font-size .75em
           padding .95em
@@ -69,6 +70,8 @@ $border-color = darken($primary, 20%)
           font-weight normal
           line-height 0
           margin-right 3px
+          margin-top -2px
+          vertical-align middle
           +below(4)
             display none
           +above(4)
@@ -121,7 +124,7 @@ $border-color = darken($primary, 20%)
   margin-right -4px
   padding .75em .8em
   border-bottom 4px solid $border-color
-  background-color $primary-light
+  background-color $primary
   +above(3)
     display none
 

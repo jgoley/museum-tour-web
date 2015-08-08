@@ -3,16 +3,16 @@ Tours = ()->
 
 uploadFiles = (files) ->
 
-Template.createTour.onRendered ->
+Template.tourDetails.onRendered ->
   $('.create-tour').parsley
     trigger: 'change'
 
 
-Template.createTour.helpers
+Template.tourDetails.helpers
   'files': ->
     S3.collection.find()
 
-Template.createTour.events
+Template.tourDetails.events
   'submit .create-tour': (e, template) ->
     e.preventDefault()
     form = e.target
@@ -39,12 +39,3 @@ Template.createTour.events
       else
         Router.go '/admin/edit/'+tourID
 
-Template.editTour.helpers
-  "getID": () ->
-    @_id
-  "currentStops" : () ->
-    console.log @tour._id
-    console.log TourStops().findOne({'tour': @tour._id})
-    TourStops.findOne({'tour': @tour._id})
-  'tour': ->
-    Tours()

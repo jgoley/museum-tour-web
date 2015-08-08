@@ -38,7 +38,7 @@ Router.route 'tour',
   waitOn: () ->
     [
       Meteor.subscribe 'tourStops', @params._id
-      Meteor.subscribe 'tours', @params._id
+      Meteor.subscribe 'tourDetails', @params._id
     ]
   data: () ->
     tour: Tours().findOne(@params._id)
@@ -88,7 +88,7 @@ Router.route 'childStops',
     stops: TourStops().find()
 
 Router.plugin('ensureSignedIn', {
-    only: ['admin', 'editTour', 'editTourDetails', 'createTour']
+    only: ['admin', 'editTour', 'tourDetails', 'createTour']
 });
 
 Router.route 'signIn',
@@ -106,24 +106,16 @@ Router.route 'admin',
 
 Router.route 'createTour',
   path: 'admin/create'
+  template: 'tourDetails'
 
 Router.route 'editTour',
   path: 'admin/edit/:_id'
   waitOn: () ->
     [
-      Meteor.subscribe 'tours'
+      Meteor.subscribe 'tourDetails', @params._id
       Meteor.subscribe 'tourStops', @params._id
     ]
   data: () ->
     tour: Tours().findOne(@params._id)
     stops: TourStops().find({$and:[{tour: @params._id}, {$or: [{type: 'single'}, {type: 'group'}]}]}, {sort: {'stopNumber': 1}})
     childStops: TourStops().find({$and: [{tour: @params._id}, {type: 'child'}] })
-
-Router.route 'editTourDetails',
-  path: 'admin/edit/:_id/details'
-  waitOn: () ->
-    [
-      Meteor.subscribe 'tours'
-    ]
-  data: () ->
-    tour: Tours().findOne(@params._id)

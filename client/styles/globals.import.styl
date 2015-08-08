@@ -30,7 +30,6 @@ img
 .tap-list
   margin-bottom 30px
   list-style-type none
-  border-top 2px solid $primary
   border-bottom 2px solid $primary
   > li
     position relative
@@ -68,10 +67,12 @@ img
 
 .main-title-wrap
   position relative
-  padding 10px 3% 0 3%
+  padding 10px 3% 5px 3%
   background $secondary
+  border-bottom 3px solid $secondary-dark
 
 .main-title
+  display inline-block
   margin 0
   font-weight normal
   &.tour-title
@@ -92,6 +93,9 @@ img
     font-size 1.4em
     &[type=submit]
       background-color desaturate(lighten($confirm,8%),10%)
+    &[type=number]
+      +below(2)
+        margin-bottom 10px
 
 .goto-stop-btn
   &[type=submit]
@@ -111,12 +115,26 @@ img
   padding 6px 25px
   .fa
     margin-right 3px
+    margin-top -2px
+    vertical-align middle
 
 .btn-plain
   margin 0
   padding 0
   border 0
   background none
+
+.btn-header
+  margin-left 10px
+  background-color alpha(lighten($secondary, 40%), 50%)
+  border darken($secondary, 20%)
+  font-family $body-font
+  transition .2s
+  &:hover
+    background-color alpha(darken($secondary, 30%), 50%)
+    border darken($secondary, 20%)
+    color white
+    transition .2s
 
 .curtain
   position absolute

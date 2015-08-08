@@ -12,6 +12,8 @@ Sortable.collections = ['tourStops']
 if Meteor.isServer
   Meteor.publish 'tours', ->
     Tours.find()
+  Meteor.publish 'tourDetails', (tourID) ->
+    Tours.find({_id: tourID})
   Meteor.publish 'tourStops', (tourID) ->
     TourStops.find({'tour': tourID})
   Meteor.publish 'allStops', ->
