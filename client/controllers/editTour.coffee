@@ -9,6 +9,8 @@ Template.editTour.onCreated ->
 Template.editTour.helpers
   editTourDetails: ->
     Template.instance().editTourDetails.get()
+  getEditing: ->
+    Template.instance().editTourDetails
   editStop: ->
     if @type is 'single'
       Session.get(@._id);
@@ -74,8 +76,7 @@ Template.editing.helpers
 Template.stopData.helpers
   isUpdating : () ->
     Session.get('updating'+@stop._id)
-  files: () ->
-    uploadingFiles()
+
   formatFile : () ->
     @stop.media.split(' ').join('+')
 
@@ -115,6 +116,7 @@ updateStop = (stop, values, method)->
     saveStop(stop, values, method)
 
 saveStop = (stop, values, method) ->
+  console.log stop, values
   if method is 'update'
     if stop.type is 'single'
       sessionString = stop._id
@@ -151,16 +153,10 @@ getLastStopNum = (stops) ->
 createStop = (values, method) ->
 
 deleteFile = (stop)->
-  media = stop.media.split
   path = "/#{stop.tour}/#{stop.media}"
   console.log path
   S3.delete(path, (e,s)-> console.log e,s)
   TourStops().update({_id: stop._id}, {$set:{media: ''}})
-
-uploadingFiles = ->
-  files= _.filter S3.collection.find().fetch(), (file) ->
-    file.status is 'uploading'
-  files
 
 Template.editing.events
 
@@ -235,13 +231,12 @@ Template.addStop.events
       file: file
     #Tour ID
     values.values.type = Session.get('newStopType')
-    if _.isObject(@tour)
-      tour = @tour._id
-    else tour = @tour
+    if _.isObject(@tour) then tour = @tour._id else tour = @tour
     values.values.tour = tour
 
     if @type is 'new-parent'
       values.values.stopNumber = getLastStopNum(@stops.fetch())+1 or @tour.baseNum+1
+      values.values.type = form.type.value
 
     else if @type is 'new-child'
       if @siblings and @siblings.length
@@ -271,8 +266,10 @@ removeStop = (stopID, template) ->
   TourStops().remove({_id: stopID})
 
 Template.editTour.events
-  'click .edit-tour': ->
+  'click .show-tour-details': (e) ->
     Template.instance().editTourDetails.set(true)
+    console.log e.target
+
   'click .edit-title-btn' : (e) ->
     if Session.get('edit-title-'+@_id)
       Session.set('edit-title-'+@_id,false)

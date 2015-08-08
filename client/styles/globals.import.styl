@@ -11,7 +11,7 @@ a
     text-decoration none
 
 .main-content
-  padding 50px 0
+  padding 45px 0
 
 video
 img
@@ -56,28 +56,31 @@ img
 
 .tap-list-title
   margin 0
-  font-size 1.3em
+  font-size 1.5em
   font-weight bold
   letter-spacing .02em
   font-family $body-font
   span
-    font-size 16px
+    font-size 1em
     display block
     font-weight 400
 
 .main-title-wrap
   position relative
-  padding 10px 3% 5px 3%
+  width 100%
+  padding 15px 3% 5px 3%
   background $secondary
-  border-bottom 3px solid $secondary-dark
+  &.tour-title
+    position absolute
+    bottom 0
+    text-align center
+    background desaturate(alpha($secondary, 85%),30%)
 
 .main-title
   display inline-block
+  vertical-align middle
   margin 0
   font-weight normal
-  &.tour-title
-    text-align center
-    padding .3em 1em
 
 .goto-stop-wrap
   margin 20px 0
@@ -125,16 +128,24 @@ img
   background none
 
 .btn-header
+  display inline-block
+  vertical-align middle
   margin-left 10px
   background-color alpha(lighten($secondary, 40%), 50%)
   border darken($secondary, 20%)
   font-family $body-font
   transition .2s
+  i
+    margin-left 3px
   &:hover
+  &:focus
+  &:active
     background-color alpha(darken($secondary, 30%), 50%)
     border darken($secondary, 20%)
     color white
     transition .2s
+    box-shadow none
+    outline 0
 
 .curtain
   position absolute

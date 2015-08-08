@@ -1,7 +1,8 @@
 template(name="tour")
   .tour-image(style="background-image: url(https://placeimg.com/1000/800/any)")
-    h1.main-title.tour-title #{tour.mainTitle}:
-      span #{tour.subTitle}
+    .main-title-wrap.tour-title
+      h1.main-title #{tour.mainTitle}:
+        span #{tour.subTitle}
   +stopSearch state=buttonState stopNumbers=stopNumbers
   ul.tap-list.tour-stops
     each showStops

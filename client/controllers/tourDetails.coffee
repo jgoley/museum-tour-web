@@ -1,8 +1,6 @@
 Tours = ()->
   @Tap.Collections.Tours
 
-uploadFiles = (files) ->
-
 Template.tourDetails.onRendered ->
   $('.create-tour').parsley
     trigger: 'change'
@@ -13,10 +11,10 @@ Template.tourDetails.helpers
     S3.collection.find()
 
 Template.tourDetails.events
-  'submit .create-tour': (e, template) ->
+  'submit .edit-tour-details': (e, template) ->
+    console.log e.target
     e.preventDefault()
     form = e.target
-    fileName = form.image.files[0]?.name
     values =
       'mainTitle': form.mainTitle?.value
       'subTitle': form.subTitle?.value
@@ -24,7 +22,10 @@ Template.tourDetails.events
       'closeDate': new Date(form.closeDate?.value)
       'baseNum': +form.baseNum?.value
       'tourType': +form.tourType?.value
-      'image': fileName
+
+    if form.image
+      fileName = form.image.files[0]?.name
+      values.image = fileName
 
     Tours().insert values, (e, tourID)->
       if fileName
@@ -39,3 +40,14 @@ Template.tourDetails.events
       else
         Router.go '/admin/edit/'+tourID
 
+  'click .tour-details-cancel': (e, template) ->
+    template.data.editing.set false
+
+  'click .delete-tour-image': (e, template) ->
+    deleteFile(template.data.tour)
+
+deleteFile = (tour)->
+  path = "/#{tour._id}/#{tour.image}"
+  console.log path
+  S3.delete(path, (e,s)-> console.log e,s)
+  Tours().update({_id: tour._id}, {$set:{image: ''}})

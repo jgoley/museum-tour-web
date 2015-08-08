@@ -1,48 +1,73 @@
 template(name="tourDetails")
+  {{log editTourDetails}}
   unless tour
     .main-title-wrap
       h1.main-title Create a Tour
   .container-fluid
-    form(class="#{action}-tour" data-parsley-validate)
-      label
-        span Main Title
-        input.form-control(name='mainTitle' type='text' value=tour.mainTitle required)
-      label
-        span Sub Title
-        input.form-control(name='subTitle' type='text' value=tour.subTitle)
-      label
-        span Opening Date
-        input.form-control(name='openDate' type='date' value='{{formatDate tour.openDate}}' required)
-      label
-        span Closing Date
-        input.form-control(name='closeDate' type='date'  value='{{formatDate tour.closeDate}}' required)
-      label
-        span Base Number (ie '100')
-        input.form-control(name='baseNum' type='number' placeholder='100'  value=tour.baseNum required)
-      label
-        span Tour Type
-        .radio
-          label
-            input(name='tourType' type='radio' value='0' checked required)
-            | Adult
-        .radio
-          label
-            input(name='tourType' type='radio' value='1')
-            | Family
+    form(class="#{action}-tour-details" data-parsley-validate)
+      .row
+        .col-sm-6
+          .row
+            .col-sm-8
+              label
+                span Main Title
+                input.form-control(name='mainTitle' type='text' value=tour.mainTitle required)
+          .row
+            .col-sm-8
+              label
+                span Sub Title
+                input.form-control(name='subTitle' type='text' value=tour.subTitle)
+          .row
+            .col-sm-8
+              label
+                span Opening Date
+                input.form-control(name='openDate' type='date' value='{{formatDate tour.openDate}}' required)
+          .row
+            .col-sm-8
+              label
+                span Closing Date
+                input.form-control(name='closeDate' type='date'  value='{{formatDate tour.closeDate}}' required)
+          .row
+            .col-sm-8
+              label
+                span Base Number (ie '100')
+                input.form-control(name='baseNum' type='number' placeholder='100'  value=tour.baseNum required)
+          .row
+            .col-sm-8
+              label
+                span Tour Type
+                .radio
+                  label
+                    input(name='tourType' type='radio' value='0' checked required)
+                    | Adult
+                .radio
+                  label
+                    input(name='tourType' type='radio' value='1')
+                    | Family
+          .row.media-details
+            .col-sm-8
+              label.outside
+                span Tour Image
+              unless tour.image
+                +fileUpload name='image' required=true
+              else
+                .row
+                  .col-sm-8
+                    img(src="https://s3.amazonaws.com/tap-cma/#{tour._id}/#{tour.image}")
+                  .col-sm-8
+                    p
+                      Name #[a(href="https://s3.amazonaws.com/tap-cma/#{tour._id}/#{tour.image}")= tour.image]
+                    a.btn.btn-default.delete-tour-image(href="#")
+                      span Delete Image
+                      i.fa.fa-trash
+          each files
+            +uploadProgress
 
-      label.outside
-        span Tour Image
-      unless tour.image
-        +fileUpload name='image' required=true
-      else
-        p
-          a(href="https://s3.amazonaws.com/tap-cma/#{tour._id}/#{tour.image}")= tour.image
+          .action-btns
+            unless tour
+              button.btn.btn-success(type="submit") Create Tour
+            else
+              button.btn.btn-success(type="submit") Save Tour Details
 
-      unless tour
-        button.btn.btn-success(type="submit") Create Tour
-      else
-        button.btn.btn-success(type="submit") Save Tour Details
+            button.btn.btn-default.tour-details-cancel(type="button") Cancel
 
-      each files
-        .progress
-          .progress-bar(role="progressbar" aria-valuenow="{{ percent_uploaded }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percent_uploaded }}%") {{ percent_uploaded }}
