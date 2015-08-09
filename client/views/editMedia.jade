@@ -1,0 +1,19 @@
+template(name="editMedia")
+  unless media
+    +fileUpload name=typeName required=true
+  else
+    if mediaIsImage
+      .row
+        .col-sm-12
+          .media-image(style="background-image: url(https://s3.amazonaws.com/tap-cma/#{tourID}/#{media})")
+            .curtain
+            .image-options
+              a(href="https://s3.amazonaws.com/tap-cma/#{tourID}/#{media}" target='_blank')
+                i.fa.fa-external-link
+              a(href="").delete-media
+                i.fa.fa-trash
+    else
+      video.media-video(src="https://s3.amazonaws.com/tap-cma/#{tourID}/#{media}")
+      a(href="").delete-media
+        i.fa.fa-trash
+      +posterImage mediaType=mediaType

@@ -1,0 +1,14 @@
+template(name="image")
+  {{log this}}
+  unless image
+    +fileUpload name='image' required=true
+  else
+    .row
+      .col-sm-12
+        .tour-image(style="background-image: url(https://s3.amazonaws.com/tap-cma/#{tourID}/#{image})")
+          .curtain
+          .image-options
+            a(href="https://s3.amazonaws.com/tap-cma/#{tourID}/#{image}" target='_blank')
+              i.fa.fa-external-link
+            a(href="").delete-tour-image
+              i.fa.fa-trash

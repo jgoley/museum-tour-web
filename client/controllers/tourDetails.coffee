@@ -43,11 +43,4 @@ Template.tourDetails.events
   'click .tour-details-cancel': (e, template) ->
     template.data.editing.set false
 
-  'click .delete-tour-image': (e, template) ->
-    deleteFile(template.data.tour)
 
-deleteFile = (tour)->
-  path = "/#{tour._id}/#{tour.image}"
-  console.log path
-  S3.delete(path, (e,s)-> console.log e,s)
-  Tours().update({_id: tour._id}, {$set:{image: ''}})

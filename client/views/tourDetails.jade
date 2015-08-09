@@ -45,21 +45,10 @@ template(name="tourDetails")
                     input(name='tourType' type='radio' value='1')
                     | Family
           .row.media-details
-            .col-sm-8
+            .col-sm-12
               label.outside
                 span Tour Image
-              unless tour.image
-                +fileUpload name='image' required=true
-              else
-                .row
-                  .col-sm-8
-                    img(src="https://s3.amazonaws.com/tap-cma/#{tour._id}/#{tour.image}")
-                  .col-sm-8
-                    p
-                      Name #[a(href="https://s3.amazonaws.com/tap-cma/#{tour._id}/#{tour.image}")= tour.image]
-                    a.btn.btn-default.delete-tour-image(href="#")
-                      span Delete Image
-                      i.fa.fa-trash
+                  +editMedia image=tour.image tourID=tour._id mediaType='image'  typeName='image'
           each files
             +uploadProgress
 

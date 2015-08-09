@@ -56,8 +56,14 @@ Template.stopTitle.helpers
   editStopTitle: () ->
     Session.get('edit-title-'+@._id)
 
+Template.editing.onCreated ->
+  @mediaType = new ReactiveVar()
+
 Template.editing.onRendered ->
   parsley('.edit-stop')
+  template = Template.instance()
+  template.mediaType.set(template.data.stop.mediaType)
+  console.log "Media type!!!!!!!!!!!!", template.mediaType.get()
 
 Template.editing.helpers
   notParent : (type) ->
@@ -72,6 +78,8 @@ Template.editing.helpers
       stop.type is 'group'
   hasGroups: ->
     @childStops.count() > 0
+  getMediaType: ->
+    Template.instance().mediaType
 
 Template.stopData.helpers
   isUpdating : () ->
@@ -92,6 +100,11 @@ Template.mediaTypes.helpers
   selected : (stop) ->
     if stop and @value is +stop.mediaType
       'selected'
+
+Template.mediaTypes.events
+  'change .media-type-select': (e, template) ->
+    console.log @
+    @mediaType.set(e.target.value)
 
 parsley = (formElement) ->
   $(formElement).parsley
@@ -182,6 +195,7 @@ Template.editing.events
 
 Template.addStop.onCreated ->
   @newTourType = new ReactiveVar('single')
+  @mediaType = new ReactiveVar()
 
 Template.addStop.onRendered ->
   parsley('.add-stop')
@@ -204,6 +218,8 @@ Template.addStop.helpers
     Template.instance().newTourType.get() is 'group'
   singleSelected: ->
     Template.instance().newTourType.get() is 'single'
+  mediaType: ->
+    Template.instance().mediaType
 
 Template.addStop.events
   'change input[type=radio]': () ->

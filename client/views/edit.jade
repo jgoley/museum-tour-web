@@ -94,7 +94,7 @@ template(name="editing")
                 label
                   span Order
                   input.form-control(value="#{stop.order}" name="order" placeholder="Order Number" type="number")
-          +stopData stop=stop
+          +stopData stop=stop mediaType=getMediaType
           .action-btns
             button.btn.btn-success.save(type="submit") Save
             button.btn.btn-default.cancel(type="button") Cancel
@@ -129,26 +129,19 @@ template(name="stopData")
     input.form-control(value="#{stop.speaker}" name="speaker" placeholder="Speaker")
   .row
     .col-sm-6
-      +mediaTypes stop=stop
-  if stop.media
-    label.outside File:
-    span #[a(href="https://s3.amazonaws.com/tap-cma/#{stop.tour}/{{formatFile}}") #{stop.media}]
-    a.delete-file(href="#")
-      i.fa.fa-trash
-  else
-    +fileUpload name="media" label="Media File"
+      +mediaTypes stop=stop mediaType=mediaType
+  +editMedia media=stop.media tourID=stop.tour mediaType=mediaType typeName='media'
   if isUpdating
     +uploadProgress
 
 template(name='mediaTypes')
   label Media Type
-    select.form-control(name="mediaType")
+    select.form-control.media-type-select(name="mediaType")
       each stopTypesForm
         option(value="#{value}" selected="{{selected ../stop}}") #{label}
 
 template(name='addStop')
-  {{log tour}}
-  {{log type}}
+  {{log this}}
   .add-stop-container(class=type)
     h2=addTitle
     form.add-stop(data-parsley-validate)
@@ -175,10 +168,11 @@ template(name='addStop')
                   input.form-control(value="" name="speaker")
             .row
               .col-sm-4
-                +mediaTypes
+                +mediaTypes mediaType=mediaType
             .row
               .col-sm-8
                 +fileUpload name="media" label="Media File"
+            +posterImage mediaType=mediaType
           if isCreating
             +uploadProgress
           .action-btns
