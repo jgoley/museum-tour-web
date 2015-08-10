@@ -12,7 +12,6 @@ Template.tourDetails.helpers
 
 Template.tourDetails.events
   'submit .edit-tour-details': (e, template) ->
-    console.log e.target
     e.preventDefault()
     form = e.target
     values =
@@ -22,25 +21,40 @@ Template.tourDetails.events
       'closeDate': new Date(form.closeDate?.value)
       'baseNum': +form.baseNum?.value
       'tourType': +form.tourType?.value
-
     if form.image
       fileName = form.image.files[0]?.name
       values.image = fileName
 
-    Tours().insert values, (e, tourID)->
+    if not @tour
+      Tours().insert values, (e, tourID)->
       if fileName
-        files = form.image.files
-        if files.length > 0
-          S3.upload
-            files:files
-            unique_name: false
-            path: tourID
-            (e,r) ->
-              Router.go '/admin/edit/'+tourID
+        uploadFile(form.image.files, tourID, true)
       else
         Router.go '/admin/edit/'+tourID
+    else
+      tourID = @tour._id
+      Tours().update {_id: tourID}, {$set: values}, () ->
+      if fileName
+        uploadFile(form.image.files, tourID, true, template)
+      else
+        template.data.editing.set false
 
   'click .tour-details-cancel': (e, template) ->
+    console.log "Cancel"
     template.data.editing.set false
 
-
+uploadFile = (files, tourID, redirect, template) ->
+  if files.length > 0
+    S3.upload
+      files:files
+      unique_name: false
+      path: tourID
+      (e,r) ->
+        console.log e,r
+        if e
+          alert("Something went wrong with the upload. Are you connected to the interwebs?")
+        else
+          if redirect
+            Router.go '/admin/edit/'+tourID
+          else
+            template.data.editing.set false

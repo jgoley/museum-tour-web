@@ -103,8 +103,12 @@ Template.mediaTypes.helpers
 
 Template.mediaTypes.events
   'change .media-type-select': (e, template) ->
-    console.log @
-    @mediaType.set(e.target.value)
+    if @stop and @stop.mediaType == @mediaType.get()
+      change = confirm("Changing the media type will most likely require uploading a new file. Continue with change?")
+      if change
+        @mediaType.set(e.target.value)
+    else
+      @mediaType.set(e.target.value)
 
 parsley = (formElement) ->
   $(formElement).parsley
@@ -282,9 +286,13 @@ removeStop = (stopID, template) ->
   TourStops().remove({_id: stopID})
 
 Template.editTour.events
+  'click .delete-tour': (e) ->
+    Tours().remove @tour._id, () ->
+      console.log Roter
+      Router.go '/admin'
+
   'click .show-tour-details': (e) ->
     Template.instance().editTourDetails.set(true)
-    console.log e.target
 
   'click .edit-title-btn' : (e) ->
     if Session.get('edit-title-'+@_id)

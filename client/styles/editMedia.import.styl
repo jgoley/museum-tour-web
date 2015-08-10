@@ -2,6 +2,7 @@
   position relative
   min-height 200px
   min-width 100%
+  margin 20px 0 15px 0
   border-radius 4px
   background-position center center
   background-size cover
@@ -18,15 +19,22 @@
     margin-top -10px
   &:hover
     .curtain
-    .image-options
+    .media-options
       display block
       opacity 1
       visibility visible
 
-.image-options
+.media-options
   position absolute
   top 50%
   left 50%
   transform translate(-50%, -50%)
   display none
   z-index 100000
+
+.media-video-container
+  position relative
+.media-video
+  min-width 100%
+  border 0
+  margin 15px 0

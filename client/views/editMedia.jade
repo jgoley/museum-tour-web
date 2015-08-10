@@ -1,19 +1,19 @@
 template(name="editMedia")
   unless media
-    +fileUpload name=typeName required=true
+    +fileUpload name=typeName required=true label=label
   else
     if mediaIsImage
       .row
         .col-sm-12
           .media-image(style="background-image: url(https://s3.amazonaws.com/tap-cma/#{tourID}/#{media})")
             .curtain
-            .image-options
+            .media-options
               a(href="https://s3.amazonaws.com/tap-cma/#{tourID}/#{media}" target='_blank')
                 i.fa.fa-external-link
               a(href="").delete-media
                 i.fa.fa-trash
     else
-      video.media-video(src="https://s3.amazonaws.com/tap-cma/#{tourID}/#{media}")
+      video.media-video(src="//s3.amazonaws.com/tap-cma/#{tourID}/#{media}" controls)
       a(href="").delete-media
         i.fa.fa-trash
       +posterImage mediaType=mediaType

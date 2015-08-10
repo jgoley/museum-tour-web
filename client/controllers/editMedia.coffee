@@ -11,7 +11,7 @@ deleteFile = (tour)->
 Template.editMedia.helpers
   'mediaIsImage': ->
     image = ['image', 3, '3']
-    @mediaType.get() in image
+    @currentMediaType in image
 
 Template.editMedia.events
   'click .delete-media': (e, template) ->

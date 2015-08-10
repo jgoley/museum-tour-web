@@ -1,4 +1,5 @@
 template(name="editTour")
+  {{log this}}
   .main-title-wrap
     h1.main-title #{tour.mainTitle}: #{tour.subTitle}
     button.btn.btn-default.btn-header.show-tour-details(type='button')
@@ -130,7 +131,7 @@ template(name="stopData")
   .row
     .col-sm-6
       +mediaTypes stop=stop mediaType=mediaType
-  +editMedia media=stop.media tourID=stop.tour mediaType=mediaType typeName='media'
+  +editMedia media=stop.media tourID=stop.tour mediaType=mediaType typeName='media' currentMediaType=stop.mediaType
   if isUpdating
     +uploadProgress
 

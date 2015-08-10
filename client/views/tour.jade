@@ -1,5 +1,5 @@
 template(name="tour")
-  .tour-image(style="background-image: url(https://placeimg.com/1000/800/any)")
+  .tour-image(style="background-image: url(https://s3.amazonaws.com/tap-cma/#{tour._id}/#{tour.image})")
     .main-title-wrap.tour-title
       h1.main-title #{tour.mainTitle}:
         span #{tour.subTitle}
