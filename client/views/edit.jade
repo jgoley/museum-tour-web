@@ -3,8 +3,11 @@ template(name="editTour")
   .main-title-wrap
     h1.main-title #{tour.mainTitle}: #{tour.subTitle}
     button.btn.btn-default.btn-header.show-tour-details(type='button')
-      span Edit Tour Details
+      span Edit Details
       i.fa.fa-edit
+    a.btn.btn-default.btn-header(href="{{pathFor 'tour' _id=tour._id}}")
+      span View Tour
+      i.fa.fa-view
     button.btn-plain.delete-tour(title="Delete Tour")
       i.fa.fa-trash
   if editTourDetails

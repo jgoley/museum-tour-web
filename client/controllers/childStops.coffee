@@ -3,9 +3,8 @@ TourStops = () ->
 Tours = () ->
   @Tap.Collections.Tours
 
-
 Template.childStops.rendered = () ->
-  parents = @data.stops.find({childStops: {$exists: true}}).fetch()
+  parents = Template.instance().data.stops.find({childStops: {$exists: true}}).fetch()
   _.each parents, (parent) ->
     newChildren = _.map parent.childStops, (child, i) ->
       child.parent = parent._id

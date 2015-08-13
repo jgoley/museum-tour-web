@@ -7,6 +7,7 @@ TourStops = () ->
 Router.configure
   layoutTemplate: 'layout'
   loadingTemplate: 'loading'
+  trackPageView: true
 
 Router.route 'loading'
 
@@ -84,8 +85,8 @@ Router.route 'childStops',
       Meteor.subscribe 'allStops'
     ]
   data: () ->
-    tours: Tours().find()
-    stops: TourStops().find()
+    tours: Tours()
+    stops: TourStops()
 
 Router.plugin('ensureSignedIn', {
     only: ['admin', 'editTour', 'tourDetails', 'createTour']

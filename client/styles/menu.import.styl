@@ -9,10 +9,11 @@ $border-color = darken($primary, 20%)
   max-width 400px
   background white
   border-right 4px solid $border-color
-  z-index 100
+  z-index 10000
   letter-spacing .05em
   transition left .3s ease-in
   +above(3)
+    background $primary
     position absolute
     right 0
     left auto
@@ -20,7 +21,6 @@ $border-color = darken($primary, 20%)
     z-index 100
     max-width 100%
     width 100%
-    background $primary
     float right
     border 0
     nav

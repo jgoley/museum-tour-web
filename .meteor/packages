@@ -25,3 +25,5 @@ useraccounts:bootstrap
 jasny:bootstrap
 momentjs:moment
 amr:parsley.js
+fortawesome:fontawesome
+reywood:iron-router-ga

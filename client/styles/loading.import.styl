@@ -16,6 +16,36 @@
     animation-iteration-count infinite
     animation-timing-function ease-in-out
 
-@keyframes spinner
-  0% transform rotate3d(0,0,1,0deg)
-  100% transform rotate3d(0,0,1,360deg)
+@-webkit-keyframes spinner {
+  0% {
+    transform rotate3d(0,0,1,0deg)
+  }
+  100% {
+    transform rotate3d(0,0,1,360deg)
+  }
+}
+
+@-moz-keyframes spinner {
+  0% {
+    transform rotate3d(0,0,1,0deg)
+  }
+  100% {
+    transform rotate3d(0,0,1,360deg)
+  }
+}
+@-o-keyframes spinner {
+  0% {
+    transform rotate3d(0,0,1,0deg)
+  }
+  100% {
+    transform rotate3d(0,0,1,360deg)
+  }
+}
+@keyframes spinner {
+  0% {
+    transform rotate3d(0,0,1,0deg)
+  }
+  100% {
+    transform rotate3d(0,0,1,360deg)
+  }
+}
