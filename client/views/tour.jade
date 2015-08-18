@@ -1,8 +1,9 @@
 template(name="tour")
+  {{log this}}
   .tour-image(style="background-image: url(//s3.amazonaws.com/tap-cma/#{tour._id}/#{tour.image})")
     .main-title-wrap.tour-title
       h1.main-title #{tour.mainTitle}:
-        span #{tour.subTitle}
+        span.sub-title #{tour.subTitle}
   +stopSearch state=buttonState stopNumbers=stopNumbers
   ul.tap-list.tour-stops
     each showStops

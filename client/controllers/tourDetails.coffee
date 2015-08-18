@@ -14,6 +14,9 @@ Template.tourDetails.events
   'submit .edit-tour-details': (e, template) ->
     e.preventDefault()
     form = e.target
+    files = []
+    _.each $(form).find("[type='file']"), (file) ->
+      if file.files[0] then files.push(file.files[0])
     values =
       'mainTitle': form.mainTitle?.value
       'subTitle': form.subTitle?.value
@@ -21,29 +24,32 @@ Template.tourDetails.events
       'closeDate': new Date(form.closeDate?.value)
       'baseNum': +form.baseNum?.value
       'tourType': +form.tourType?.value
-    if form.image
-      fileName = form.image.files[0]?.name
-      values.image = fileName
+
+    if files.length
+      if form.image?.files[0]
+        values.image = form.image.files[0]?.name.split(" ").join("+")
+      if form.thumbnail?.files[0]
+        values.thumbnail = form.thumbnail.files[0].name.split(" ").join("+")
 
     if not @tour
       Tours().insert values, (e, tourID)->
-      if fileName
-        uploadFile(form.image.files, tourID, true)
-      else
-        Router.go '/admin/edit/'+tourID
+        if files.length
+          uploadFile(files, tourID, values, true)
+        else
+          Router.go '/admin/edit/'+tourID
     else
       tourID = @tour._id
-      Tours().update {_id: tourID}, {$set: values}, () ->
-      if fileName
-        uploadFile(form.image.files, tourID, true, template)
+      if files.length
+        uploadFile(files, tourID, values, false, template)
       else
-        template.data.editing.set false
+        Tours().update {_id: tourID}, {$set: values}, () ->
+          template.data.editing.set false
 
   'click .tour-details-cancel': (e, template) ->
     console.log "Cancel"
     template.data.editing.set false
 
-uploadFile = (files, tourID, redirect, template) ->
+uploadFile = (files, tourID, values, redirect, template) ->
   if files.length > 0
     S3.upload
       files:files
@@ -57,4 +63,5 @@ uploadFile = (files, tourID, redirect, template) ->
           if redirect
             Router.go '/admin/edit/'+tourID
           else
-            template.data.editing.set false
+            console.log 'updateing', values
+            Tours().update {_id: tourID}, {$set: values}

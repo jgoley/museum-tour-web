@@ -145,4 +145,3 @@ Meteor.startup () ->
   unless Tours().findOne({})
     _.each tours, (tour) ->
       Tours().insert(tour)
-  console.log tours

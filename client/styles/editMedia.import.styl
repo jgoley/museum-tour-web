@@ -1,11 +1,21 @@
 .media-image
   position relative
-  min-height 200px
   min-width 100%
-  margin 20px 0 15px 0
+  margin 5px 0 15px 0
   border-radius 4px
-  background-position center center
-  background-size cover
+  background $m-gray
+  img
+    width auto
+    max-width 100%
+.media-options
+  position absolute
+  top 50%
+  left 50%
+  width 100%
+  transform translate(-50%, -50%)
+  display none
+  text-align center
+  z-index 100000
   a
     display inline-block
     vertical-align middle
@@ -16,24 +26,27 @@
       color $primary
   .delete-image
     margin-top -10px
+
+.media-video-container
+  position relative
+
+.media-video
+  min-width 100%
+  border 0
+  margin 15px 0
+
+.video
+.media-image
+  position relative
   &:hover
     .curtain
     .media-options
       display block
       opacity 1
       visibility visible
+  .curtain
+    z-index 10
 
-.media-options
-  position absolute
-  top 50%
-  left 50%
-  transform translate(-50%, -50%)
-  display none
-  z-index 100000
-
-.media-video-container
-  position relative
-.media-video
-  min-width 100%
-  border 0
-  margin 15px 0
+.video
+  .curtain
+    bottom 10%

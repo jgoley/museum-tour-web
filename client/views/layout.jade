@@ -1,11 +1,12 @@
 head
   title Tap into CMA
-  meta(name="viewport" content="width=device-width, initial-scale=1")
+  meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1")
   script(src="//use.typekit.net/rvk0pii.js")
   script try{Typekit.load();}catch(e){}
 
 template(name="layout")
-  .curtain(class="{{showCurtain}}")
-  +header
-  .main-content
-    +yield
+  .page-wrap
+    .curtain(class="{{showCurtain}}")
+    +header
+    .main-content
+      +yield

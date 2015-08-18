@@ -27,9 +27,9 @@ template(name="tourDetails")
                 span Closing Date
                 input.form-control(name='closeDate' type='date'  value='{{formatDate tour.closeDate}}' required)
           .row
-            .col-sm-3
+            .col-sm-4
               label
-                span Base Number (ie '100')
+                span Base Number (i.e '100')
                 input.form-control(name='baseNum' type='number' placeholder='100'  value=tour.baseNum required)
           .row
             .col-sm-10
@@ -48,8 +48,12 @@ template(name="tourDetails")
               label.outside
                 span Tour Image
                   +editMedia media=tour.image tourID=tour._id currentMediaType='image' typeName='image'
-          each files
-            +uploadProgress
+          .row.media-details
+            .col-sm-10
+              label.outside
+                span Thumbnail Image (100 pixels x 100 pixels)
+                  +editMedia media=tour.thumbnail tourID=tour._id currentMediaType='image' typeName='thumbnail'
+          +uploadProgress
 
           .action-btns
             unless tour

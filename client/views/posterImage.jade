@@ -1,6 +1,13 @@
 template(name="posterImage")
-  if mediaIsVideo
+  unless posterImage
     .row
       .col-sm-8
-        +editMedia media=stop.posterImage label="Video Poster Image" tourID=stop.tour mediaType=mediaType typeName='posterImage' currentMediaType=stop.mediaType
-        //- +fileUpload name="posterImage" label="Video Poster Image"
+        +editMedia(
+          media=stop.posterImage
+          label="Video Poster Image"
+          tourID=stop.tour
+          mediaType='image'
+          typeName='posterImage'
+          currentMediaType='image')
+  else
+    p=  posterImage

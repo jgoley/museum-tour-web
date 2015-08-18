@@ -1,6 +1,11 @@
 TourStops = ->
   @Tap.Collections.TourStops
 
+Template.tour.onCreated ->
+  tour = Template.instance().data.tour
+  if tour.tourType is 1 then family = ' (Family)'
+  document.title = tour.mainTitle+': '+tour.subTitle+family
+
 Template.tour.helpers
   showStops: ->
     _.filter @stops.fetch(), (stop)->

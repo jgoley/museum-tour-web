@@ -1,18 +1,31 @@
 Tours = ()->
   @Tap.Collections.Tours
 
-deleteFile = (tour)->
-  console.log tour
-  path = "/#{tour.tourID}/#{tour.image}"
+TourStops = ()->
+  @Tap.Collections.TourStops
+
+deleteFile = (prop, fileName, stopID, tourID)->
+  path = "/#{tourID}/#{fileName}"
   console.log path
   S3.delete(path, (e,s)-> console.log e,s)
-  Tours().update({_id: tour.tourID}, {$set:{image: ''}})
+  newProp = {}
+  newProp[prop] = ''
+  console.log prop, fileName, stopID, tourID, newProp
+  if stopID
+    TourStops().update({_id: stopID}, {$set:newProp})
+  else
+    Tours().update({_id: tourID}, {$set:newProp})
 
 Template.editMedia.helpers
   'mediaIsImage': ->
     image = ['image', 3, '3']
     @currentMediaType in image
+  'mediaisVideo': ->
+    video = ['video', 2, '2']
+    @mediaType?.get() in video
 
 Template.editMedia.events
   'click .delete-media': (e, template) ->
-    deleteFile(template.data)
+    deleteFile('media', @stop.media, @stop._id, @stop.tour)
+  'click .delete-image': (e, template) ->
+    deleteFile(@name, @media, false, @tourID)

@@ -20,7 +20,7 @@ Router.route 'currentTours',
       Meteor.subscribe 'currentTourStops'
     ]
   data: () ->
-    tours: Tours().find()
+    tours: Tours().find({}, sort: {startDate: 1, tourType: 1})
     stopNumbers: TourStops().find()
 
 Router.route 'archivedTours',
@@ -56,8 +56,8 @@ Router.route 'stop',
     ]
   data: () ->
     stop: TourStops().findOne({_id: @params.stopID})
-    childStops: TourStops().find({parent: @params.stopID}, {$sort: {order: 1}})
-    tourStops: TourStops().find({$and:[{tour: @params.tourID}, {$or: [{type: 'single'}, {type: 'group'}]}]}, {sort: {'stopNumber': 1}})
+    childStops: TourStops().find({parent: @params.stopID}, {sort: {order: 1}})
+    tourStops: TourStops().find({$and:[{tour: @params.tourID}, {$or: [{type: 'single'}, {type: 'group'}]}]}, {sort: {'stopNumber': 1, 'order': 1}})
 
 Router.route 'help'
 Router.route 'feedback'
@@ -103,7 +103,7 @@ Router.route 'admin',
     ]
   data: () ->
 
-    tours: Tours().find({}, {sort: {'openDate': -1}})
+    tours: Tours().find({}, {sort: openDate: -1, tourType: 1})
 
 Router.route 'createTour',
   path: 'admin/create'

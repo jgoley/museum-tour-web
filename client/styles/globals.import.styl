@@ -4,6 +4,7 @@ ul
   padding 0
 
 body
+  position relative
   font-family inherit
 
 a
@@ -59,28 +60,28 @@ video
 
 .tap-list-title
   margin 0
-  font-size 1.5em
+  font-size 1.2em
   font-weight bold
   letter-spacing .02em
   font-family $body-font
   span
-    font-size 1em
+    font-size .9em
     display block
     font-weight 400
 
 .main-title-wrap
   position relative
   width 100%
-  padding 15px 3% 5px 3%
   background $secondary
   &.tour-title
     position absolute
     bottom 0
     text-align center
-    background desaturate(alpha($secondary, 85%),30%)
+    background rgba(150,150,150, .9)
 
 .main-title
   display inline-block
+  padding 15px 3% 10px 3%
   vertical-align middle
   margin 0
   font-weight normal
@@ -120,15 +121,27 @@ video
 .btn
   padding 6px 25px
   .fa
-    margin-left 3px
     margin-top -2px
     vertical-align middle
+    &.left
+      margin-right 5px
+    &.right
+      margin-left 5px
 
 .btn-plain
   margin 0
   padding 0
   border 0
   background none
+  color darken($secondary,50%)
+  tranisition()
+  &:hover
+  &:active
+    color darken($secondary,70%)
+    background none
+    outline 0
+    box-shadow 0
+
 
 .btn-header
   display inline-block

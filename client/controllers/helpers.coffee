@@ -7,3 +7,6 @@ Template.registerHelper 'logCollection', (l) ->
 Template.registerHelper 'formatDate', (date) ->
   console.log moment(date).format('YYYY-MM-DD')
   moment(date).format('YYYY-MM-DD')
+
+Template.registerHelper 'awsUrl', ->
+  '//s3.amazonaws.com/tap-cma'

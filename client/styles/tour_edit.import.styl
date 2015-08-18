@@ -8,6 +8,12 @@
   &:hover
     color $primary
 
+.editing-container
+  min-height 0
+  transition ease-in-out
+  &.showing
+    min-height 1000px
+
 .media-types
   display inline-block
   margin 0 2px
@@ -150,6 +156,8 @@
   font-size 110%
 
 .main-title-wrap
+  .main-title
+    padding-right 15px
   .delete-tour
     centerVertically()
     right 3%
@@ -157,6 +165,20 @@
     font-size 150%
     &:hover
       color $primary
+  button
+  a
+    margin-right 10px
+    &.show-tour-details
+      font-size 2em
+    &.view-tour
+      font-size 1.8em
+    &.view-tour
+    &.show-tour-details
+      &:focus
+        background none
+        box-shadow 0
+        outline 0
+
 
 .add-stop-link
   background-color #FFF !important
@@ -202,6 +224,8 @@
   margin-top 20px
   margin-bottom 20px
   padding-top 20px
+  padding-left 6%
+  padding-right 6%
   border-top 2px solid lighten($secondary, 70%)
 
 .add-to-group-wrap
@@ -220,6 +244,11 @@
   color lighten($warning,20%)
   margin-left 5px
 
-.media-details
-  img
-    width 100%
+.saved
+  button
+    &.save
+      &::before
+        content '\f00c'
+        @extend .font-awesome
+        padding-right 5px
+        transition .2s

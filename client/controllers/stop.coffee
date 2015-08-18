@@ -15,7 +15,7 @@ Template.stop.created = () ->
 
 Template.stop.helpers
   getChildStops: ->
-    @childStops.fetch()
+    Template.instance().data.childStops
   nextStop: ->
     Template.instance().nextStop
   prevStop: ->
@@ -26,11 +26,14 @@ Template.stop.helpers
     value and value.match(/NULL/gi)
 
 Template.stopContent.helpers
-  isVideo: (stop) ->
+  isVideo: ->
     videos = ['1','2','4','5',1,2,4,5]
-    stop.mediaType in videos
-  isImage: (stop) ->
-    stop.mediaType is '3' or stop.mediaType is 3
-  autoplay: (stop) ->
-    console.log stop.type is 'single'
-    stop.type is 'single'
+    @stop.mediaType in videos
+  isImage: ->
+    @stop.mediaType is '3' or stop.mediaType is 3
+  autoplay: ->
+    console.log @stop.type is 'single'
+    @stop.type is 'single'
+  posterImage: ->
+    if @posterImage
+      'http:'+Blaze._globalHelpers.awsUrl+@posterImage

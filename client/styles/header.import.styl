@@ -1,9 +1,8 @@
 header
   position fixed
   top 0
-  right 0
-  left 0
   height 50px
+  min-width 100%
   padding 0
   z-index 100
   border-bottom 5px solid rgba(50,50,50,.2)
@@ -75,10 +74,13 @@ header
     z-index 1000
     margin 0
     background url(images/title.png) no-repeat
-    background-size 100px auto
+    background-size 100px 24px
     text-indent -9999px
-    opacity .4
+    opacity .9
     transition opacity .2s
+    +retina()
+      background url(images/title-x2.png) no-repeat
+      background-size 100px 24px
     &:hover
       transition opacity .2s
       opacity 1

@@ -44,10 +44,10 @@ template(name="stop")
             span Next stop
 
 template(name="stopContent")
-  if isVideo stop
+  if isVideo
     .video-wrap
-      video(src="https://s3.amazonaws.com/tap-cma/#{stop.tour}/#{stop.media}" controls autoplay="{{autoplay stop}}")
-  if isImage stop
+      video(src="https://s3.amazonaws.com/tap-cma/#{stop.tour}/#{stop.media}" poster="{{posterImage}}" controls autoplay="{{autoplay}}")
+  if isImage
     .img-wrap
       img(src="https://s3.amazonaws.com/tap-cma/#{stop.tour}/#{stop.media}" controls)
 

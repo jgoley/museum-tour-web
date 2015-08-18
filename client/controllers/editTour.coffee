@@ -6,6 +6,25 @@ Tours = () ->
 Template.editTour.onCreated ->
   @editTourDetails = new ReactiveVar(false)
 
+# Template.editTour.uihooks
+#   # ".edit-child-stops":
+#   #   container: ".parent"
+#   #   insert: (node, next, tpl) ->
+#   #     console.log node,next
+#   #     $(node).hide().insertBefore(next).slideToggle()
+#   #   remove: (node, tpl) ->
+#   #     console.log node,next
+#   #     $(node).slideToggle('slow', -> @.remove())
+
+#   ".editing-container":
+#     container: ".parent"
+#     insert: (node, next, tpl) ->
+#       console.log node, next
+#       console.log "container",@container
+#       $(node).hide().appendTo($(this).parent()).slideToggle()
+#     remove: (node, tpl) ->
+#       $(node).slideToggle('slow', -> @.remove())
+
 Template.editTour.helpers
   editTourDetails: ->
     Template.instance().editTourDetails.get()
@@ -53,8 +72,47 @@ Template.stopTitle.onRendered ->
   parsley('.edit-title-form')
 
 Template.stopTitle.helpers
-  editStopTitle: () ->
-    Session.get('edit-title-'+@._id)
+  editStopTitle: ->
+    console.log @stop
+    Session.get('edit-title-'+@stop._id)
+
+Template.stopTitle.events
+  'click .edit-title-btn' : (e) ->
+    console.log @stop
+    if Session.get('edit-title-'+@stop._id)
+      Session.set('edit-title-'+@stop._id,false)
+    else
+      Session.set('edit-title-'+@stop._id,true)
+
+  'click .group-title': (e)->
+    console.log @stop
+    if Session.get(@stop._id)
+      Session.set(@stop._id,false)
+    else
+      Session.set(@stop._id,true)
+
+  'click .single-title': (e)->
+    console.log @
+    if Session.get(@stop._id)
+      Session.set(@stop._id,false)
+    else
+      Session.set(@stop._id,true)
+
+  'click .child-title': (e)->
+    console.log @
+    if Session.get("child-" + @stop.parent + '-' + @stop._id)
+      Session.set("child-" + @stop.parent + '-' + @stop._id, false)
+    else
+      Session.set("child-" + @stop.parent + '-' + @stop._id, true)
+
+  'click .cancel-edit-title': (e) ->
+    Session.set('edit-title-'+@stop._id,false)
+
+  'submit .edit-title-form': (e) ->
+    e.preventDefault()
+    TourStops().update({_id: @stop._id}, {$set:{title: e.target.title.value}})
+    Session.set('edit-title-'+@stop._id,false)
+
 
 Template.editing.onCreated ->
   @mediaType = new ReactiveVar()
@@ -63,7 +121,6 @@ Template.editing.onRendered ->
   parsley('.edit-stop')
   template = Template.instance()
   template.mediaType.set(template.data.stop.mediaType)
-  console.log "Media type!!!!!!!!!!!!", template.mediaType.get()
 
 Template.editing.helpers
   notParent : (type) ->
@@ -103,6 +160,7 @@ Template.mediaTypes.helpers
 
 Template.mediaTypes.events
   'change .media-type-select': (e, template) ->
+    console.log @
     if @stop and @stop.mediaType == @mediaType.get()
       change = confirm("Changing the media type will most likely require uploading a new file. Continue with change?")
       if change
@@ -115,51 +173,53 @@ parsley = (formElement) ->
     trigger: 'change'
 
 
-uploadFile = (file, tour) ->
+uploadFile = (files, tour) ->
   new Promise (resolve, reject) ->
     S3.upload
-      files:file
+      files:files
       unique_name: false
       path: tour
       (e,r) ->
         console.log e, r
         resolve(r)
 
-updateStop = (stop, values, method)->
-  if values.file
-    uploadFile(values.file, values.values.tour).then (e,r)->
+updateStop = (stop, values, method) ->
+  if values.files.length
+    uploadFile(values.files, values.values.tour).then (e,r)->
       saveStop(stop, values, method)
   else
     saveStop(stop, values, method)
 
 saveStop = (stop, values, method) ->
-  console.log stop, values
   if method is 'update'
     if stop.type is 'single'
       sessionString = stop._id
     else
       sessionString = "child-" + stop.parent + '-' + stop._id
       #update order of stops higher than edited stop
-      siblings = TourStops().find($and: [
-        { parent: stop.parent }
-        { _id: $ne: stop._id }
-        { order: $gte: +values.values.order }
-      ]).fetch()
-      _.each siblings, (sibling, i) ->
-        TourStops().update({_id: sibling._id}, {$set: {order: sibling.order + 1}})
+      if stop.order is not values.values.order
+        siblings = TourStops().find($and: [
+          { parent: stop.parent }
+          { _id: $ne: stop._id }
+          { order: $gte: +values.values.order }
+        ]).fetch()
+        _.each siblings, (sibling, i) ->
+          TourStops().update({_id: sibling._id}, {$set: {order: sibling.order + 1}})
 
     TourStops().update( {_id: stop._id}, {$set:values.values}, (e,r) ->
-        setTimeout (->
-          Session.set('updating'+stop._id, false)
-          Session.set sessionString, false
-          return
-        ), 2000
+      console.log 'updated'
+        # setTimeout (->
+        #   Session.set('updating'+stop._id, false)
+        #   Session.set sessionString, false
+        #   return
+        # ), 2000
       )
   else
     TourStops().insert values.values, (e, id) ->
       Session.set('add-stop', false)
       Session.set('creating-stop', false)
       parent = values.values.parent
+      Session.set(id,true)
       if values.values.type is 'child'
         Session.set('add-child-'+parent, false)
         TourStops().update({_id:parent}, {$push: {childStops: id}})
@@ -170,13 +230,15 @@ getLastStopNum = (stops) ->
 createStop = (values, method) ->
 
 deleteFile = (stop)->
-  path = "/#{stop.tour}/#{stop.media}"
-  console.log path
+  path = "#{stop.tour}/#{stop.media}"
   S3.delete(path, (e,s)-> console.log e,s)
   TourStops().update({_id: stop._id}, {$set:{media: ''}})
 
-Template.editing.events
+deleteFolder = (tourID) ->
+  path = "#{tourID}"
+  S3.delete(path, (e,s)-> console.log e,s)
 
+Template.editing.events
   'click .cancel': (e)->
     if @type is 'single'
       Session.set(@stop._id,false)
@@ -192,13 +254,13 @@ Template.editing.events
     data = template.data
     stop = data.stop
     childStops = _.filter data.childStops.fetch(), (stop) -> stop.parent is parentID
-    order = _.last(childStops).order + 1
-
+    order = _.last(_.sortBy(childStops, 'order')).order + 1
     TourStops().update {_id: stop._id}, {$set: {type: 'child', parent: parentID, order: order} }, (e,r) ->
       TourStops().update {_id: parentID}, {$addToSet: {childStops: stop._id} }
 
 Template.addStop.onCreated ->
-  @newTourType = new ReactiveVar('single')
+  @newStopType = new ReactiveVar('single')
+  # @newStopType = new ReactiveVar()
   @mediaType = new ReactiveVar()
 
 Template.addStop.onRendered ->
@@ -217,38 +279,46 @@ Template.addStop.helpers
   isParent: ->
     @type is 'new-parent'
   showSingleData: ->
-    Template.instance().newTourType.get() is 'single'
+    Template.instance().newStopType.get() is 'single'
   groupSelected: ->
-    Template.instance().newTourType.get() is 'group'
+    Template.instance().newStopType.get() is 'group'
   singleSelected: ->
-    Template.instance().newTourType.get() is 'single'
+    Template.instance().newStopType.get() is 'single'
   mediaType: ->
     Template.instance().mediaType
 
 Template.addStop.events
-  'change input[type=radio]': () ->
+  'change input[type=radio]': (e, template) ->
     if $('input[name=type]:checked').val() is 'group'
-      Session.set('newStopType', 'group')
+      template.newStopType.set('group')
     else
-      Session.set('newStopType', 'single')
+      template.newStopType.set('single')
+    console.log template.newStopType.get('newStopType')
 
-  'change .new-stop-type': (e, template) ->
-    console.log template.newTourType.get()
-    template.newTourType.set(e.target.value)
+  # 'change input[name=mediaType]': (e, template) ->
+  #   console.log template
+  #   template.mediaType.set(e.target.value)
 
   'submit .add-stop' : (e) ->
     e.preventDefault()
     Session.set('creating-stop', true)
     form = e.target
-    if form.media?.files.length
-      file = form.media?.files
+    files = []
+    _.each $(form).find("[type='file']"), (file) ->
+      if file.files[0] then files.push(file.files[0])
     values =
       values:
         title: form.title?.value
         speaker: form.speaker?.value
         mediaType: form.mediaType?.value
-        media: file?[0].name
-      file: file
+      files: files
+
+    if files.length
+      if form.media?.files[0]
+        values.values.media = form.media.files[0].name.split(" ").join("+")
+      if form.mediaType?.value is '2' and form.posterImage?.files[0]
+        values.values.posterImage = form.posterImage.files[0].name.split(" ").join("+")
+
     #Tour ID
     values.values.type = Session.get('newStopType')
     if _.isObject(@tour) then tour = @tour._id else tour = @tour
@@ -286,48 +356,17 @@ removeStop = (stopID, template) ->
   TourStops().remove({_id: stopID})
 
 Template.editTour.events
-  'click .delete-tour': (e) ->
+  'click .delete-tour': (e, template) ->
+    deleteTour = confirm("Delete tour? All stops will be deleted")
+    template.data.stops.forEach (stop) ->
+      deleteFile(stop)
+      TourStops().remove stop._id
+    deleteFolder(@tour._id)
     Tours().remove @tour._id, () ->
-      console.log Roter
       Router.go '/admin'
 
   'click .show-tour-details': (e) ->
     Template.instance().editTourDetails.set(true)
-
-  'click .edit-title-btn' : (e) ->
-    if Session.get('edit-title-'+@_id)
-      Session.set('edit-title-'+@_id,false)
-    else
-      Session.set('edit-title-'+@_id,true)
-
-  'click .group-title': (e)->
-    console.log @
-    if Session.get(@_id)
-      Session.set(@_id,false)
-    else
-      Session.set(@_id,true)
-
-  'click .single-title': (e)->
-    console.log @
-    if Session.get(@_id)
-      Session.set(@_id,false)
-    else
-      Session.set(@_id,true)
-
-  'click .child-title': (e)->
-    console.log @
-    if Session.get("child-" + @parent + '-' + @_id)
-      Session.set("child-" + @parent + '-' + @_id, false)
-    else
-      Session.set("child-" + @parent + '-' + @_id, true)
-
-  'click .cancel-edit-title': (e) ->
-    Session.set('edit-title-'+@_id,false)
-
-  'submit .edit-title-form': (e) ->
-    e.preventDefault()
-    TourStops().update({_id: @_id}, {$set:{title: e.target.title.value}})
-    Session.set('edit-title-'+@_id,false)
 
   'click .convert-group': () ->
     convertStop = confirm('Are you sure you want to convert this stop to a group?')
@@ -356,19 +395,28 @@ Template.editTour.events
     Session.set('add-child-'+@_id, true)
 
   'submit .edit-stop': (e, instance) ->
+    $(e.target).addClass('saved')
     e.preventDefault()
     Session.set('updating'+@stop._id, true)
     form = e.target
-    if form.media?.files.length
-      file = form.media?.files
+    mediaType = form.mediaType?.value
+    files = []
+    _.each $(form).find("[type='file']"), (file) ->
+      if file.files[0] then files.push(file.files[0])
     values =
       values:
         speaker: form.speaker?.value
-        mediaType: form.mediaType?.value
-        media: file?[0].name
-        order: form.order?.value
+        mediaType: mediaType
+        order: +form.order?.value
         tour: @stop?.tour
-      file: file
+      files: files
+
+    if files.length
+      if form.media?.files[0]
+        values.values.media = form.media.files[0]?.name.split(" ").join("+")
+      if mediaType is '2' and form.posterImage?.files[0]
+        values.values.posterImage = form.posterImage.files[0].name.split(" ").join("+")
+
     updateStop(@stop, values, 'update')
 
   'click .hide-children': (e)->
