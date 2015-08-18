@@ -1,9 +1,13 @@
+$stop-info-color = darken($m-gray, 5%)
+
 .tour-image
   position relative
-  min-height 300px
+  min-height 200px
   width 100%
   background-size cover
   background-position center center
+  +above(2)
+    min-height 300px
 
 .main-title
   &.tour-title
@@ -15,13 +19,14 @@
     font-size .9em
 
 .stop-info
+  font-size
   span
   ul
     vertical-align middle
 
 .seperator
   margin 0 2px
-  color #CCC
+  color $stop-info-color
 
 .stop-number
   font-weight 400
@@ -31,8 +36,8 @@
   border-top 2px solid $primary
   .group
   .group-count
-    color #999
-    font-size 80%
+    color darken($stop-info-color, 10%)
+    font-size 95%
 
 .group-count
   margin-left 3px
@@ -52,7 +57,7 @@ $types = {
       font-family 'icons'
       font-size 90%
       content ''
-      color #ccc
+      color $stop-info-color
       font-smoothing antialiased
   for $type, $code in $types
     .type-{$type}

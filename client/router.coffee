@@ -9,6 +9,15 @@ Router.configure
   loadingTemplate: 'loading'
   trackPageView: true
 
+adminHook = () ->
+  if not Meteor.userId()
+    @redirect '/sign-in'
+  else
+    @next()
+
+Router.onBeforeAction adminHook,
+  only: ['admin']
+
 Router.route 'loading'
 
 Router.route 'currentTours',
