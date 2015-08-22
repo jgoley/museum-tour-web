@@ -45,10 +45,13 @@ video
     color $body-text
     padding 10px 7% 10px 3%
     transition .2s
+    &:active
     &:hover
       background lighten($secondary, 90%)
       text-decoration none
       transition .2s
+    &:active
+      background lighten($secondary, 80%)
     &::after
       position absolute
       right 10px
@@ -72,19 +75,26 @@ video
 .main-title-wrap
   position relative
   width 100%
-  background $secondary
+  padding 15px 3% 10px 3%
+  background-color rgba(red($secondary), green($secondary), blue($secondary), .85)
+  h1
+    margin-bottom 0
   &.tour-title
     position absolute
     bottom 0
+    padding 10px 3% 5px 3%
     text-align center
-    background rgba(150,150,150, .9)
-
-.main-title
-  display inline-block
-  padding 15px 3% 10px 3%
-  vertical-align middle
-  margin 0
-  font-weight normal
+    background-color rgba(230,230,230,0.85)
+    border-bottom 2px solid darken($secondary, 10%)
+    .main-title
+      padding 0
+      vertical-align middle
+      font-weight normal
+    .sub-title
+      display block
+      font-size .7em
+  h1
+    line-height .8em
 
 .goto-stop-wrap
   margin 20px 0
@@ -141,7 +151,8 @@ video
     background none
     outline 0
     box-shadow 0
-
+  &:active
+    color darken($secondary,80%)
 
 .btn-header
   display inline-block
@@ -162,6 +173,8 @@ video
     transition .2s
     box-shadow none
     outline 0
+  &:active
+    background-color alpha(darken($secondary, 30%), 70%)
 
 .curtain
   position absolute

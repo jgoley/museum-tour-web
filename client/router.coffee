@@ -18,6 +18,10 @@ adminHook = () ->
 Router.onBeforeAction adminHook,
   only: ['admin']
 
+Router.onBeforeAction () ->
+  $('body').attr('ontouchstart', '')
+  @next()
+
 Router.route 'loading'
 
 Router.route 'currentTours',

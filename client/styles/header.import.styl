@@ -19,51 +19,64 @@ header
     margin-bottom 20px
     height auto
     padding 0
-  .header-buttons
-    centerVertically()
-    right 3%
   button
+    transition .2s ease-in-out
+    +above(3)
+      display none
     &.btn
-      padding 14px 12px
-      margin 15px 0
+      padding 14px 10px
       text-align center
       font-size 1em
-      color white
+      color lighten($primary, 80%)
       line-height 0
-      border 1px solid white
-      border-radius 4px
       background none
-    &:active
-      background none !important
-    &:focus
-      text-decoration none
-    &.menu-btn
-      transition .2s
+      border 1px solid lighten($primary, 40%)
       &:hover
-      &:focus
-        background white !important
+        background-color darken($primary, 15%)
+        border-color darken($primary, 25%)
+        color white
         text-decoration none
-        transition .2s
-      +above(3)
-        display none
+      &:active
+        background darken($primary, 60%)
+        color white
+      &:focus
+      &:active
+        outline 0
+        box-shadow none
+        color white
+
+    &.menu-btn
+    &.back-btn
+      centerVertically()
+      border-radius 3px
+    &.back-btn
+      left 0
+      border-left 0
+      border-top-left-radius 0
+      border-bottom-left-radius 0
+      .fa
+        padding-right 2px
+    &.menu-btn
+      right 0
+      border-right 0
+      border-top-right-radius 0
+      border-bottom-right-radius 0
+      &::after
+        content '\f0c9'
+        @extend .font-awesome
+        padding-left 5px
+      &.menu-close
+        &::after
+          content '\f00d'
+
     &.sign-out
       margin-left 10px
-  a
-    &.backBtn
-      position absolute
-      left 3%
-      top 50%
-      transform translate(0,-50%)
-      vertical-align middle
-      display inline-block
-      color white
-      &:hover
-        text-decoration none
-      +above(3)
-        display none
-      .fa
-        line-height 0
-
+      +above(2)
+        position static
+        transform translate(0,0)
+    .fa
+      line-height 0
+      color lighten($primary, 50%)
 .logo
     position absolute
     top 50%
@@ -84,6 +97,8 @@ header
     &:hover
       transition opacity .2s
       opacity 1
+    &:active
+      opacity .3
     +above(3)
       left 3%
       right auto

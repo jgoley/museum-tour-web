@@ -22,7 +22,7 @@ template(name="stop")
       unless isNull stop.speaker
         p.child-stop-subTitle.single #{stop.speaker}
       +stopContent stop=stop
-    .row.stop-nav
+    .stop-nav
       .col-xs-6
         if prevStop
           a.stop-nav-button(href="{{prevStop._id}}")

@@ -3,9 +3,9 @@ template(name="header")
     .header-wrap
       a(href="/")
         h1.logo TAP into CMA
-      a.backBtn(href="")
+      button.btn.back-btn(href="")
         i.fa.fa-chevron-circle-left
         span Back
-      .header-buttons
-        button.btn.menu-btn Menu
+      button.btn.menu-btn
+        span Menu
       +offCanvasMenu
