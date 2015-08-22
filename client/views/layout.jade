@@ -5,8 +5,8 @@ head
   script try{Typekit.load();}catch(e){}
 
 template(name="layout")
+  .curtain(class="{{showCurtain}}")
   .page-wrap
-    .curtain(class="{{showCurtain}}")
     +header
     .main-content
       +yield
