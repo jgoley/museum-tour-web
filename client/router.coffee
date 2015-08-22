@@ -22,8 +22,6 @@ Router.onBeforeAction () ->
   $('body').attr('ontouchstart', '')
   @next()
 
-Router.route 'loading'
-
 Router.route 'currentTours',
   template: 'currentTours'
   path: '/'
