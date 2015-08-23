@@ -5,17 +5,24 @@ Template.header.helpers
 Template.header.helpers
   history: ->
     window.history.length
+  menuOpen: ->
+    @menuState.get() is 'open'
+  buttonAction: ->
+    if @menuState.get() is 'open'
+      'menu-close'
 
 Template.header.events
-  'click .back-btn': ->
+  'touchmove .back-btn': (e) ->
+    $(e.target).blur()
+  'click .back-btn': (e) ->
     window.history.back()
   'click .sign-out': ->
     Meteor.logout()
-  'click .menu-btn': (e) ->
-    if Session.get 'offCanvas'
-      Session.set 'offCanvas', false
+  'click .menu-btn': (e, instance) ->
+    menuState = instance.data.menuState
+    if menuState.get() is 'closed'
+      menuState.set 'open'
       $(e.currentTarget).blur()
-      $(e.currentTarget).toggleClass('menu-close')
     else
-      Session.set 'offCanvas', true
-      $(e.currentTarget).toggleClass('menu-close')
+      menuState.set 'closed'
+      $(e.currentTarget).blur()

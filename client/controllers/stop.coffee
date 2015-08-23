@@ -32,12 +32,11 @@ Template.stopContent.helpers
   isImage: ->
     @stop.mediaType is '3' or stop.mediaType is 3
   autoplay: ->
-    console.log @stop.type is 'single'
     @stop.type is 'single'
   posterImage: ->
     console.log "Poster",@stop
     url = Blaze._globalHelpers.awsUrl()
-    if @stop.posterImage and @stop.mediaType in ['1', 1]
+    if @stop.posterImage and @stop.mediaType in ['2', 2]
       'http:'+url+'/'+@stop.tour+'/'+@stop.posterImage
     else
       'http:'+url+'/audio-still.png'

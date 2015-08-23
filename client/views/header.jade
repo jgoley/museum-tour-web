@@ -6,6 +6,6 @@ template(name="header")
       button.btn.back-btn(href="")
         i.fa.fa-chevron-circle-left
         span Back
-      button.btn.menu-btn
+      button.btn.menu-btn(class="{{buttonAction}}")
         span Menu
-      +offCanvasMenu
+      +offCanvasMenu menuState=menuState

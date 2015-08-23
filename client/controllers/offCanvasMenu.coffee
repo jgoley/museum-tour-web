@@ -1,10 +1,10 @@
 Template.offCanvasMenu.helpers
   showMenu: ->
-    if Session.get 'offCanvas'
+    if @menuState.get() is 'open'
       'showing'
     else
       ''
 
 Template.offCanvasMenu.events
-  'click a': () ->
-    Session.set 'offCanvas', false
+  'click a': (e, instance) ->
+    instance.data.menuState.set 'closed'
