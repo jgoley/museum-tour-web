@@ -5,7 +5,7 @@ template(name="editMedia")
     if mediaIsImage
       .row
         .col-sm-12
-          +mediaPreview tourID=tourID media=media name=typeName
+          +mediaPreview stop=stop media=media tourID=tourID typeName=typeName
     else
       .video
         video.media-video(src="http:#{awsUrl}/#{stop.tour}/#{stop.media}" controls)
@@ -19,7 +19,7 @@ template(name="editMedia")
     unless stop.posterImage
       +fileUpload name='posterImage' required=true label="Poster Image"
     else
-      +mediaPreview stop=stop media=stop.posterImage tourID=tourID name=typeName
+      +mediaPreview stop=stop media=stop.posterImage tourID=tourID typeName='posterImage'
 
 template(name="mediaPreview")
     .media-image

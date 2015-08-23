@@ -28,4 +28,6 @@ Template.editMedia.events
   'click .delete-media': (e, template) ->
     deleteFile('media', @stop.media, @stop._id, @stop.tour)
   'click .delete-image': (e, template) ->
-    deleteFile(@name, @media, false, @tourID)
+    console.log @
+    deleteFile(@typeName, @media, @stop?._id, @tourID)
+

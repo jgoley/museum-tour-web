@@ -79,17 +79,19 @@ video
 .main-title-wrap
   position relative
   width 100%
-  padding 15px 3% 10px 3%
+  padding 20px 3% 10px 3%
   background-color rgba(red($secondary), green($secondary), blue($secondary), .85)
   h1
+    display inline-block
+    vertical-align middle
     margin-bottom 0
+    line-height .8em
   &.tour-title
     position absolute
     bottom 0
     padding 10px 3% 5px 3%
     text-align center
     background-color rgba(230,230,230,0.85)
-    border-bottom 2px solid darken($secondary, 10%)
     .main-title
       padding 0
       vertical-align middle
@@ -97,8 +99,6 @@ video
     .sub-title
       display block
       font-size .7em
-  h1
-    line-height .8em
 
 .goto-stop-wrap
   margin 20px 0

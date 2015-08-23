@@ -35,5 +35,9 @@ Template.stopContent.helpers
     console.log @stop.type is 'single'
     @stop.type is 'single'
   posterImage: ->
-    if @posterImage
-      'http:'+Blaze._globalHelpers.awsUrl+@posterImage
+    console.log "Poster",@stop
+    url = Blaze._globalHelpers.awsUrl()
+    if @stop.posterImage and @stop.mediaType in ['1', 1]
+      'http:'+url+'/'+@stop.tour+'/'+@stop.posterImage
+    else
+      'http:'+url+'/audio-still.png'
