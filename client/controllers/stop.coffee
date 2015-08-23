@@ -38,5 +38,5 @@ Template.stopContent.helpers
     url = Blaze._globalHelpers.awsUrl()
     if @stop.posterImage and @stop.mediaType in ['2', 2]
       'http:'+url+'/'+@stop.tour+'/'+@stop.posterImage
-    else
+    else if @stop.mediaType in ['1','4','5', 1, 4, 5]
       'http:'+url+'/audio-still.png'
