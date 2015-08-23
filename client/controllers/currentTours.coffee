@@ -1,3 +1,6 @@
+Template.currentTours.onCreated ->
+  document.title = 'Current Tours'
+
 Template.currentTours.helpers
   stopNumbers: ->
     obj = {}
