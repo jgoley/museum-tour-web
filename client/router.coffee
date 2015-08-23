@@ -22,6 +22,9 @@ Router.onBeforeAction () ->
   $('body').attr('ontouchstart', '')
   @next()
 
+Router.onAfterAction () ->
+  $('.back-btn').blur()
+
 Router.route 'currentTours',
   template: 'currentTours'
   path: '/'

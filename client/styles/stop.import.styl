@@ -81,11 +81,16 @@
 
 .inactive
   background desaturate(lighten($primary, 30%),20%)
-  color darken($l-gray,10%)
+  color darken(@background, 15%)
 .stop-nav-button
   background $primary
   cursor pointer
+  transition .2s ease-in-out
+  text-shadow 0 1px 0 alpha($primary-dark, 50%)
   &:hover
-    color black
+    color white
     text-decoration none
+  &:active
+    background $primary-dark
+    color white
 

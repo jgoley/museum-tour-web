@@ -1,10 +1,13 @@
+Template.layout.onCreated ->
+  @menuState = new ReactiveVar('closed')
+
 Template.layout.helpers
-  offCanvas: ->
-    Session.get 'offCanvas'
   showCurtain: ->
-    if Session.get 'offCanvas'
+    if Template.instance().menuState.get() is 'open'
       'down'
+  menuState: ->
+    Template.instance().menuState
 
 Template.layout.events
-  'click .curtain': ->
-    Session.set 'offCanvas', false
+  'click .curtain': (e, instance) ->
+    instance.menuState.set('closed')
