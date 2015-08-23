@@ -5,6 +5,7 @@ template(name="archivedTours")
     each tours
       li
         a(href="tour/#{_id}")
+          +thumbnail tour=this
           h2.tap-list-title.tour-title #{mainTitle}
             span #{subTitle}
             span.dates {{formatDate openDate}} - {{formatDate closeDate}}
