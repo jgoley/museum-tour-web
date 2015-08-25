@@ -30,10 +30,8 @@ header
       color lighten($primary, 80%)
       line-height 0
       background none
-      border 1px solid lighten($primary, 40%)
       &:not(.no-hover):hover
         background-color darken($primary, 15%)
-        border-color darken($primary, 25%)
         color white
         text-decoration none
       &:active
@@ -41,26 +39,29 @@ header
         color white
       &:focus
       &:active
+      &:active:focus
+      &:hover
         outline 0
         box-shadow none
         color white
 
     &.menu-btn
     &.back-btn
-      centerVertically()
-      border-radius 3px
+      position absolute
+      top 0
+      bottom 0
+      background-color darken($primary, 3%)
+      border-radius 0
     &.back-btn
       left 0
       border-left 0
-      border-top-left-radius 0
-      border-bottom-left-radius 0
+      border-right 1px solid darken($primary, 20%)
       .fa
         padding-right 2px
     &.menu-btn
       right 0
       border-right 0
-      border-top-right-radius 0
-      border-bottom-right-radius 0
+      border-left 1px solid darken($primary, 20%)
       &::after
         content '\f0c9'
         @extend .font-awesome
