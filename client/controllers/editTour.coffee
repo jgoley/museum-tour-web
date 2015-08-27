@@ -198,11 +198,11 @@ saveStop = (stop, values, method) ->
       sessionString = "child-" + stop.parent + '-' + stop._id
       #update order of stops higher than edited stop
       if stop.order is not values.values.order
-        siblings = TourStops().find($and: [
+        siblings = TourStops().find({$and: [
           { parent: stop.parent }
           { _id: $ne: stop._id }
           { order: $gte: +values.values.order }
-        ]).fetch()
+        ]}).fetch()
         _.each siblings, (sibling, i) ->
           TourStops().update({_id: sibling._id}, {$set: {order: sibling.order + 1}})
 

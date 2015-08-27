@@ -26,22 +26,22 @@ template(name="stop")
       .col-xs-6
         if prevStop
           a.stop-nav-button(href="{{prevStop._id}}")
-            i.fa.fa-arrow-circle-left
+            i.fa.fa-chevron-circle-left
             span Previous stop
         else
           .inactive
-            i.fa.fa-arrow-circle-left
+            i.fa.fa-chevron-circle-left
             span Previous stop
 
       .col-xs-6
         if nextStop
           a.stop-nav-button(href="{{nextStop._id}}")
             span Next stop
-            i.fa.fa-arrow-circle-right
+            i.fa.fa-chevron-circle-right
         else
           .inactive
-            i.fa.fa-arrow-circle-right
             span Next stop
+            i.fa.fa-chevron-circle-right
 
 template(name="stopContent")
   if isVideo
