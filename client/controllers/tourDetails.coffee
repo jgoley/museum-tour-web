@@ -43,10 +43,9 @@ Template.tourDetails.events
         uploadFile(files, tourID, values, false, template)
       else
         Tours().update {_id: tourID}, {$set: values}, () ->
-          template.data.editing.set false
+          # template.data.editing.set false
 
   'click .tour-details-cancel': (e, template) ->
-    console.log "Cancel"
     template.data.editing.set false
 
 uploadFile = (files, tourID, values, redirect, template) ->
@@ -63,5 +62,4 @@ uploadFile = (files, tourID, values, redirect, template) ->
           if redirect
             Router.go '/admin/edit/'+tourID
           else
-            console.log 'updateing', values
             Tours().update {_id: tourID}, {$set: values}

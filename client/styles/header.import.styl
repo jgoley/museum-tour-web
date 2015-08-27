@@ -1,13 +1,13 @@
+$header-height = 50px
+
 header
   position fixed
   top 0
-  height 50px
+  height $header-height
   min-width 100%
   padding 0
   z-index 100
   border-bottom 5px solid rgba(50,50,50,.2)
-  +below(3)
-    background $primary
   &#group-header
     position relative
   &.home
@@ -26,7 +26,7 @@ header
     &.btn
       padding 14px 10px
       text-align center
-      font-size 1em
+      font-size .9em
       color lighten($primary, 80%)
       line-height 0
       background none
@@ -78,6 +78,10 @@ header
     .fa
       line-height 0
       color lighten($primary, 50%)
+.header-wrap
+  height $header-height - 5
+  background-color $primary
+
 .logo
     position absolute
     top 50%

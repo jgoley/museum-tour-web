@@ -19,6 +19,7 @@ a
   padding 45px 0
 
 video
+audio
 img
   display block
   width 100%
@@ -30,6 +31,17 @@ img
 
 video
   background-color black
+
+audio
+  min-height 200px
+  background-color #000
+  background-repeat no-repeat
+  background-size auto 120px
+  background-position center 40%
+  &.audio
+    background-image url($awsUrl+'audio-poster.png')
+  &.music
+    background-image url($awsUrl+'music-poster.png')
 
 .img-wrap
 .video-wrap
@@ -72,9 +84,12 @@ video
   letter-spacing .02em
   font-family $body-font
   span
-    font-size .9em
+    font-size 1em
     display block
     font-weight 400
+    +above(2)
+      font-size 1.1em
+      padding 5px 0
 
 .main-title-wrap
   position relative

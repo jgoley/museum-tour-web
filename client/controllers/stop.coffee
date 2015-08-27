@@ -21,16 +21,21 @@ Template.stop.helpers
   prevStop: ->
     Template.instance().prevStop
   isNull: (value) ->
-    console.log value
-    console.log value and value.match(/NULL/gi)
     value and value.match(/NULL/gi)
 
 Template.stopContent.helpers
   isVideo: ->
-    videos = ['1','2','4','5',1,2,4,5]
-    @stop.mediaType in videos
+    @stop.mediaType in ['2',2,'5',5]
+  isAudio: ->
+    @stop.mediaType in ['1','4',1,4]
+  audioType: ->
+    if @stop.mediaType in ['1',1]
+      'audio'
+    else
+      'music'
+
   isImage: ->
-    @stop.mediaType is '3' or stop.mediaType is 3
+    @stop.mediaType in ['3',3]
   autoplay: ->
     @stop.type is 'single'
   posterImage: ->
