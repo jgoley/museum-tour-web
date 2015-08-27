@@ -7,11 +7,12 @@ $border-color = darken($primary, 20%)
   bottom 0
   width 75%
   max-width 400px
-  background white
-  border-right 4px solid $border-color
+  border-right 4px solid rgba(50,50,50,.2)
   z-index 10000
   letter-spacing .05em
   transition left .3s ease-in
+  nav
+    background white
   +above(3)
     background $primary
     position absolute
@@ -26,6 +27,7 @@ $border-color = darken($primary, 20%)
     nav
       float right
       margin-right 3%
+      background none
   &.showing
     left 0% !important
     transition all .3s ease-out
@@ -126,7 +128,7 @@ $border-color = darken($primary, 20%)
 .menu-header
   margin-right -4px
   padding .75em .8em
-  border-bottom 4px solid $border-color
+  // border-bottom 4px solid rgba(50,50,50,.2)
   background-color $primary
   +above(3)
     display none
