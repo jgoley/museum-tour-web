@@ -46,10 +46,19 @@ template(name="stop")
 template(name="stopContent")
   if isVideo
     .video-wrap
-      video(src="https://s3.amazonaws.com/tap-cma/#{stop.tour}/#{stop.media}" poster="{{posterImage}}" controls autoplay="{{autoplay}}")
+      video(
+        src="http:#{awsUrl}/#{stop.tour}/#{stop.media}"
+        poster="{{posterImage}}"
+        controls
+        autoplay="{{autoplay}}")
   if isAudio
     .video-wrap
-      audio(src="https://s3.amazonaws.com/tap-cma/#{stop.tour}/#{stop.media}" controls autoplay="{{autoplay}}" class="{{audioType}}")
+      video(
+        src="http:#{awsUrl}/#{stop.tour}/#{stop.media}"
+        poster="#{awsUrl}/#{audioType}-poster.png"
+        controls
+        autoplay="{{autoplay}}"
+        class="{{audioType}}")
 
   if isImage
     .img-wrap
