@@ -48,13 +48,13 @@ saveStop = (stop, values, method) ->
       #   _.each siblings, (sibling, i) ->
       #     TourStops().update {_id: sibling._id}, {$set: {order: sibling.order + 1}}, (e,r) ->
 
-      TourStops().update {_id: stop._id}, {$set:values.values}, (e,r) ->
-        Tap().services.showNotification(e)
-          # setTimeout (->
-          #   Session.set('updating'+stop._id, false)
-          #   Session.set sessionString, false
-          #   return
-          # ), 2000
+    TourStops().update {_id: stop._id}, {$set:values.values}, (e,r) ->
+      Tap().services.showNotification(e)
+        # setTimeout (->
+        #   Session.set('updating'+stop._id, false)
+        #   Session.set sessionString, false
+        #   return
+        # ), 2000
   else
     TourStops().insert values.values, (e, id) ->
       Session.set('add-stop', false)
