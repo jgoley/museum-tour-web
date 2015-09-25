@@ -23,8 +23,8 @@ Template.tourDetails.events
     values =
       'mainTitle': form.mainTitle?.value
       'subTitle': form.subTitle?.value
-      'openDate': new Date(form.openDate?.value)
-      'closeDate': new Date(form.closeDate?.value)
+      'openDate': form.openDate?.value
+      'closeDate': form.closeDate?.value
       'baseNum': +form.baseNum?.value
       'tourType': +form.tourType?.value
 
@@ -46,7 +46,7 @@ Template.tourDetails.events
         uploadFile(files, tourID, values, false, template)
       else
         Tours().update {_id: tourID}, {$set: values}, (e) ->
-          Tap().services.showNotification(e)
+          Tap().services.showNotification(e, '', template.data.editing)
 
   'click .tour-details-cancel': (e, template) ->
     template.data.editing.set false

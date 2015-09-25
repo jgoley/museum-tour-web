@@ -32,7 +32,6 @@ updateStop = (stop, values, method) ->
 
 saveStop = (stop, values, method) ->
   if method is 'update'
-    console.log 'update', stop
     if stop.type is 'single'
       sessionString = stop._id
     else
@@ -49,10 +48,10 @@ saveStop = (stop, values, method) ->
       #     TourStops().update {_id: sibling._id}, {$set: {order: sibling.order + 1}}, (e,r) ->
 
     TourStops().update {_id: stop._id}, {$set:values.values}, (e,r) ->
-      Tap().services.showNotification(e)
+      Tap().services.showNotification(e, sessionString)
         # setTimeout (->
         #   Session.set('updating'+stop._id, false)
-        #   Session.set sessionString, false
+        #
         #   return
         # ), 2000
   else
