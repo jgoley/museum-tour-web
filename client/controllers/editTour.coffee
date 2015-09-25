@@ -1,3 +1,4 @@
+
 Tap = () ->
   @Tap
 
@@ -5,6 +6,80 @@ TourStops = () ->
   @Tap.Collections.TourStops
 Tours = () ->
   @Tap.Collections.Tours
+
+
+parsley = (formElement) ->
+  $(formElement).parsley
+    trigger: 'change'
+
+
+uploadFile = (files, tour) ->
+  new Promise (resolve, reject) ->
+    S3.upload
+      files:files
+      unique_name: false
+      path: tour
+      (e,r) ->
+        console.log e, r
+        resolve(r)
+
+updateStop = (stop, values, method) ->
+  if values.files.length
+    uploadFile(values.files, values.values.tour).then (e,r)->
+      saveStop(stop, values, method)
+  else
+    saveStop(stop, values, method)
+
+saveStop = (stop, values, method) ->
+  if method is 'update'
+    console.log 'update', stop
+    if stop.type is 'single'
+      sessionString = stop._id
+    else
+      sessionString = "child-" + stop.parent + '-' + stop._id
+      #update order of stops higher than edited stop
+      console.log stop.order, values.values.order
+      # if stop.order != values.values.order
+      #   siblings = TourStops().find({$and: [
+      #     { parent: stop.parent }
+      #     { _id: $ne: stop._id }
+      #     { order: $gte: +values.values.order }
+      #   ]}).fetch()
+      #   _.each siblings, (sibling, i) ->
+      #     TourStops().update {_id: sibling._id}, {$set: {order: sibling.order + 1}}, (e,r) ->
+
+      TourStops().update {_id: stop._id}, {$set:values.values}, (e,r) ->
+        Tap().services.showNotification(e)
+          # setTimeout (->
+          #   Session.set('updating'+stop._id, false)
+          #   Session.set sessionString, false
+          #   return
+          # ), 2000
+  else
+    TourStops().insert values.values, (e, id) ->
+      Session.set('add-stop', false)
+      Session.set('creating-stop', false)
+      parent = values.values.parent
+      Session.set(id,true)
+      if values.values.type is 'child'
+        Session.set('add-child-'+parent, false)
+        TourStops().update {_id:parent}, {$push: {childStops: id}}, (e,r) ->
+          Tap().services.showNotification(e)
+
+
+getLastStopNum = (stops) ->
+  _.last(stops)?.stopNumber
+
+createStop = (values, method) ->
+
+deleteFile = (stop)->
+  path = "#{stop.tour}/#{stop.media}"
+  S3.delete(path, (e,s)-> console.log e,s)
+  TourStops().update({_id: stop._id}, {$set:{media: ''}})
+
+deleteFolder = (tourID) ->
+  path = "#{tourID}"
+  S3.delete(path, (e,s)-> console.log e,s)
 
 Template.editTour.onCreated ->
   @editTourDetails = new ReactiveVar(false)
@@ -143,78 +218,6 @@ Template.mediaTypes.events
         @mediaType.set(e.target.value)
     else
       @mediaType.set(e.target.value)
-
-parsley = (formElement) ->
-  $(formElement).parsley
-    trigger: 'change'
-
-
-uploadFile = (files, tour) ->
-  new Promise (resolve, reject) ->
-    S3.upload
-      files:files
-      unique_name: false
-      path: tour
-      (e,r) ->
-        console.log e, r
-        resolve(r)
-
-updateStop = (stop, values, method) ->
-  if values.files.length
-    uploadFile(values.files, values.values.tour).then (e,r)->
-      saveStop(stop, values, method)
-  else
-    saveStop(stop, values, method)
-
-saveStop = (stop, values, method) ->
-  if method is 'update'
-    if stop.type is 'single'
-      sessionString = stop._id
-    else
-      sessionString = "child-" + stop.parent + '-' + stop._id
-      #update order of stops higher than edited stop
-      if stop.order is not values.values.order
-        siblings = TourStops().find({$and: [
-          { parent: stop.parent }
-          { _id: $ne: stop._id }
-          { order: $gte: +values.values.order }
-        ]}).fetch()
-        _.each siblings, (sibling, i) ->
-          TourStops().update {_id: sibling._id}, {$set: {order: sibling.order + 1}}, (e,r) ->
-            Tap().services.showNotification(e)
-
-    TourStops().update {_id: stop._id}, {$set:values.values}, (e,r) ->
-      Tap().services.showNotification(e)
-        # setTimeout (->
-        #   Session.set('updating'+stop._id, false)
-        #   Session.set sessionString, false
-        #   return
-        # ), 2000
-  else
-    TourStops().insert values.values, (e, id) ->
-      Session.set('add-stop', false)
-      Session.set('creating-stop', false)
-      parent = values.values.parent
-      Session.set(id,true)
-      if values.values.type is 'child'
-        Session.set('add-child-'+parent, false)
-        TourStops().update {_id:parent}, {$push: {childStops: id}}, (e,r) ->
-          Tap().services.showNotification(e)
-
-
-getLastStopNum = (stops) ->
-  _.last(stops)?.stopNumber
-
-createStop = (values, method) ->
-
-deleteFile = (stop)->
-  path = "#{stop.tour}/#{stop.media}"
-  S3.delete(path, (e,s)-> console.log e,s)
-  TourStops().update({_id: stop._id}, {$set:{media: ''}})
-
-deleteFolder = (tourID) ->
-  path = "#{tourID}"
-  S3.delete(path, (e,s)-> console.log e,s)
 
 Template.editing.events
   'click .cancel': (e)->
