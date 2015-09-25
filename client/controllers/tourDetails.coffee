@@ -1,3 +1,6 @@
+Tap = ()->
+  @Tap
+
 Tours = ()->
   @Tap.Collections.Tours
 
@@ -42,8 +45,8 @@ Template.tourDetails.events
       if files.length
         uploadFile(files, tourID, values, false, template)
       else
-        Tours().update {_id: tourID}, {$set: values}, () ->
-          # template.data.editing.set false
+        Tours().update {_id: tourID}, {$set: values}, (e) ->
+          Tap().services.showNotification(e)
 
   'click .tour-details-cancel': (e, template) ->
     template.data.editing.set false
@@ -62,4 +65,5 @@ uploadFile = (files, tourID, values, redirect, template) ->
           if redirect
             Router.go '/admin/edit/'+tourID
           else
-            Tours().update {_id: tourID}, {$set: values}
+            Tours().update {_id: tourID}, {$set: values}, (e) ->
+              Tap().services.showNotification(e)

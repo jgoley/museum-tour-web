@@ -38,9 +38,9 @@ $border-color = darken($primary, 20%)
     left 0% !important
     transition all .3s ease-out
   ul
-    border 0
-    font-size 1em
     @extend .tap-list
+    border-bottom 0
+    font-size 1em
     +above(3)
       display inline-block
       vertical-align top
@@ -64,7 +64,7 @@ $border-color = darken($primary, 20%)
         font-size 1.1em
         padding .8em
         +above(3)
-          padding .55em .65em
+          padding .58em .65em
           font-size 1em
           &::after
             content ''
@@ -74,7 +74,7 @@ $border-color = darken($primary, 20%)
             background-color white
         +between(3,4)
           font-size .75em
-          padding .95em
+          padding .9em
           font-weight normal
         .fa
           display inline-block

@@ -6,11 +6,9 @@ TourStops = ()->
 
 deleteFile = (prop, fileName, stopID, tourID)->
   path = "/#{tourID}/#{fileName}"
-  console.log path
   S3.delete(path, (e,s)-> console.log e,s)
   newProp = {}
   newProp[prop] = ''
-  console.log prop, fileName, stopID, tourID, newProp
   if stopID
     TourStops().update({_id: stopID}, {$set:newProp})
   else
@@ -28,6 +26,5 @@ Template.editMedia.events
   'click .delete-media': (e, template) ->
     deleteFile('media', @stop.media, @stop._id, @stop.tour)
   'click .delete-image': (e, template) ->
-    console.log @
     deleteFile(@typeName, @media, @stop?._id, @tourID)
 

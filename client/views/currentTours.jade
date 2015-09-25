@@ -6,6 +6,7 @@ template(name="currentTours")
       li
         a(href="tour/#{_id}")
           +thumbnail tour=this
-          h2.tap-list-title.tour-title #{mainTitle}
-            span #{subTitle}
+          .tap-list-title.tour-title
+            h2 #{mainTitle}
+              span #{subTitle}
   +stopSearch state=buttonState stopNumbers=stopNumbers

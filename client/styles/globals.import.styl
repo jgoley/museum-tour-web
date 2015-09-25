@@ -7,6 +7,57 @@ body
   font-family inherit
   height 100%
 
+.notification
+  position fixed
+  top 0
+  bottom 0
+  left 0
+  right 0
+  z-index 10000
+  &.success
+  &.error
+    background-color alpha(lighten($confirm,20%), 90%)
+    &::after
+      @extend .font-awesome
+      font-size 10em
+      position absolute
+      top 50%
+      left 50%
+      transform translate(-50%,-50%)
+      z-index 10001
+  &.error
+    &::before
+      background-color alpha(lighten($warning,20%), 90%)
+    &::after
+      content '\f071'
+  &.thumbs
+    &::after
+      content '\f087'
+  &.spock
+    &::after
+      content '\f259'
+  &.peace
+    &::after
+      content '\f25b'
+  &.airplane
+    &::after
+      content '\f1d9'
+  &.battery
+    &::after
+      content '\f240'
+  &.cake
+    &::after
+      content '\f1fd'
+  &.smile
+    &::after
+      content '\f118'
+  &.star
+    &::after
+      content '\f005'
+  &.trophy
+    &::after
+      content '\f091'
+
 .page-wrap
   min-height 100%
   position relative
@@ -16,7 +67,7 @@ a
     text-decoration none
 
 .main-content
-  padding 45px 0
+  padding 0 0 45px 0
 
 video
 audio
@@ -85,18 +136,22 @@ video
       color darken($l-gray, 15%)
 
 .tap-list-title
-  margin 0
-  font-size 1.2em
-  font-weight bold
-  letter-spacing .02em
-  font-family $body-font
+  h2
+    margin 0
+    font-size 1.2em
+    font-weight bold
+    letter-spacing .02em
+    font-family $body-font
   span
-    font-size 1em
+    font-size .9em
     display block
     font-weight 400
-    +above(2)
-      font-size 1.1em
-      padding 5px 0
+  .dates
+    margin-top 0
+    padding 0
+    font-size 75%
+    color darken($m-gray, 20%)
+
 
 .main-title-wrap
   position relative
