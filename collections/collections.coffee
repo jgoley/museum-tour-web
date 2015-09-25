@@ -8,7 +8,7 @@ TourStops = new Mongo.Collection 'tourStops'
 @Tap.Collections.TourStops = TourStops
 
 Sortable.collections = ['tourStops']
-
+today = moment(new Date()).format('YYYY-MM-DD')
 if Meteor.isServer
   Meteor.publish 'tours', ->
     Tours.find()
@@ -23,16 +23,15 @@ if Meteor.isServer
   Meteor.publish 'childStops', (stopID) ->
     TourStops.find({'parent': stopID}, {$sort: {order: 1}})
   Meteor.publish 'currentTours', ->
-    today = new Date()
+    console.log today
     Tours.find({$and: [{'closeDate': {$gte: today}},{'openDate': {$lte: today}}]})
   Meteor.publish 'currentTourStops', ->
-    today = new Date()
+    console.log today
     tours = Tours.find({$and: [{'closeDate': {$gte: today}},{'openDate': {$lte: today}}]}, {fields:{'_id': 1}}).fetch()
     query = _.map tours, (tour)->
       {'tour': tour._id}
     TourStops.find({$and: [{$or: query}, {$or:[{'type': 'single'},{'type': 'group'}]}]}, {fields: {'_id': 1, 'tour': 1, 'stopNumber': 1}})
   Meteor.publish 'archivedTours', ->
-    today = new Date()
     Tours.find({$query: {'closeDate': {$lte: today}}, $orderby: {'openDate': -1}})
 
 Tours.allow
