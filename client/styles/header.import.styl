@@ -1,13 +1,13 @@
-$header-height = 45px
+$header-height = 50px
 
 header
-  position relative
-  // top 0
+  position fixed
+  top 0
   height $header-height
   min-width 100%
   padding 0
   z-index 100
-  // border-bottom 5px solid rgba(50,50,50,.2)
+  border-bottom 5px solid rgba(50,50,50,.2)
   &#group-header
     position relative
   &.home
@@ -81,7 +81,7 @@ header
       line-height 0
       color lighten($primary, 50%)
 .header-wrap
-  height $header-height
+  height $header-height - 5
   background-color $primary
 
 .logo
