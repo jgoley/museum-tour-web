@@ -23,10 +23,8 @@ if Meteor.isServer
   Meteor.publish 'childStops', (stopID) ->
     TourStops.find({'parent': stopID}, {$sort: {order: 1}})
   Meteor.publish 'currentTours', ->
-    console.log today
     Tours.find({$and: [{'closeDate': {$gte: today}},{'openDate': {$lte: today}}]})
   Meteor.publish 'currentTourStops', ->
-    console.log today
     tours = Tours.find({$and: [{'closeDate': {$gte: today}},{'openDate': {$lte: today}}]}, {fields:{'_id': 1}}).fetch()
     query = _.map tours, (tour)->
       {'tour': tour._id}

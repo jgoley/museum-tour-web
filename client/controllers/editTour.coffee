@@ -421,7 +421,7 @@ Template.editTour.events
           childStop = TourStops().findOne({_id:childStopId})
           if childStop.media
             deleteFile(childStop)
-          removeStop(@, Template.instance())
+          removeStop(@id, Template.instance())
         TourStops().remove({_id: @_id})
       else if @type is 'single'
         if @media
