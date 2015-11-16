@@ -37,7 +37,6 @@ saveStop = (stop, values, method) ->
     else
       sessionString = "child-" + stop.parent + '-' + stop._id
       #update order of stops higher than edited stop
-      console.log stop.order, values.values.order
       # if stop.order != values.values.order
       #   siblings = TourStops().find({$and: [
       #     { parent: stop.parent }

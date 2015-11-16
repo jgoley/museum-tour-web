@@ -11,7 +11,6 @@
 
   Template.fileUpload.events
     'change .btn-file': (event, template) ->
-      console.log "Changed"
       template.fileName.set(event.target.value.replace('C:\\fakepath\\',''))
       template.hasFile.set(true)
     'click .remove': (event, template) ->

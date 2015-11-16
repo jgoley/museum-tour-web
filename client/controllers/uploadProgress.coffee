@@ -7,5 +7,4 @@ uploadingFiles = ->
 Template.uploadProgress.helpers
   files: () ->
     files = uploadingFiles()
-    console.log files
     files

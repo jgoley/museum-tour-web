@@ -11,7 +11,6 @@ Template.stopSearch.events
   'submit .goto-stop': (e, instance) ->
     e.preventDefault()
     stopNumber = e.target.stopNumber.value
-    console.log instance.data.stopNumbers[stopNumber]
     Router.go('stop', {'tourID': instance.data.stopNumbers[stopNumber].tour, 'stopID': instance.data.stopNumbers[stopNumber].id})
 
 Template.stopSearch.helpers
