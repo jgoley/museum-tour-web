@@ -3,17 +3,18 @@ if Meteor.isClient
   Template.stopSearch.onCreated ->
     @buttonState = new ReactiveVar(true)
 
+
   Template.stopSearch.events
-    'keyup .stopNumber': _.throttle (e, instance)->
-      if _.find(_.keys(instance.data.stopNumbers), (num) -> num is e.target.value)
+    'input .stopNumber': _.throttle (e, instance)->
+      if TourStops.findOne(stopNumber: +e.target.value)
         instance.buttonState.set(false)
       else
         instance.buttonState.set(true)
 
     'submit .goto-stop': (e, instance) ->
       e.preventDefault()
-      stopNumber = e.target.stopNumber.value
-      Router.go('stop', {'tourID': instance.data.stopNumbers[stopNumber].tour, 'stopID': instance.data.stopNumbers[stopNumber].id})
+      stop = TourStops.findOne stopNumber: +e.target.stopNumber.value
+      go 'stop', {'tourID': stop.tour, 'stopID': stop._id}
 
   Template.stopSearch.helpers
     buttonState: ->
