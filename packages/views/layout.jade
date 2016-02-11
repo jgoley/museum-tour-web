@@ -10,4 +10,4 @@ template(name="layout")
   .page-wrap
     +header menuState=menuState
     .main-content
-      +yield
+      +Template.dynamic template=content

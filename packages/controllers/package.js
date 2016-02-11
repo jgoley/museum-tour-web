@@ -12,6 +12,7 @@ Package.onUse(function(api) {
   api.use('templating');
   api.use('reactive-var');
 
+  api.use('tap:models');
   api.use('tap:accounts');
   api.use('tap:views');
 
@@ -19,35 +20,32 @@ Package.onUse(function(api) {
   api.use('accounts-password');
   api.use('useraccounts:core');
   api.use('momentjs:moment');
-  api.use('lepozepo:s3');
+  // api.use('lepozepo:s3');
   api.use('amr:parsley.js');
 
-  api.addFiles('admin.coffee');
-  api.addFiles('archivedTours.coffee');
-  api.addFiles('childStops.coffee');
-  api.addFiles('convert.coffee');
-  api.addFiles('currentTours.coffee');
-  api.addFiles('editMedia.coffee');
-  api.addFiles('editTour.coffee');
-  api.addFiles('fileUpload.coffee');
-  api.addFiles('header.coffee');
-  api.addFiles('help.coffee');
-  api.addFiles('helpers.coffee');
-  api.addFiles('image.coffee');
-  api.addFiles('layout.coffee');
-  api.addFiles('offCanvasMenu.coffee');
-  api.addFiles('package.js');
-  api.addFiles('posterImage.coffee');
-  api.addFiles('services.coffee');
-  api.addFiles('startup.coffee');
-  api.addFiles('stop.coffee');
-  api.addFiles('stopSearch.coffee');
-  api.addFiles('thumbnail.coffee');
-  api.addFiles('tour.coffee');
-  api.addFiles('tourDetails.coffee');
-  api.addFiles('tours.coffee');
-  api.addFiles('upload.coffee');
-  api.addFiles('uploadProgress.coffee');
+  api.addFiles('admin.coffee', ['client', 'server']);
+  api.addFiles('archivedTours.coffee', ['client', 'server']);
+  api.addFiles('childStops.coffee', ['client', 'server']);
+  api.addFiles('convert.coffee', ['client']);
+  api.addFiles('currentTours.coffee', ['client', 'server']);
+  api.addFiles('editMedia.coffee', ['client', 'server']);
+  api.addFiles('editTour.coffee', ['client', 'server']);
+  api.addFiles('fileUpload.coffee', ['client', 'server']);
+  api.addFiles('header.coffee', ['client']);
+  api.addFiles('help.coffee', ['client']);
+  api.addFiles('helpers.coffee', ['client']);
+  api.addFiles('image.coffee', ['client', 'server']);
+  api.addFiles('layout.coffee', ['client']);
+  api.addFiles('offCanvasMenu.coffee', ['client']);
+  api.addFiles('posterImage.coffee', ['client']);
+  api.addFiles('services.coffee', ['client']);
+  api.addFiles('stop.coffee', ['client', 'server']);
+  api.addFiles('stopSearch.coffee', ['client']);
+  api.addFiles('thumbnail.coffee', ['client']);
+  api.addFiles('tour.coffee', ['client', 'server']);
+  api.addFiles('tourDetails.coffee', ['client', 'server']);
+  api.addFiles('upload.coffee', ['client', 'server']);
+  api.addFiles('uploadProgress.coffee', ['client']);
 });
 
 // edgee:slingshot

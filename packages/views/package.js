@@ -7,38 +7,38 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('1.2.1');
 
+  api.use('templating');
   api.use('mquandalle:jade');
   api.use('tap:styles');
 
-  api.addFiles('admin.jade');
-  api.addFiles('allStops.jade');
-  api.addFiles('archivedTours.jade');
-  api.addFiles('childStops.jade');
-  api.addFiles('convert.jade');
-  api.addFiles('currentTours.jade');
-  api.addFiles('edit.jade');
-  api.addFiles('editMedia.jade');
-  api.addFiles('editStop.jade');
-  api.addFiles('feedback.jade');
-  api.addFiles('fileUpload.jade');
-  api.addFiles('header.jade');
-  api.addFiles('help.jade');
-  api.addFiles('home.jade');
-  api.addFiles('image.jade');
-  api.addFiles('layout.jade');
-  api.addFiles('loading.jade');
-  api.addFiles('nav.jade');
-  api.addFiles('offCanvasMenu.jade');
-  api.addFiles('package.js');
-  api.addFiles('posterImage.jade');
-  api.addFiles('signIn.jade');
-  api.addFiles('stop.jade');
-  api.addFiles('stopSearch.jade');
-  api.addFiles('thumbnail.jade');
-  api.addFiles('tour.jade');
-  api.addFiles('tourDetails.jade');
-  api.addFiles('upload.jade');
-  api.addFiles('uploadProgress.jade');
+  api.addFiles('admin.jade', 'client');
+  api.addFiles('allStops.jade', 'client');
+  api.addFiles('archivedTours.jade', 'client');
+  api.addFiles('childStops.jade', 'client');
+  api.addFiles('convert.jade', 'client');
+  api.addFiles('currentTours.jade', 'client');
+  api.addFiles('edit.jade', 'client');
+  api.addFiles('editMedia.jade', 'client');
+  api.addFiles('editStop.jade', 'client');
+  api.addFiles('feedback.jade', 'client');
+  api.addFiles('fileUpload.jade', 'client');
+  api.addFiles('header.jade', 'client');
+  api.addFiles('help.jade', 'client');
+  api.addFiles('home.jade', 'client');
+  api.addFiles('image.jade', 'client');
+  api.addFiles('layout.jade', 'client');
+  api.addFiles('loading.jade', 'client');
+  api.addFiles('nav.jade', 'client');
+  api.addFiles('offCanvasMenu.jade', 'client');
+  api.addFiles('posterImage.jade', 'client');
+  api.addFiles('signIn.jade', 'client');
+  api.addFiles('stop.jade', 'client');
+  api.addFiles('stopSearch.jade', 'client');
+  api.addFiles('thumbnail.jade', 'client');
+  api.addFiles('tour.jade', 'client');
+  api.addFiles('tourDetails.jade', 'client');
+  api.addFiles('upload.jade', 'client');
+  api.addFiles('uploadProgress.jade', 'client');
 
 });
 

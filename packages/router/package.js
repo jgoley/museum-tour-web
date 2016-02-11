@@ -15,7 +15,9 @@ Package.onUse(function(api) {
   api.use('okgrow:analytics');
 
   api.addFiles('router.coffee', ['client', 'server']);
+  api.addFiles('helpers.coffee', ['client']);
+
+  api.export('go', 'client');
+  api.export('pathFor', 'client');
 
 });
-
-// reywood:iron-router-ga
