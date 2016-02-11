@@ -1,46 +1,49 @@
-Tours = () ->
-  @Tap.Collections.Tours
+if Meteor.isClient
 
-TourStops = () ->
-  @Tap.Collections.TourStops
+  Template.stop.onCreated ->
+    @subscribe 'stop', @data.id
 
-Template.stop.created = () ->
-  document.title = Template.instance().data.stop.title
-  data= Template.instance().data
-  stops = data.tourStops.fetch()
-  @prevStop = _.find stops, (stop)->
-    stop.stopNumber is data.stop.stopNumber-1
-  @nextStop = _.find stops, (stop)->
-    stop.stopNumber is data.stop.stopNumber+1
+    document.title = Template.instance().data.stop.title
+    data= Template.instance().data
+    stops = data.tourStops.fetch()
+    @prevStop = _.find stops, (stop)->
+      stop.stopNumber is data.stop.stopNumber-1
+    @nextStop = _.find stops, (stop)->
+      stop.stopNumber is data.stop.stopNumber+1
 
-Template.stop.helpers
-  getChildStops: ->
-    Template.instance().data.childStops
-  nextStop: ->
-    Template.instance().nextStop
-  prevStop: ->
-    Template.instance().prevStop
-  isNull: (value) ->
-    value and value.match(/NULL/gi)
+  Template.stop.helpers
+    getChildStops: ->
+      Template.instance().data.childStops
+    nextStop: ->
+      Template.instance().nextStop
+    prevStop: ->
+      Template.instance().prevStop
+    isNull: (value) ->
+      value and value.match(/NULL/gi)
 
-Template.stopContent.helpers
-  isVideo: ->
-    @stop.mediaType in ['2',2,'5',5]
-  isAudio: ->
-    @stop.mediaType in ['1','4',1,4]
-  audioType: ->
-    if @stop.mediaType in ['1',1]
-      'audio'
-    else
-      'music'
+  Template.stopContent.helpers
+    isVideo: ->
+      @stop.mediaType in ['2',2,'5',5]
+    isAudio: ->
+      @stop.mediaType in ['1','4',1,4]
+    audioType: ->
+      if @stop.mediaType in ['1',1]
+        'audio'
+      else
+        'music'
 
-  isImage: ->
-    @stop.mediaType in ['3',3]
-  autoplay: ->
-    @stop.type is 'single'
-  posterImage: ->
-    url = Blaze._globalHelpers.awsUrl()
-    if @stop.posterImage and @stop.mediaType in ['2', 2]
-      'http:'+url+'/'+@stop.tour+'/'+@stop.posterImage
-    else if @stop.mediaType in ['1','4','5', 1, 4, 5]
-      'http:'+url+'/audio-still.png'
+    isImage: ->
+      @stop.mediaType in ['3',3]
+    autoplay: ->
+      @stop.type is 'single'
+    posterImage: ->
+      url = Blaze._globalHelpers.awsUrl()
+      if @stop.posterImage and @stop.mediaType in ['2', 2]
+        'http:'+url+'/'+@stop.tour+'/'+@stop.posterImage
+      else if @stop.mediaType in ['1','4','5', 1, 4, 5]
+        'http:'+url+'/audio-still.png'
+
+if Meteor.isServer
+
+  Meteor.publish 'stop', (stopID) ->
+    TourStops.find({'_id': stopID})

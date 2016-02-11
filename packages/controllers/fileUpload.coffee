@@ -1,3 +1,5 @@
+if Meteor.isClient
+
   Template.fileUpload.onCreated ->
     @fileName = new ReactiveVar('No file selected')
     @hasFile = new ReactiveVar(false)
