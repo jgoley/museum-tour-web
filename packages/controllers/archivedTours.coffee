@@ -15,6 +15,7 @@ if Meteor.isClient
 if Meteor.isServer
 
   Meteor.publish 'archivedTours', ->
+    today = moment(new Date()).format('YYYY-MM-DD')
     Tours.find
       $query:
         closeDate:
