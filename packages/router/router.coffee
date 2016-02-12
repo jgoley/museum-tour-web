@@ -9,32 +9,6 @@ if Meteor.isClient
         FlowRouter.go 'login'
     ]
 
-  # Tours = () ->
-  #   @Tap.Collections.Tours
-
-  # TourStops = () ->
-  #   @Tap.Collections.TourStops
-
-  # Router.configure
-  #   layoutTemplate: 'layout'
-  #   loadingTemplate: 'loading'
-  #   trackPageView: true
-
-
-  # FlowRouter.route '/',
-  #   action: () ->
-  #     BlazeLayout.render "layout",
-  #       content: "splash"
-
-  # adminHook = () ->
-  #   if not Meteor.userId()
-  #     @redirect '/sign-in'
-  #   else
-  #     @next()
-
-  # Router.onBeforeAction adminHook,
-  #   only: ['admin']
-
   # Router.onBeforeAction () ->
   #   $('body').attr('ontouchstart', '')
   #   @next()
@@ -44,53 +18,33 @@ if Meteor.isClient
 
 
   FlowRouter.route '/',
+    name: 'currentTours'
     action: () ->
-      BlazeLayout.render "layout",
-        content: "currentTours"
-
-    # waitOn: () ->
-    #   [
-    #     Meteor.subscribe 'currentTours'
-    #     Meteor.subscribe 'currentTourStops'
-    #   ]
-    # data: () ->
-    #   tours: Tours().find({}, sort: {startDate: 1, tourType: 1})
-    #   stopNumbers: TourStops().find()
-
+      BlazeLayout.render 'layout',
+        content: 'currentTours'
 
   FlowRouter.route '/archivedTours',
+    name: 'archivedTours'
     action: () ->
-      BlazeLayout.render "layout",
-        content: "archivedTours"
-
-    # waitOn: () ->
-    #   [
-    #     Meteor.subscribe 'archivedTours'
-    #   ]
-    # data: () ->
-    #   tours: Tours().find()
+      BlazeLayout.render 'layout',
+        content: 'archivedTours'
 
   FlowRouter.route '/tour/:_id',
-    action: () ->
-      BlazeLayout.render "layout",
-        content: "tour"
-
-  # Router.route 'tour',
-  #   path: '/tour/:_id'
-  #   template: 'tour'
-  #   waitOn: () ->
-  #     [
-  #       Meteor.subscribe 'tourStops', @params._id
-  #       Meteor.subscribe 'tourDetails', @params._id
-  #     ]
-  #   data: () ->
-  #     tour: Tours().findOne(@params._id)
-  #     stops: TourStops().find({$and:[{tour: @params._id}, {$or: [{type: 'single'}, {type: 'group'}]}]}, {sort: {'stopNumber': 1}})
+    name: 'tour'
+    action: (params) ->
+      BlazeLayout.render 'layout',
+        content: 'tour'
+        data:
+          tourID: params._id
 
   FlowRouter.route '/tour/:tourID/stop/:stopID',
-    action: () ->
-      BlazeLayout.render "layout",
-        content: "stop"
+    name: 'stop'
+    action: (params) ->
+      BlazeLayout.render 'layout',
+        content: 'stop'
+        data:
+          tourID: params.tourID
+          stopID: params.stopID
 
 
   # Router.route 'stop',
@@ -108,14 +62,16 @@ if Meteor.isClient
   #     tourStops: TourStops().find({$and:[{tour: @params.tourID}, {$or: [{type: 'single'}, {type: 'group'}]}]}, {sort: {'stopNumber': 1, 'order': 1}})
 
   FlowRouter.route '/help',
+    name: 'help'
     action: () ->
-      BlazeLayout.render "layout",
-        content: "help"
+      BlazeLayout.render 'layout',
+        content: 'help'
 
   FlowRouter.route '/feedback',
+    name: 'feedback'
     action: () ->
-      BlazeLayout.render "layout",
-        content: "feedback"
+      BlazeLayout.render 'layout',
+        content: 'feedback'
 
 
   # Router.route 'help'
@@ -152,18 +108,20 @@ if Meteor.isClient
   # });
 
   FlowRouter.route '/signIn',
+    name: 'signIn'
     action: () ->
-      BlazeLayout.render "layout",
-        content: "signIn"
+      BlazeLayout.render 'layout',
+        content: 'signIn'
 
   # Router.route 'signIn',
   #   path: '/sign-in'
   #   template: 'signIn'
 
   loggedIn.route '/admin',
+    name: 'admin'
     action: () ->
-      BlazeLayout.render "layout",
-        content: "admin"
+      BlazeLayout.render 'layout',
+        content: 'admin'
 
 
   # Router.route 'admin',
@@ -176,10 +134,10 @@ if Meteor.isClient
   #     tours: Tours().find({}, {sort: openDate: -1, tourType: 1})
 
   loggedIn.route '/createTour',
+    name: 'createTour'
     action: () ->
-      BlazeLayout.render "layout",
-        content: "help"
-
+      BlazeLayout.render 'layout',
+        content: 'help'
 
   # Router.route 'createTour',
   #   path: 'admin/create'
@@ -187,10 +145,10 @@ if Meteor.isClient
 
 
   loggedIn.route '/editTour',
+    name: 'editTour'
     action: () ->
-      BlazeLayout.render "layout",
-        content: "editTour"
-
+      BlazeLayout.render 'layout',
+        content: 'editTour'
 
   # Router.route 'editTour',
   #   path: 'admin/edit/:_id'
