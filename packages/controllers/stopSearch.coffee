@@ -3,7 +3,6 @@ if Meteor.isClient
   Template.stopSearch.onCreated ->
     @buttonState = new ReactiveVar(true)
 
-
   Template.stopSearch.events
     'input .stopNumber': _.throttle (e, instance)->
       if TourStops.findOne(stopNumber: +e.target.value)

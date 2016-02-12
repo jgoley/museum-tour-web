@@ -1,48 +1,42 @@
 if Meteor.isClient
 
   Template.tour.onCreated ->
-    @subscribe 'tourStops', @data.id
-    @subscribe 'tourDetails', @data.id
+    @tourID = @data.tourID
+    @subscribe 'tourStops', @tourID
+    @subscribe 'tourDetails', @tourID
 
-    instance = @
     @autorun ->
-      tour = Tours().findOne instance.data._id
+      tour = Tours.findOne @tourID
       if tour
+        family = ''
         if tour.tourType is 1 then family = ' (Family)'
         document.title = tour.mainTitle+': '+tour.subTitle+family
 
   Template.tour.helpers
-    showStops: ->
-      stops = TourStops().find().fetch()
-      if stops
-        _.filter stops, (stop)->
-          stop.type is 'group' or stop.type is 'single'
+    tour: ->
+      Tours.findOne Template.instance().tourID
+
+    tourStops: ->
+      TourStops.find
+        $or: [{type: 'group'},{type: 'single'}]
 
     isGroup: ->
       @type is "group"
 
-    getChildStopCount: ->
+    childStopCount: ->
       @childStops.length
 
     getTypes: ->
-      types = _.chain(@childStops)
-        .map((stop) -> +TourStops().findOne(stop).mediaType)
-        .uniq()
-        .sortBy((stop)-> stop)
-        .value()
-      types
-    stopNumbers: ->
-      numbers = {}
-      _.each @stops.fetch(), (stop) ->
-        numbers[stop.stopNumber] =
-          id: stop._id
-          tour: stop.tour
-      numbers
+      children = TourStops.find
+        _id:
+          $in: @childStops
+      _.sortBy _.uniq(_.pluck(children.fetch(), 'mediaType')), (type) -> type
 
 
 if Meteor.isServer
+
   Meteor.publish 'tourDetails', (tourID) ->
-    Tours().find _id: tourID
+    Tours.find tourID
 
   Meteor.publish 'tourStops', (tourID) ->
-    TourStops().find tour: tourID
+    TourStops.find tour: tourID

@@ -1,23 +1,28 @@
 template(name="tour")
-  .tour-image(style="background-image: url(//s3.amazonaws.com/tap-cma/#{tour._id}/#{tour.image})")
-    .main-title-wrap.tour-title
-      h1.main-title #{tour.mainTitle}:
-        span.sub-title #{tour.subTitle}
-  +stopSearch state=buttonState stopNumbers=stopNumbers
-  ul.tap-list.tour-stops
-    each showStops
-      li.tour-stop
-        a(href='#{tour}/stop/#{_id}')
-          .stop-info
-            span.stop-number #{stopNumber}
-            span.fa.fa-ellipsis-v.seperator
-            if isGroup
-              span.group Group
-              span.group-count ({{getChildStopCount}})
-            ul.media-types.list-unstyled
+  if Template.subscriptionsReady
+    .tour-image(style="background-image: url(//s3.amazonaws.com/tap-cma/#{tour._id}/#{tour.image})")
+      .main-title-wrap.tour-title
+        h1.main-title #{tour.mainTitle}:
+          span.sub-title #{tour.subTitle}
+    +stopSearch
+    ul.tap-list.tour-stops
+      each tourStops
+        li.tour-stop
+          a(href='#{tour}/stop/#{_id}')
+            .stop-info
+              span.stop-number #{stopNumber}
+              span.fa.fa-ellipsis-v.seperator
               if isGroup
-                each getTypes
-                  li(class="type-#{this}")
-              else
-                li(class="type-#{mediaType}")
-          span.tap-list-title.stop-title #{title}
+                span.group Group
+                span.group-count (#{childStopCount})
+              ul.media-types.list-unstyled
+                if isGroup
+                  each getTypes
+                    li(class="type-#{this}")
+                else
+                  li(class="type-#{mediaType}")
+            span.tap-list-title.stop-title #{title}
+      else
+        p No tour stops found
+  else
+    .loading
