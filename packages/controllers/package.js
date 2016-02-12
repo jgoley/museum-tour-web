@@ -20,7 +20,7 @@ Package.onUse(function(api) {
   api.use('accounts-password');
   api.use('useraccounts:core');
   api.use('momentjs:moment');
-  // api.use('lepozepo:s3');
+  api.use('lepozepo:s3');
   api.use('amr:parsley.js');
 
   api.addFiles('admin.coffee', ['client', 'server']);
@@ -47,6 +47,3 @@ Package.onUse(function(api) {
   api.addFiles('upload.coffee', ['client', 'server']);
   api.addFiles('uploadProgress.coffee', ['client']);
 });
-
-// edgee:slingshot
-

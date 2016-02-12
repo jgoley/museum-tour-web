@@ -12,6 +12,10 @@ Package.onUse(function(api) {
   api.use('mquandalle:stylus');
   api.use('fortawesome:fontawesome');
 
+  api.addAssets('icons/icons.ttf', 'client')
+  api.addAssets('icons/icons.svg', 'client')
+  api.addAssets('images/title.svg', 'client')
+
   api.addFiles('variables.import.styl', 'client');
   api.addFiles('fonts.import.styl', 'client');
   api.addFiles('extends.import.styl', 'client');
@@ -33,5 +37,4 @@ Package.onUse(function(api) {
   api.addFiles('tours.import.styl', 'client');
 
   api.addFiles('main.styl', 'client');
-
 });
