@@ -5,8 +5,9 @@ if Meteor.isClient
     @subscribe 'tourStops', @tourID
     @subscribe 'tourDetails', @tourID
 
+    instance = @
     @autorun ->
-      tour = Tours.findOne @tourID
+      tour = Tours.findOne instance.tourID
       if tour
         family = ''
         if tour.tourType is 1 then family = ' (Family)'
