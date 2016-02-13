@@ -5,6 +5,8 @@
 # but you can also edit it by hand.
 
 tap:router
+tap:models
+tap:accounts
 
 meteor-base             # Packages every Meteor app needs to have
 mobile-experience       # Packages for a great mobile UX
@@ -15,39 +17,3 @@ jquery                  # Helpful client-side library
 tracker                 # Meteor's client-side reactive programming library
 
 standard-minifiers      # JS/CSS minifiers run for production mode
-
-# underscore
-# mquandalle:jade
-# mquandalle:stylus
-# coffeescript
-# jquery
-# lepozepo:s3
-# edgee:slingshot
-# rubaxa:sortable
-# reactive-var
-# useraccounts:core
-# accounts-password
-# twbs:bootstrap-noglyph
-# templating
-# useraccounts:bootstrap
-# jasny:bootstrap
-# momentjs:moment
-# amr:parsley.js
-# fortawesome:fontawesome
-# reywood:iron-router-ga
-# gwendall:ui-hooks
-# iron:router
-# useraccounts:iron-routing
-# standard-minifiers
-# meteor-base
-# mobile-experience
-# mongo
-# blaze-html-templates
-# session
-# tracker
-# logging
-# reload
-# random
-# ejson
-# spacebars
-# check
