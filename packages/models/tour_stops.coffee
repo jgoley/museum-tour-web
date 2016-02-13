@@ -13,6 +13,3 @@ TourStop = Astro.Class
     parent: 'string'
     order: 'number'
     childStops: 'array'
-
-
-

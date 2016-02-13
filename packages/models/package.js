@@ -13,9 +13,9 @@ Package.onUse(function(api) {
   api.use('jagi:astronomy-timestamp-behavior');
   api.use('rubaxa:sortable');
 
-  api.addFiles('tours.coffee');
-  api.addFiles('tour_stops.coffee');
-  api.addFiles('sortable.coffee');
+  api.addFiles('tours.coffee', ['client', 'server']);
+  api.addFiles('tour_stops.coffee', ['client', 'server']);
+  api.addFiles('sortable.coffee', ['client', 'server']);
 
   api.export(['Tour', 'Tours'], ['client', 'server']);
   api.export(['TourStop', 'TourStops'], ['client', 'server']);
