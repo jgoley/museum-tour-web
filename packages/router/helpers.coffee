@@ -1,6 +1,8 @@
 go = (pathDef, params, queryParams) ->
   FlowRouter.go pathDef, params, queryParams
 
+setParams = (params) ->
+  FlowRouter.setParams(params)
 
 # From the arillo:meteor-flow-router-helpers package
 Template.registerHelper 'pathFor', (path, view = {hash:{}}) ->
@@ -14,3 +16,4 @@ Template.registerHelper 'pathFor', (path, view = {hash:{}}) ->
   query = if view.hash.query then FlowRouter._qs.parse(view.hash.query) else {}
   hashBang = if view.hash.hash then view.hash.hash else ''
   FlowRouter.path(path, view.hash, query) + hashBang
+

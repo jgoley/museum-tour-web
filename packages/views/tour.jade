@@ -8,7 +8,7 @@ template(name="tour")
     ul.tap-list.tour-stops
       each tourStops
         li.tour-stop
-          a(href='#{tour}/stop/#{_id}')
+          a(href="{{pathFor 'stop' tourID=tour._id stopID=_id }}")
             .stop-info
               span.stop-number #{stopNumber}
               span.fa.fa-ellipsis-v.seperator

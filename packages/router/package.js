@@ -18,6 +18,7 @@ Package.onUse(function(api) {
   api.addFiles('helpers.coffee', ['client']);
 
   api.export('go', 'client');
+  api.export('setParams', 'client');
   api.export('pathFor', 'client');
 
 });
