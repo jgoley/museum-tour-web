@@ -20,6 +20,11 @@ if Meteor.isClient
     tourStops: ->
       TourStops.find
         $or: [{type: 'group'},{type: 'single'}]
+        {sort: stopNumber: 1}
+
+    stopParams: (stopID) ->
+      tourID: tourID
+      stopID: stopID
 
     isGroup: ->
       @type is "group"
