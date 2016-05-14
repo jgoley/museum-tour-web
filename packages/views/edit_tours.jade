@@ -1,4 +1,4 @@
-template(name="admin")
+template(name="editTours")
   .main-title-wrap
     h1.main-title
       span Tours
@@ -9,7 +9,7 @@ template(name="admin")
   ul.tap-edit-list.current-tours
     each tours
       li
-        a.edit-tour(href="/admin/edit/#{_id}")
+        a.edit-tour(href="{{pathFor 'editTour' tourID=_id}}")
           span.title #{mainTitle}
           span.sub-title #{subTitle}
           if isFamily

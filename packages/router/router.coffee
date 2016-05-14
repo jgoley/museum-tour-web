@@ -57,41 +57,27 @@ if Meteor.isClient
     action: () ->
       BlazeLayout.render 'layout',
         content: 'signIn'
+    triggersEnter: [->
+      if Meteor.user()
+        FlowRouter.go 'admin'
+    ]
 
-  loggedIn.route '/admin',
-    name: 'admin'
+  loggedIn.route '/tours/edit',
+    name: 'editTours'
     action: () ->
       BlazeLayout.render 'layout',
-        content: 'admin'
+        content: 'editTours'
 
-  # Router.route 'admin',
-  #   waitOn: () ->
-  #     [
-  #       Meteor.subscribe 'tours'
-  #     ]
-  #   data: () ->
-  #     tours: Tours().find({}, {sort: openDate: -1, tourType: 1})
-
-  loggedIn.route '/createTour',
+  loggedIn.route '/tours/create',
     name: 'createTour'
     action: () ->
       BlazeLayout.render 'layout',
-        content: 'help'
+        content: 'createTour'
 
-  loggedIn.route '/editTour',
+  loggedIn.route '/tour/edit/:tourID',
     name: 'editTour'
-    action: () ->
+    action: (params) ->
       BlazeLayout.render 'layout',
         content: 'editTour'
-
-  # Router.route 'editTour',
-  #   path: 'admin/edit/:_id'
-  #   waitOn: () ->
-  #     [
-  #       Meteor.subscribe 'tourDetails', @params._id
-  #       Meteor.subscribe 'tourStops', @params._id
-  #     ]
-  #   data: () ->
-  #     tour: Tours().findOne(@params._id)
-  #     stops: TourStops().find({$and:[{tour: @params._id}, {$or: [{type: 'single'}, {type: 'group'}]}]}, {sort: {'stopNumber': 1}})
-  #     childStops: TourStops().find({$and: [{tour: @params._id}, {type: 'child'}] })
+        data:
+          tourID: params.tourID

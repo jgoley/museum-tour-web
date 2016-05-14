@@ -4,12 +4,16 @@ TourStop = Astro.Class
   collection: TourStops
   fields:
     tour: 'string'
+    parent: 'string'
     type: 'string'
     title: 'string'
     stopNumber: 'number'
     speaker: 'string'
     media: 'string'
     mediaType: 'number'
-    parent: 'string'
     order: 'number'
-    childStops: 'array'
+
+  methods:
+    children: ->
+      TourStops.find parent: @_id
+

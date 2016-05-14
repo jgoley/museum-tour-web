@@ -3482,62 +3482,62 @@ legacyStops =
   }
 ]
 
-if Meteor.isClient
+# if Meteor.isClient
 
-  Template.convert.rendered = ()->
-    tours = @data.tours.fetch()
-    # _.each tours, (tour)->
-    #   console.log tour
+  # Template.convert.rendered = ()->
+  #   tours = @data.tours.fetch()
+  #   # _.each tours, (tour)->
+  #   #   console.log tour
 
-    convertTour = (data) ->
-      _.chain(data)
-        .groupBy('tourID')
-        .map((tour, i)->
-          tourStops =
-            _.chain(tour)
-              .groupBy('stopID')
-              .map( (stop) ->
-                stop = _.sortBy(stop, 'groupID')
-                if stop.length > 1 # Is a group
-                  childStops =
-                    _.chain(stop)
-                      .filter( (childStop, i) ->
-                        console.log childStop
-                        return i > 0)
-                      .map( (childStop, order) ->
-                        'tour': tours[i-1]._id
-                        'title': childStop.title.trim()
-                        'speaker': childStop.speaker.trim()
-                        'media': ''
-                        'mediaType': +childStop.stopType
-                        'type': 'child'
-                        'order': order+1
-                        )
-                      .value()
-                  {
-                    'tour': tours[i-1]._id
-                    'title': stop[0].groupTitle.trim()
-                    'type': 'group'
-                    'stopNumber': +stop[0].stopID
-                    'childStops': childStops
-                  }
-                else
-                  {
-                    'tour': tours[i-1]._id
-                    'type': 'single'
-                    'title': stop[0].groupTitle.trim()
-                    'stopNumber': +stop[0].stopID
-                    'mediaType': +stop[0].stopType
-                    'speaker': stop[0].speaker.trim()
-                    'media': ''
-                  }
-              )
-              .value()
-          'tourID': +tour[0].tourID
-          'stops': tourStops
-        )
-        .value()
-    unless TourStops.findOne({})
-      _.each convertTour(legacyStops), (tour)->
-        _.each tour.stops, (stop)->
-          TourStops.insert(stop)
+  #   convertTour = (data) ->
+  #     _.chain(data)
+  #       .groupBy('tourID')
+  #       .map((tour, i)->
+  #         tourStops =
+  #           _.chain(tour)
+  #             .groupBy('stopID')
+  #             .map( (stop) ->
+  #               stop = _.sortBy(stop, 'groupID')
+  #               if stop.length > 1 # Is a group
+  #                 childStops =
+  #                   _.chain(stop)
+  #                     .filter( (childStop, i) ->
+  #                       console.log childStop
+  #                       return i > 0)
+  #                     .map( (childStop, order) ->
+  #                       'tour': tours[i-1]._id
+  #                       'title': childStop.title.trim()
+  #                       'speaker': childStop.speaker.trim()
+  #                       'media': ''
+  #                       'mediaType': +childStop.stopType
+  #                       'type': 'child'
+  #                       'order': order+1
+  #                       )
+  #                     .value()
+  #                 {
+  #                   'tour': tours[i-1]._id
+  #                   'title': stop[0].groupTitle.trim()
+  #                   'type': 'group'
+  #                   'stopNumber': +stop[0].stopID
+  #                   'childStops': childStops
+  #                 }
+  #               else
+  #                 {
+  #                   'tour': tours[i-1]._id
+  #                   'type': 'single'
+  #                   'title': stop[0].groupTitle.trim()
+  #                   'stopNumber': +stop[0].stopID
+  #                   'mediaType': +stop[0].stopType
+  #                   'speaker': stop[0].speaker.trim()
+  #                   'media': ''
+  #                 }
+  #             )
+  #             .value()
+  #         'tourID': +tour[0].tourID
+  #         'stops': tourStops
+  #       )
+  #       .value()
+  #   unless TourStops.findOne({})
+  #     _.each convertTour(legacyStops), (tour)->
+  #       _.each tour.stops, (stop)->
+  #         TourStops.insert(stop)

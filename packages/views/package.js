@@ -11,17 +11,14 @@ Package.onUse(function(api) {
   api.use('mquandalle:jade');
   api.use('tap:styles');
 
-  api.addFiles('admin.jade', 'client');
-  api.addFiles('allStops.jade', 'client');
+  // Alphabetized
   api.addFiles('archivedTours.jade', 'client');
-  api.addFiles('childStops.jade', 'client');
-  api.addFiles('convert.jade', 'client');
   api.addFiles('currentTours.jade', 'client');
-  api.addFiles('edit.jade', 'client');
-  api.addFiles('editMedia.jade', 'client');
-  api.addFiles('editStop.jade', 'client');
+  api.addFiles('edit_tour.jade', 'client');
+  api.addFiles('edit_tours.jade', 'client');
+  api.addFiles('edit_media.jade', 'client');
   api.addFiles('feedback.jade', 'client');
-  api.addFiles('fileUpload.jade', 'client');
+  api.addFiles('file_upload.jade', 'client');
   api.addFiles('header.jade', 'client');
   api.addFiles('help.jade', 'client');
   api.addFiles('home.jade', 'client');
@@ -39,8 +36,4 @@ Package.onUse(function(api) {
   api.addFiles('tourDetails.jade', 'client');
   api.addFiles('upload.jade', 'client');
   api.addFiles('uploadProgress.jade', 'client');
-
 });
-
-
-
