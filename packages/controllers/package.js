@@ -11,6 +11,7 @@ Package.onUse(function(api) {
   api.use('coffeescript');
   api.use('templating');
   api.use('reactive-var');
+  api.use('reactive-dict');
 
   api.use('tap:models');
   api.use('tap:accounts');
@@ -23,13 +24,13 @@ Package.onUse(function(api) {
   api.use('lepozepo:s3');
   api.use('amr:parsley.js');
 
-  api.addFiles('admin.coffee', ['client', 'server']);
   api.addFiles('archivedTours.coffee', ['client', 'server']);
   api.addFiles('childStops.coffee', ['client', 'server']);
   api.addFiles('convert.coffee', ['client']);
   api.addFiles('currentTours.coffee', ['client', 'server']);
+  api.addFiles('edit_tour.coffee', ['client', 'server']);
+  api.addFiles('edit_tours.coffee', ['client', 'server']);
   api.addFiles('editMedia.coffee', ['client', 'server']);
-  api.addFiles('editTour.coffee', ['client', 'server']);
   api.addFiles('fileUpload.coffee', ['client', 'server']);
   api.addFiles('header.coffee', ['client']);
   api.addFiles('help.coffee', ['client']);
