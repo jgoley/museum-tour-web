@@ -87,6 +87,7 @@ spacebars-compiler@1.0.7
 srp@1.0.4
 standard-minifiers@1.0.2
 tap:accounts@0.0.1
+tap:admin@0.0.1
 tap:controllers@0.0.1
 tap:models@0.0.1
 tap:router@0.0.1
