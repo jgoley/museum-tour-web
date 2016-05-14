@@ -1,4 +1,4 @@
-An application that allows museums create, edit and offer multimedia tours for its visitors.
+Web-based application that allows museums to create, edit and offer multimedia tours to visitors.
 
 Currently used by the Columbia Museum of Art: http://tours.columbiamuseum.org
 
