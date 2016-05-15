@@ -21,8 +21,8 @@ Package.onUse(function(api) {
   api.use('accounts-password');
   api.use('useraccounts:core');
   api.use('momentjs:moment');
-  api.use('lepozepo:s3');
   api.use('amr:parsley.js');
+  api.use('lepozepo:s3');
 
   api.addFiles('convert.coffee', ['client']);
   api.addFiles('edit_tour.coffee', ['client', 'server']);

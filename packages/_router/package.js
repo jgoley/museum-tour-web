@@ -11,7 +11,6 @@ Package.onUse(function(api) {
   api.use('templating');
   api.use('kadira:blaze-layout');
   api.use('kadira:flow-router');
-  api.use('tap:controllers');
   api.use('okgrow:analytics');
 
   api.addFiles('router.coffee', ['client', 'server']);
