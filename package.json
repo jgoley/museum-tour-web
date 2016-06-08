@@ -1,0 +1,34 @@
+{
+  "name": "museum-tour",
+  "version": "2.2.0",
+  "description": "Web-based application that allows museums to create, edit and offer multimedia tours to visitors.",
+  "main": "client/main.js",
+  "dependencies": {
+    "rupture": "^0.6.1",
+    "typographic": "^2.9.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jgoley/museum-tour.git"
+  },
+  "keywords": [
+    "museum",
+    "art",
+    "tour",
+    "mobile",
+    "handheld",
+    "multimuedia",
+    "videos",
+    "artsits"
+  ],
+  "author": "Jonathan Goley",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jgoley/museum-tour/issues"
+  },
+  "homepage": "https://github.com/jgoley/museum-tour"
+}
