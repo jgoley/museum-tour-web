@@ -1,0 +1,19 @@
+template(name="stopData")
+  label
+    span Speaker or Subtitle
+    input.form-control(value="#{stop.speaker}" name="speaker" placeholder="Speaker")
+  .row
+    .col-sm-6
+      +mediaTypes stop=stop mediaType=mediaType
+  +editMedia(
+    label="Media File"
+    name="media"
+    media=stop.media
+    tourID=stop.tour
+    stop=stop
+    mediaType=mediaType
+    typeName='media'
+    currentMediaType=stop.mediaType
+    )
+  if isUpdating
+    +uploadProgress

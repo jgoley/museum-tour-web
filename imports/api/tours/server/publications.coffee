@@ -1,4 +1,3 @@
-{ Meteor } = require 'meteor/meteor'
 { moment } = require 'meteor/momentjs:moment'
 { Tours }  = require '../index'
 

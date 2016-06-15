@@ -5,7 +5,6 @@ blaze-html-templates    # Compile .html files into Meteor Blaze views
 templating
 reactive-var            # Reactive variable for tracker
 reactive-dict
-jquery                  # Helpful client-side library
 tracker                 # Meteor's client-side reactive programming library
 session
 

@@ -1,5 +1,3 @@
-{ Session } = require 'meteor/session'
-
 showNotification = (error, sessionString, editing) ->
   if error
       error()

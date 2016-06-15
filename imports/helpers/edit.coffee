@@ -32,7 +32,13 @@ showStop = (instance, stop) ->
 getLastStopNum = (stops) ->
   _.last(stops)?.stopNumber
 
+parsley = (formElement) ->
+  $(formElement).parsley
+    trigger: 'change'
+
+
 module.exports =
-  updateStop: updateStop
-  showStop: showStop
+  updateStop    : updateStop
+  showStop      : showStop
   getLastStopNum: getLastStopNum
+  parsley       : parsley

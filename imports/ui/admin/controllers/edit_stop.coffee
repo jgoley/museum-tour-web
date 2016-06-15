@@ -1,7 +1,8 @@
 { TourStops }        = require '../../../api/tour_stops/index'
 { showNotification } = require '../../../helpers/notifications'
-{ Session }          = require 'meteor/session'
 { updateStop }       = require '../../../helpers/edit'
+
+require '../views/edit_stop.jade'
 
 Template.editStop.onCreated ->
   @activelyEditing = new ReactiveVar false

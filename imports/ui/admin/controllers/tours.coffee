@@ -1,5 +1,3 @@
-{ Meteor }   = require 'meteor/meteor'
-{ Template } = require 'meteor/templating'
 { Tours }    = require '../../../api/tours/index'
 
 require '../views/tours.jade'

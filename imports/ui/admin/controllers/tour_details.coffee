@@ -1,5 +1,3 @@
-{ Meteor }           = require 'meteor/meteor'
-{ Template }         = require 'meteor/templating'
 { Tours }            = require '../../../api/tours/index'
 { S3 }               = require 'meteor/lepozepo:s3'
 { showNotification } = require '../../../helpers/notifications'

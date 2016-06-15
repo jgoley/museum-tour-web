@@ -1,7 +1,5 @@
-{ Meteor }    = require 'meteor/meteor'
 { TourStops } = require '../../tour_stops/index'
 { Tours }     = require '../index'
-{ _ }         = require 'meteor/underscore'
 
 
 Meteor.publish 'stop', (stopID) ->
