@@ -8,31 +8,25 @@
   getLastStopNum }   = require '../../../helpers/edit'
 
 require '../../../ui/components/upload_progress/upload_progress.coffee'
-require '../../../ui/components/stop_title/stop_title.coffee'
+require './stop_title'
 require './edit_stop'
 require '../views/edit_tour.jade'
 
 
 Template.editTour.onCreated ->
-  console.log @data
   @editTourDetails = new ReactiveVar false
   @creatingStop = new ReactiveVar false
   @tourID = @data?.tourID
   if @tourID
     @subscribe 'tourDetails', @tourID
-    # @subscribe 'tourStops', @tourID
     @subscribe 'tourParentStops', @tourID
 
 Template.editTour.helpers
   tour: ->
     Tours.findOne Template.instance().tourID
+
   stops: ->
-    TourStops.find
-      $and: [
-        {type: {$ne: 'child'}}
-        {tour: Template.instance().tourID}
-      ]
-      {sort: stopNumber: 1}
+    TourStops.find {}, {sort: stopNumber: 1}
 
   onlyOneStop: ->
     TourStops.findOne()

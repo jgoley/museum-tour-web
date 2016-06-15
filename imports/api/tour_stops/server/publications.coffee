@@ -55,4 +55,3 @@ Meteor.publish 'tourParentStops', (tourID) ->
         ]
       }
     ]
-    {$sort: {order: 1}}

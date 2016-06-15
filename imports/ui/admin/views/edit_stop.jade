@@ -1,38 +1,16 @@
 template(name="editStop")
-  li.parent(class="#{stop.type} {{#unless isActivelyEditing}} not-editing {{/unless}}")
-    unless onlyOneStop
-      i.handle.fa.fa-bars
-    span.stop-number #{stop.stopNumber}
-    +stopTitle stop=stop activelyEditing=activelyEditing
-    .stop-count
-      if isGroup
-          each childStops
-            if hasMedia this
-              i.fa.fa-square
-            else
-              i.fa.fa-square-o.no-file
-          else
-            i.fa.fa-exclamation-triangle.no-file-warning
-      else
-        if media
-          i.fa.fa-square
-        else
-          i.fa.fa-square-o.no-file
-    a.delete(href="#")
-      i.fa.fa-trash
-    if editStop
-      if isGroup
-        if showChildStops
-          ul.edit-child-stops.list-unstyled
-            each children
-              +childStop child=this
-            unless addChild
-              li.child.add-stop-link.add-child
-                a.title
-                  i.fa.fa-plus-square
-                  span Add Child
-          if addChild
-            +addStop type='new-child' tour=tour parent=_id siblings=childStops
-      else
-        .editing-container
-          +editing stop=stop stops=stops childStops=children
+  if isGroup
+    if showChildStops
+      ul.edit-child-stops.list-unstyled
+        each children
+          +childStop child=this
+        unless addChild
+          li.child.add-stop-link.add-child
+            a.title
+              i.fa.fa-plus-square
+              span Add Child
+      if addChild
+        +addStop type='new-child' tour=tour parent=_id siblings=childStops
+  else
+    .editing-container
+      +editing stop=stop stops=stops childStops=children

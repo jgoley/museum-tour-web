@@ -2,44 +2,32 @@
 { showNotification } = require '../../../helpers/notifications'
 { updateStop }       = require '../../../helpers/edit'
 
+require './editing'
+require './add_stop'
+require './stop_title'
+require './stop_title'
+require './stop_data'
+require '../../components/media_preview/media_preview.jade'
+require '../../components/media_types/media_types.coffee'
 require '../views/edit_stop.jade'
+
 
 Template.editStop.onCreated ->
   @activelyEditing = new ReactiveVar false
   @subscribe 'childStops', @data.stop._id
 
 Template.editStop.helpers
-  editStop: ->
-    Template.instance().activelyEditing.get()
-
   showChildStops: ->
-    console.log "test", Template.instance().activelyEditing.get()
     Template.instance().activelyEditing.get()
 
-  sortableOptions : ->
-    handle: '.handle'
-
-  editChildStop: (parent) ->
-    Session.get("child-" + @stop.parent + '-' + @stop._id)
+  addChild: ->
+    Session.get('add-child-'+@stop._id)
 
   isGroup: ->
     @stop.type is 'group'
 
   children: ->
     @stop.children()
-
-  addChild: ->
-    Session.get('add-child-'+@stop._id)
-
-  showAddStop: ->
-    Session.get('add-stop')
-
-  hasMedia: (stopID) ->
-    TourStops.findOne({_id: stopID}).media
-
-  activelyEditing: ->
-    Template.instance().activelyEditing
-
 
 Template.editStop.events
   'click .convert-group': () ->
