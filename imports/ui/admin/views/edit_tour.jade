@@ -65,20 +65,6 @@ template(name="editStop")
         .editing-container
           +editing stop=stop stops=stops childStops=children
 
-template(name="stopTitle")
-  unless editingTitle
-    span.title(class="#{stop.type}-title") #{stop.title}
-    a(href="").edit-title-btn
-      i.fa.fa-edit
-  else
-    form.edit-title-form.animate-in(data-parsley-validate)
-      .edit-title
-        input.edit-title-input.form-control.inline(value="#{stop.title}" name="title" required)
-        .action-btns-form
-          button.btn.btn-plain.save-title(type="submit")
-            i.fa.fa-check-circle
-          button.btn.btn-plain.cancel-edit-title(type="button")
-            i.fa.fa-times-circle
 
 
 template(name="childStop")
@@ -136,8 +122,8 @@ template(name="editing")
                       button.btn.btn-default
                         i.fa.fa-plus-square.left
                         span Add to group
-                        
-                        
+
+
 template(name="stopData")
   label
     span Speaker or Subtitle
@@ -157,16 +143,6 @@ template(name="stopData")
     )
   if isUpdating
     +uploadProgress
-
-
-
-template(name='mediaTypes')
-  label Media Type
-    select.form-control.media-type-select(name="mediaType")
-      each stopTypesForm
-        option(value="#{value}" selected="{{selected ../stop}}") #{label}
-
-
 
 template(name='addStop')
   .add-stop-container(class=type)

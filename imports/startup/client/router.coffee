@@ -5,6 +5,7 @@
 require '../../ui/layout'
 require '../../ui/menu/index'
 require '../../ui/tours/index'
+require '../../ui/admin/index'
 
 BlazeLayout.setRoot 'body'
 FlowRouter.triggers.enter [ -> $('body').attr 'ontouchstart', '' ]
@@ -78,7 +79,7 @@ loggedIn.route '/tours/create',
   name: 'createTour'
   action: () ->
     BlazeLayout.render 'layout',
-      content: 'createTour'
+      content: 'tourDetails'
 
 loggedIn.route '/tour/edit/:tourID',
   name: 'editTour'

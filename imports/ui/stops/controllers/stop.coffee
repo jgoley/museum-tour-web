@@ -2,7 +2,7 @@
 {Template}    = require 'meteor/templating'
 {ReactiveVar} = require 'meteor/reactive-var'
 {TourStops}   = require '../../../api/tour_stops/index'
-{go}          = require '../../../helpers/helpers'
+{go}          = require '../../../helpers/route_helpers'
 
 require '../views/stop.jade'
 

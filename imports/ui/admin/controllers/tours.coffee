@@ -1,7 +1,8 @@
-{Meteor}   = require 'meteor/meteor'
-{Template} = require 'meteor/templating'
+{ Meteor }   = require 'meteor/meteor'
+{ Template } = require 'meteor/templating'
+{ Tours }    = require '../../../api/tours/index'
 
-require '../views/edit_tours.jade'
+require '../views/tours.jade'
 
 Template.editTours.onCreated ->
   @subscribe 'tours'

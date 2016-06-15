@@ -1,0 +1,5 @@
+require './views/sign_in.jade'
+require './controllers/edit_media'
+require './controllers/edit_tour'
+require './controllers/tour_details'
+require './controllers/tours'

@@ -3,10 +3,10 @@
 { Tours }            = require '../../../api/tours/index'
 { S3 }               = require 'meteor/lepozepo:s3'
 { showNotification } = require '../../../helpers/notifications'
-{ parsley }          = require 'meteor/amr:parsley.js'
+parsley              = require 'parsleyjs'
 { $ }                = require 'meteor/jquery'
 
-require '../views/tourDetails.jade'
+require '../views/tour_details.jade'
 
 Template.tourDetails.onRendered ->
   $('.create-tour').parsley

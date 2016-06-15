@@ -2,7 +2,7 @@
 {ReactiveVar} = require 'meteor/reactive-var'
 {$}           = require 'meteor/jquery'
 
-require './file_upload.jad'
+require './file_upload.jade'
 
 Template.fileUpload.onCreated ->
   @fileName = new ReactiveVar('No file selected')

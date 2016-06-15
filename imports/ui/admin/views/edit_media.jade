@@ -20,13 +20,3 @@ template(name="editMedia")
       +fileUpload name='posterImage' required=true label="Poster Image"
     else
       +mediaPreview stop=stop media=stop.posterImage tourID=tourID typeName='posterImage'
-
-template(name="mediaPreview")
-    .media-image
-      img(src="http:#{awsUrl}/#{tourID}/#{media}")
-      .curtain
-      .media-options
-        a(href="#{awsUrl}/#{tourID}/#{media}" target='_blank')
-          i.fa.fa-external-link
-        a(href="").delete-image
-          i.fa.fa-trash

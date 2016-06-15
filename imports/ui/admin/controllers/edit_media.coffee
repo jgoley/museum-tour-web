@@ -1,6 +1,8 @@
-{Meteor}   = require 'meteor/meteor'
-{Template} = require 'meteor/templating'
+{ Meteor }   = require 'meteor/meteor'
+{ Template } = require 'meteor/templating'
 
+require '../../../ui/components/file_upload/file_upload.coffee'
+require '../../../ui/components/media_preview/media_preview.jade'
 require '../views/edit_media.jade'
 
 Template.editMedia.helpers

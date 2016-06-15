@@ -1,0 +1,9 @@
+template(name="mediaPreview")
+    .media-image
+      img(src="http:#{awsUrl}/#{tourID}/#{media}")
+      .curtain
+      .media-options
+        a(href="#{awsUrl}/#{tourID}/#{media}" target='_blank')
+          i.fa.fa-external-link
+        a(href="").delete-image
+          i.fa.fa-trash
