@@ -1,18 +1,17 @@
-{ Template }  = require 'meteor/templating'
-{ Tours }     = require '../../../api/tours/index'
-{ TourStops } = require '../../../api/tour_stops/index'
+{ Tour }     = require '../../../api/tours/index'
+{ TourStop } = require '../../../api/tour_stops/index'
 
 require '../views/currentTours.jade'
 require '../../components/thumbnail/thumbnail'
 require '../../stops/controllers/stopSearch'
 
 Template.currentTours.onCreated ->
-  @subscribe 'currentTours'
+  @subscribe 'currentTour'
   @subscribe 'currentTourStops'
-  document.title = 'Current Tours'
+  document.title = 'Current Tour'
 
 Template.currentTours.helpers
   tours: ->
-    Tours.find()
+    Tour.find()
   stopNumbers: ->
-    TourStops.find()
+    TourStop.find()

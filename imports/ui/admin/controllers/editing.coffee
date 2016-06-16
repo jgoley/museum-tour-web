@@ -1,4 +1,4 @@
-{ TourStops }        = require '../../../api/tour_stops/index'
+{ TourStop }        = require '../../../api/tour_stops/index'
 { parsley }          = require '../../../helpers/edit'
 { showNotification } = require '../../../helpers/notifications'
 
@@ -20,7 +20,7 @@ Template.editing.helpers
   progress: () ->
     Math.round this.uploader.progress() * 100
   parentStops: ->
-    TourStops.find {type: 'group'}, {sort: {title: 1}}
+    TourStop.find {type: 'group'}, {sort: {title: 1}}
   getMediaType: ->
     Template.instance().mediaType
 
@@ -41,6 +41,6 @@ Template.editing.events
     stop = data.stop
     childStops = _.filter data.childStops.fetch(), (stop) -> stop.parent is parentID
     order = _.last(_.sortBy(childStops, 'order')).order + 1
-    TourStops.update {_id: stop._id}, {$set: {type: 'child', parent: parentID, order: order} }, (e,r) ->
-      TourStops.update {_id: parentID}, {$addToSet: {childStops: stop._id} }
+    TourStop.update {_id: stop._id}, {$set: {type: 'child', parent: parentID, order: order} }, (e,r) ->
+      TourStop.update {_id: parentID}, {$addToSet: {childStops: stop._id} }
       showNotification(e)

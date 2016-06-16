@@ -1,4 +1,4 @@
-{ Tours }    = require '../../../api/tours/index'
+{ Tour }    = require '../../../api/tours/index'
 
 require '../views/tours.jade'
 
@@ -7,7 +7,7 @@ Template.editTours.onCreated ->
 
 Template.editTours.helpers
   tours: ->
-    Tours.find {}, {sort: openDate: 1, tourType: 1}
+    Tour.find {}, {sort: openDate: 1, tourType: 1}
 
   type: ->
     if @tourType is 0

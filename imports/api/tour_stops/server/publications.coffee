@@ -1,27 +1,27 @@
-{ TourStops } = require '../../tour_stops/index'
-{ Tours }     = require '../index'
+{ TourStop } = require '../../tour_stops/index'
+{ Tour }     = require '../index'
 
 
 Meteor.publish 'stop', (stopID) ->
-  TourStops.find stopID
+  TourStop.find stopID
 
 Meteor.publish 'childStops', (stopID) ->
-  TourStops.find parent: stopID
+  TourStop.find parent: stopID
 
 Meteor.publish 'adjacentStops', (stopID) ->
-  currentStop = TourStops.findOne stopID
-  TourStops.find
+  currentStop = TourStop.findOne stopID
+  TourStop.find
     $and:[
       {tour: currentStop.tour}
       {$or: [{stopNumber: currentStop.stopNumber + 1}, {stopNumber: currentStop.stopNumber - 1}]}
     ]
 
 Meteor.publish 'tourStops', (tourID) ->
-  TourStops.find tour: tourID
+  TourStop.find tour: tourID
 
-Meteor.publish 'currentTourStops', ->
+Meteor.publish 'currentTourStop', ->
   today = moment(new Date()).format('YYYY-MM-DD')
-  tours = Tours.find
+  tours = Tour.find
     $and: [
       {
         closeDate:
@@ -37,7 +37,7 @@ Meteor.publish 'currentTourStops', ->
   query = _.map tours.fetch(), (tour)->
     {'tour': tour._id}
 
-  TourStops.find
+  TourStop.find
     $and: [
       {$or: query},
       {$or: [{type: 'single'}, {type: 'group'}]}
@@ -45,7 +45,7 @@ Meteor.publish 'currentTourStops', ->
     {fields: {_id: 1, tour: 1, stopNumber: 1}}
 
 Meteor.publish 'tourParentStops', (tourID) ->
-  TourStops.find
+  TourStop.find
     $and: [
       {tour: tourID}
       {$or:

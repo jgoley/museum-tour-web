@@ -1,15 +1,15 @@
 { moment } = require 'meteor/momentjs:moment'
-{ Tours }  = require '../index'
+{ Tour }  = require '../index'
 
 Meteor.publish 'tours', ->
-  Tours.find()
+  Tour.find()
 
 Meteor.publish 'tourDetails', (tourID) ->
-  Tours.find tourID
+  Tour.find tourID
 
-Meteor.publish 'currentTours', ->
+Meteor.publish 'currentTour', ->
   today = moment(new Date()).format('YYYY-MM-DD')
-  Tours.find
+  Tour.find
     $and: [
       {
         closeDate:
@@ -21,9 +21,9 @@ Meteor.publish 'currentTours', ->
       }
     ]
 
-Meteor.publish 'archivedTours', ->
+Meteor.publish 'archivedTour', ->
   today = moment(new Date()).format('YYYY-MM-DD')
-  Tours.find
+  Tour.find
     $query:
       closeDate:
         $lte: today

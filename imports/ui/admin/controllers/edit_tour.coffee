@@ -1,7 +1,7 @@
 { showNotification } = require '../../../helpers/notifications'
 { go }               = require '../../../helpers/route_helpers'
-{ Tours }            = require '../../../api/tours/index'
-{ TourStops }        = require '../../../api/tour_stops/index'
+{ Tour }            = require '../../../api/tours/index'
+{ TourStop }        = require '../../../api/tour_stops/index'
 { parsley
   updateStop,
   showStop,
@@ -23,13 +23,13 @@ Template.editTour.onCreated ->
 
 Template.editTour.helpers
   tour: ->
-    Tours.findOne Template.instance().tourID
+    Tour.findOne Template.instance().tourID
 
   stops: ->
-    TourStops.find {}, {sort: stopNumber: 1}
+    TourStop.find {}, {sort: stopNumber: 1}
 
   onlyOneStop: ->
-    TourStops.findOne()
+    TourStop.findOne()
 
   editTourDetails: ->
     Template.instance().editTourDetails.get()
@@ -42,9 +42,9 @@ Template.editTour.events
     deleteTour = confirm("Delete tour? All stops will be deleted")
     template.data.stops.forEach (stop) ->
       deleteFile(stop)
-      TourStops.remove stop._id
+      TourStop.remove stop._id
     deleteFolder(@tour._id)
-    Tours.remove @tour._id, () ->
+    Tour.remove @tour._id, () ->
       go '/admin'
 
   'click .show-tour-details': (e) ->

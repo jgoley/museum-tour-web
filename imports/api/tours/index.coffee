@@ -1,10 +1,10 @@
 { Mongo } = require 'meteor/mongo'
 { Class } = require 'meteor/jagi:astronomy'
 
-Tours = new Mongo.Collection 'tours'
+Tour = new Mongo.Collection 'tours'
 Tour = Class.create
   name: 'Tour'
-  collection: Tours
+  collection: Tour
   fields:
     tourID   : String
     mainTitle: String
@@ -19,4 +19,4 @@ Tour = Class.create
 
 
 module.exports =
-  Tours: Tours
+  Tour: Tour

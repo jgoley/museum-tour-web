@@ -1,4 +1,4 @@
-{ TourStops }        = require '../../../api/tour_stops/index'
+{ TourStop }        = require '../../../api/tour_stops/index'
 { showNotification } = require '../../../helpers/notifications'
 { updateStop }       = require '../../../helpers/edit'
 
@@ -41,8 +41,8 @@ Template.editStop.events
       newChild.type = 'child'
       newChild.order = 1
       parentQuery = "}, {$set: {type: 'group'}}"
-      TourStops.insert newChild, (e, id) ->
-        TourStops.update {_id: currentStop._id}, {$set: {type:'group', childStops: [id]}, $unset: {media: '', mediaType: '', speaker: ''}}, (e,r) ->
+      TourStop.insert newChild, (e, id) ->
+        TourStop.update {_id: currentStop._id}, {$set: {type:'group', childStops: [id]}, $unset: {media: '', mediaType: '', speaker: ''}}, (e,r) ->
           showNotification(e)
 
   'click .convert-single': () ->
@@ -50,7 +50,7 @@ Template.editStop.events
     if convertStop
       that = @
       lastStopNumber = _.last(Template.instance().data.stops.fetch()).stopNumber
-      TourStops.update {_id: that.stop.parent}, {$pull:{childStops: that.stop._id}}, () ->
+      TourStop.update {_id: that.stop.parent}, {$pull:{childStops: that.stop._id}}, () ->
         showNotification(e)
 
   'click .add-child': () ->
@@ -108,7 +108,7 @@ Template.editStop.events
       else if @type is 'single'
         if @media
           deleteFile(@)
-        TourStops.remove({_id: @_id})
+        TourStop.remove({_id: @_id})
       else
         that = @
         siblings = _.filter Template.instance().data.childStops.fetch(), (stop) ->
@@ -116,6 +116,6 @@ Template.editStop.events
         higherSiblings = _.filter siblings, (stop) ->
           stop.order > that.order
         _.each higherSiblings, (stop) ->
-          TourStops.update {_id: stop._id}, {$set: {order: stop.order-1}}
-        TourStops.update({_id: @parent}, {$pull: {childStops: @_id}})
-        TourStops.remove({_id: @_id})
+          TourStop.update {_id: stop._id}, {$set: {order: stop.order-1}}
+        TourStop.update({_id: @parent}, {$pull: {childStops: @_id}})
+        TourStop.remove({_id: @_id})

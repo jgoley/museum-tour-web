@@ -2,7 +2,7 @@
 
 Meteor.methods
   deleteTour: (id) ->
-    Tours.remove id
+    Tour.remove id
 
   # uploadFile: (files, tour) ->
   #   new Promise (resolve, reject) ->
@@ -22,16 +22,16 @@ Meteor.methods
         sessionString = "child-" + stop.parent + '-' + stop._id
         #update ord of stops higher than edited stop
           # if stop.order != values.values.order
-          #   siblings = TourStops().find({$and: [
+          #   siblings = TourStop().find({$and: [
           #     { parent: stop.parent }
           #     { _id: $ne: stop._id }
           #     { order: $gte: +values.values.order }
           #   ]}).fetch()
           #   _.each siblings, (sibling, i) ->
-          #     TourStops().update {_id: sibling._id}, {$set: {order: sibling.order + 1}}, (e,r) ->
+          #     TourStop().update {_id: sibling._id}, {$set: {order: sibling.order + 1}}, (e,r) ->
 
       stop.set values.values
-      TourStops.update {_id: stop._id}, {$set:values.values}, (e,r) ->
+      TourStop.update {_id: stop._id}, {$set:values.values}, (e,r) ->
 
           # setTimeout (->
             #   Session.set('updating'+stop._id, false)
@@ -64,19 +64,19 @@ Meteor.methods
 
   removeGroup: (childStops) ->
     _.each childStops, (childStopId) ->
-      childStop TourStops().findOne({_id:childStopId})
+      childStop TourStop().findOne({_id:childStopId})
       if childStop.media
         deleteFile(childStop)
       removeStop(@id, Template.instance())
-    TourStops.remove @_id
+    TourStop.remove @_id
 
   removeStop: (stopID, template) ->
     stopNumber = @stopNumber
     higherStops = _.filter template.data.stops.fetch(), (stop) ->
       stop.stopNumber > stopNumber
     _.each higherStops, (stop) ->
-      TourStops.update {_id: stop._id}, {$set: {stopNumber: stop.stopNumber-1}}
-    TourStops.remove({_id: stopID})
+      TourStop.update {_id: stop._id}, {$set: {stopNumber: stop.stopNumber-1}}
+    TourStop.remove({_id: stopID})
 
   updateTitle: (stop, title) ->
     stop.set title: title
@@ -88,14 +88,14 @@ Meteor.methods
     newProp = {}
     newProp[prop] = ''
     if stopID
-      TourStops().update({_id: stopID}, {$set:newProp})
+      TourStop().update({_id: stopID}, {$set:newProp})
     else
-      Tours().update({_id: tourID}, {$set:newProp})
+      Tour().update({_id: tourID}, {$set:newProp})
 
   deleteTourImage: (tour)->
     path = "/#{tour.tourID}/#{tour.image}"
     S3.delete(path, (e,s)-> console.log e,s)
-    Tours.update({_id: tour.tourID}, {$set:{image: ''}})
+    Tour.update({_id: tour.tourID}, {$set:{image: ''}})
 
   upload: (files) ->
     S3.upload
@@ -119,5 +119,5 @@ Meteor.methods
             if redirect
               Router.go '/admin/edit/'+tourID
             else
-              Tours.update {_id: tourID}, {$set: values}, (e) ->
+              Tour.update {_id: tourID}, {$set: values}, (e) ->
                 showNotification(e)

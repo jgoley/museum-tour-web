@@ -1,4 +1,4 @@
-{ Tours }            = require '../../../api/tours/index'
+{ Tour }            = require '../../../api/tours/index'
 { S3 }               = require 'meteor/lepozepo:s3'
 { showNotification } = require '../../../helpers/notifications'
 parsley              = require 'parsleyjs'
@@ -36,7 +36,7 @@ Template.tourDetails.events
         values.thumbnail = form.thumbnail.files[0].name.split(" ").join("+")
 
     if not @tour
-      Tours.insert values, (e, tourID)->
+      Tour.insert values, (e, tourID)->
         if files.length
           Meteor.call 'uploadFile', files, tourID, values, true
         else
@@ -46,7 +46,7 @@ Template.tourDetails.events
       if files.length
         Meteor.call 'uploadFile', files, tourID, values, false, instance
       else
-        Tours.update {_id: tourID}, {$set: values}, (e) ->
+        Tour.update {_id: tourID}, {$set: values}, (e) ->
           notify.showNotification(e, '', instance.data.editing)
 
   'click .tour-details-cancel': (e, instance) ->

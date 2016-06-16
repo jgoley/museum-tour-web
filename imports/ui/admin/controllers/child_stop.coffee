@@ -5,7 +5,7 @@ Template.childStop.onCreated ->
 
 Template.childStop.helpers
   parent: ->
-    TourStops.findOne Template.instance().data.child.parent
+    TourStop.findOne Template.instance().data.child.parent
   edit: ->
     Template.instance().edit.get()
 

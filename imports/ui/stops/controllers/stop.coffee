@@ -1,7 +1,7 @@
 {Meteor}      = require 'meteor/meteor'
 {Template}    = require 'meteor/templating'
 {ReactiveVar} = require 'meteor/reactive-var'
-{TourStops}   = require '../../../api/tour_stops/index'
+{TourStop}   = require '../../../api/tour_stops/index'
 {go}          = require '../../../helpers/route_helpers'
 
 require '../views/stop.jade'
@@ -19,25 +19,25 @@ Template.stop.onRendered ->
     instance.subscribe 'adjacentStops', stopID, instance.tourID
 
   @autorun ->
-    instance.stop = TourStops.findOne instance.stopID.get()
+    instance.stop = TourStop.findOne instance.stopID.get()
     if instance.stop
       document.title = instance.stop.title
 
 Template.stop.helpers
   stop: ->
-    TourStops.findOne Template.instance().stopID.get()
+    TourStop.findOne Template.instance().stopID.get()
   childStops: ->
-    TourStops.find parent: Template.instance().stopID.get()
+    TourStop.find parent: Template.instance().stopID.get()
   nextStop: ->
-    TourStops.findOne stopNumber: Template.instance().stop?.stopNumber + 1
+    TourStop.findOne stopNumber: Template.instance().stop?.stopNumber + 1
   prevStop: ->
-    TourStops.findOne stopNumber: Template.instance().stop?.stopNumber - 1
+    TourStop.findOne stopNumber: Template.instance().stop?.stopNumber - 1
   isNull: (value) ->
     value and value.match(/NULL/gi)
 
 jump = (event, instance, direction) ->
   event.preventDefault()
-  stop = TourStops.findOne stopNumber: instance.stop.stopNumber + direction
+  stop = TourStop.findOne stopNumber: instance.stop.stopNumber + direction
   instance.stopID.set(stop._id)
   go 'stop', {stopID: stop._id, tourID: stop.tour}
 

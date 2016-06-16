@@ -1,6 +1,6 @@
 { Template }  = require 'meteor/templating'
-{ Tours }     = require '../../../api/tours/index'
-{ TourStops } = require '../../../api/tour_stops/index'
+{ Tour }     = require '../../../api/tours/index'
+{ TourStop } = require '../../../api/tour_stops/index'
 { _ }       = require 'meteor/underscore'
 
 require '../views/tour.jade'
@@ -13,7 +13,7 @@ Template.tour.onCreated ->
 
   instance = @
   @autorun ->
-    tour = Tours.findOne instance.tourID
+    tour = Tour.findOne instance.tourID
     if tour
       family = ''
       if tour.tourType is 1 then family = ' (Family)'
@@ -21,10 +21,10 @@ Template.tour.onCreated ->
 
 Template.tour.helpers
   tour: ->
-    Tours.findOne Template.instance().tourID
+    Tour.findOne Template.instance().tourID
 
   tourStops: ->
-    TourStops.find
+    TourStop.find
       $or: [{type: 'group'},{type: 'single'}]
       {sort: stopNumber: 1}
 
@@ -39,7 +39,7 @@ Template.tour.helpers
     @childStops.length
 
   getTypes: ->
-    children = TourStops.find
+    children = TourStop.find
       _id:
         $in: @childStops
     _.sortBy _.uniq(_.pluck(children.fetch(), 'mediaType')), (type) -> type

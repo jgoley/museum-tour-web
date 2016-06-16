@@ -18,8 +18,8 @@ TourStop = Class.create
 
   methods:
     children: ->
-      TourStops.find parent: @_id
+      @find parent: @_id
 
 
 module.exports =
-  TourStops: TourStops
+  TourStop: TourStop

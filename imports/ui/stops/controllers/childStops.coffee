@@ -8,10 +8,10 @@
 #     _.each parents, (parent) ->
 #       newChildren = _.map parent.childStops, (child, i) ->
 #         child.parent = parent._id
-#         TourStops.insert child, (err, id) ->
-#       TourStops.update({_id: parent._id}, {$set: {childStops : newChildren}})
+#         TourStop.insert child, (err, id) ->
+#       TourStop.update({_id: parent._id}, {$set: {childStops : newChildren}})
 
 
 # if Meteor.isServer
 #   Meteor.publish 'childStops', (stopID) ->
-#     TourStops.find({'parent': stopID}, {$sort: {order: 1}})
+#     TourStop.find({'parent': stopID}, {$sort: {order: 1}})
