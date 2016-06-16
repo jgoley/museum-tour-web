@@ -20,14 +20,14 @@ Template.editStop.helpers
   showChildStops: ->
     Template.instance().activelyEditing.get()
 
-  addChild: ->
-    Session.get('add-child-'+@stop._id)
-
   isGroup: ->
     @stop.type is 'group'
 
-  children: ->
-    @stop.children()
+  activelyEditing: ->
+    Template.instance().activelyEditing
+
+  isActivelyEditing: ->
+    Template.instance().activelyEditing.get()
 
 Template.editStop.events
   'click .convert-group': () ->

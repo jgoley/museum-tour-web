@@ -25,10 +25,6 @@ updateStop = (stop, values, method) ->
         Session.set('creating-stop', false)
         Session.set(id,true)
 
-showStop = (instance, stop) ->
-  editing = instance.data.activelyEditing
-  editing.set not editing.get()
-
 getLastStopNum = (stops) ->
   _.last(stops)?.stopNumber
 
@@ -38,7 +34,6 @@ parsley = (formElement) ->
 
 
 module.exports =
-  updateStop    : updateStop
-  showStop      : showStop
-  getLastStopNum: getLastStopNum
-  parsley       : parsley
+  updateStop          : updateStop
+  getLastStopNum      : getLastStopNum
+  parsley             : parsley

@@ -1,0 +1,9 @@
+template(name="childStops")
+  ul.edit-child-stops.list-unstyled
+    each stop.children
+      +editStop stop=this
+    unless addChild
+      li.child.add-stop-link.add-child
+        a.title
+          i.fa.fa-plus-square
+          span Add Child

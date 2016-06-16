@@ -1,16 +1,11 @@
 template(name="editStop")
-  if isGroup
-    if showChildStops
-      ul.edit-child-stops.list-unstyled
-        each children
-          +childStop child=this
-        unless addChild
-          li.child.add-stop-link.add-child
-            a.title
-              i.fa.fa-plus-square
-              span Add Child
-      if addChild
-        +addStop type='new-child' tour=tour parent=_id siblings=childStops
-  else
-    .editing-container
-      +editing stop=stop stops=stops childStops=children
+  +stopTitle stop=stop activelyEditing=activelyEditing
+  if isActivelyEditing
+    if isGroup
+      if showChildStops
+        +childStops stop=stop
+        if addChild
+          +addStop type='new-child' tour=tour parent=_id siblings=childStops
+    else
+      .editing-container
+        +editing stop=stop stops=stops childStops=children

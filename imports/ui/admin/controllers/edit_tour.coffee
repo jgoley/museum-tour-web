@@ -1,15 +1,16 @@
 { showNotification } = require '../../../helpers/notifications'
 { go }               = require '../../../helpers/route_helpers'
-{ Tour }            = require '../../../api/tours/index'
-{ TourStop }        = require '../../../api/tour_stops/index'
+{ Tour }             = require '../../../api/tours/index'
+{ TourStop }         = require '../../../api/tour_stops/index'
 { parsley
   updateStop,
-  showStop,
+  setStopEditingState,
   getLastStopNum }   = require '../../../helpers/edit'
 
 require '../../../ui/components/upload_progress/upload_progress.coffee'
 require './stop_title'
 require './edit_stop'
+require './child_stops'
 require '../views/edit_tour.jade'
 
 
@@ -26,7 +27,13 @@ Template.editTour.helpers
     Tour.findOne Template.instance().tourID
 
   stops: ->
-    TourStop.find {}, {sort: stopNumber: 1}
+    TourStop.find {
+      $or:
+        [
+          {type: 'group'},
+          {type: 'single'}
+        ]
+      }, {sort: stopNumber: 1}
 
   onlyOneStop: ->
     TourStop.findOne()
@@ -36,6 +43,9 @@ Template.editTour.helpers
 
   getEditing: ->
     Template.instance().editTourDetails
+
+  showAddStop: ->
+    Session.get('add-stop')
 
 Template.editTour.events
   'click .delete-tour': (e, template) ->

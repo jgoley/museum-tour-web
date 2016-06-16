@@ -4,7 +4,7 @@ template(name="archivedTours")
   ul.tap-list.archived-tours
     each tours
       li
-        a(href="tour/#{_id}")
+        a(href="{{pathFor 'tour' _id=_id}}")
           +thumbnail tour=this
           .tap-list-title.tour-title
             h2

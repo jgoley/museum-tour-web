@@ -12,9 +12,7 @@ template(name="editTour")
   if stops
     ul.list-unstyled.tap-edit-list.edit-parent-stops
       +sortable items=stops sortField="stopNumber" options=sortableOptions
-        +stopTitle stop=this
-        if editStop
-          +editStop stop=this
+        +editStop stop=this
       if showAddStop
         .add-stop
           +addStop type='new-parent' stops=stops tour= ../tour
