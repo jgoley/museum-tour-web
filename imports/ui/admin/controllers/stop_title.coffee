@@ -20,10 +20,8 @@ Template.stopTitle.helpers
   editChildStop: (parent) ->
     Session.get("child-" + @stop.parent + '-' + @stop._id)
 
-  hasMedia: (stopID) ->
-    TourStop.findOne({_id: stopID}).media
-
   isGroup: ->
+    console.log @stop.type
     @stop.type is 'group'
 
 Template.stopTitle.events

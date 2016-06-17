@@ -1,4 +1,5 @@
 { showNotification } = require '../../helpers/notifications'
+{ go }               = require '../../helpers/route_helpers'
 
 Meteor.methods
   deleteTour: (id) ->
@@ -117,7 +118,7 @@ Meteor.methods
             alert("Something went wrong with the upload. Are you connected to the interwebs?")
           else
             if redirect
-              Router.go '/admin/edit/'+tourID
+              go '/admin/edit/'+tourID
             else
               Tour.update {_id: tourID}, {$set: values}, (e) ->
                 showNotification(e)

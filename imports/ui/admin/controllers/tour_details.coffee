@@ -1,8 +1,9 @@
-{ Tour }            = require '../../../api/tours/index'
+{ Tour }             = require '../../../api/tours/index'
 { S3 }               = require 'meteor/lepozepo:s3'
 { showNotification } = require '../../../helpers/notifications'
 parsley              = require 'parsleyjs'
 { $ }                = require 'meteor/jquery'
+{go}                 = require '../../../helpers/route_helpers'
 
 require '../views/tour_details.jade'
 
@@ -40,7 +41,7 @@ Template.tourDetails.events
         if files.length
           Meteor.call 'uploadFile', files, tourID, values, true
         else
-          Router.go '/admin/edit/'+tourID
+          go '/admin/edit/'+tourID
     else
       tourID = @tour._id
       if files.length

@@ -20,15 +20,15 @@ template(name="stopTitle")
 
     .stop-count
       if isGroup
-        each childStops
-          if hasMedia this
+        each stop.children
+          if this.media
             i.fa.fa-square
           else
             i.fa.fa-square-o.no-file
         else
           i.fa.fa-exclamation-triangle.no-file-warning
       else
-        if media
+        if stop.media
           i.fa.fa-square
         else
           i.fa.fa-square-o.no-file
