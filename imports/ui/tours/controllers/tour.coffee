@@ -4,7 +4,7 @@
 { _ }        = require 'meteor/underscore'
 
 require '../views/tour.jade'
-require '../../stops/controllers/stopSearch'
+require '../../components/stop_search/stop_search.coffee'
 
 Template.tour.onCreated ->
   @tourID = @data.tourID

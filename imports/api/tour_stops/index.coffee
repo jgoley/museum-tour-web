@@ -18,7 +18,16 @@ TourStop = Class.create
 
   methods:
     children: ->
-      TourStops.find parent: @_id
+      TourStop.find parent: @_id
+
+    isVideo: ->
+      @mediaType in ['2',2,'5',5]
+
+    isAudio: ->
+      @mediaType in ['1','4',1,4]
+
+    audioType: ->
+      if @mediaType in ['1',1] then 'audio' else 'music'
 
 
 module.exports =

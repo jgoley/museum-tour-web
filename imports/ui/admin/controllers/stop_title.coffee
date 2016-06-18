@@ -22,7 +22,6 @@ Template.stopTitle.helpers
     Session.get("child-" + @stop.parent + '-' + @stop._id)
 
   isGroup: ->
-    console.log @stop.type
     @stop.type is 'group'
 
 Template.stopTitle.events

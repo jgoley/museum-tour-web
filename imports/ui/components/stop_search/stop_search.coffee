@@ -3,7 +3,7 @@
 { TourStop }   = require '../../../api/tour_stops/index'
 { go }          = require '../../../helpers/route_helpers'
 
-require '../views/stopSearch.jade'
+require './stop_search.jade'
 
 Template.stopSearch.onCreated ->
   @buttonState = new ReactiveVar(true)

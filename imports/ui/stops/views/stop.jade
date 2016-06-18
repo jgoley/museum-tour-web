@@ -1,12 +1,12 @@
 template(name="stop")
   if Template.subscriptionsReady
     .tour-stop
-      if stop.childStops
+      if stop.children
         h1.group-title
           span.stopNumber #{stop.stopNumber}
           | #{stop.title}
         ul.child-stops
-          each childStops
+          each stop.children
             li.child-stop
               .child-stop-info
                 h2.tap-list-title.child-stop-title
@@ -35,24 +35,3 @@ template(name="stop")
               i.fa.fa-chevron-circle-right
   else
     .loading
-
-template(name="stopContent")
-  if isVideo
-    .video-wrap
-      video(
-        src="http:#{awsUrl}/#{stop.tour}/#{stop.media}"
-        poster="{{posterImage}}"
-        controls
-        autoplay="{{autoplay}}")
-  else if isAudio
-    .video-wrap
-      video(
-        src="http:#{awsUrl}/#{stop.tour}/#{stop.media}"
-        poster="#{awsUrl}/#{audioType}-poster.png"
-        controls
-        autoplay="{{autoplay}}"
-        class="{{audioType}}")
-  else
-    .img-wrap
-      img(src="https://s3.amazonaws.com/tap-cma/#{stop.tour}/#{stop.media}" controls)
-

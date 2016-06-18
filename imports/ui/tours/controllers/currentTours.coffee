@@ -3,7 +3,7 @@
 
 require '../views/currentTours.jade'
 require '../../components/thumbnail/thumbnail'
-require '../../stops/controllers/stopSearch'
+require '../../components/stop_search/stop_search.coffee'
 
 Template.currentTours.onCreated ->
   @subscribe 'currentTour'

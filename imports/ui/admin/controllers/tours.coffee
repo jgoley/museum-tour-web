@@ -7,7 +7,6 @@ Template.editTours.onCreated ->
 
 Template.editTours.helpers
   tours: ->
-    console.log Tour.find({}, {sort: openDate: 1, tourType: 1})
     Tour.find {}, {sort: openDate: 1, tourType: 1}
 
   type: ->

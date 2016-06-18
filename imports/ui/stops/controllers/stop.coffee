@@ -8,7 +8,7 @@ Template.stop.onCreated ->
   @stopID = new ReactiveVar @data.stopID
 
 Template.stop.onRendered ->
-  @stopID.set(@data.stopID)
+  @stopID.set @data.stopID
   instance = @
   @autorun ->
     stopID = instance.stopID.get()
@@ -24,12 +24,13 @@ Template.stop.onRendered ->
 Template.stop.helpers
   stop: ->
     TourStop.findOne Template.instance().stopID.get()
-  childStops: ->
-    TourStop.find parent: Template.instance().stopID.get()
+
   nextStop: ->
     TourStop.findOne stopNumber: Template.instance().stop?.stopNumber + 1
+
   prevStop: ->
     TourStop.findOne stopNumber: Template.instance().stop?.stopNumber - 1
+
   isNull: (value) ->
     value and value.match(/NULL/gi)
 
@@ -45,22 +46,3 @@ Template.stop.events
 
   'click .prev-stop': (event, instance) ->
     jump event, instance, -1
-
-Template.stopContent.helpers
-  isVideo: ->
-    @stop?.mediaType in ['2',2,'5',5]
-  isAudio: ->
-    @stop?.mediaType in ['1','4',1,4]
-  audioType: ->
-    if @stop?.mediaType in ['1',1]
-      'audio'
-    else
-      'music'
-  autoplay: ->
-    @stop?.type is 'single'
-  posterImage: ->
-    url = Meteor.settings.awsURL
-    if @stop?.posterImage and @stop?.mediaType in ['2', 2]
-      'http:'+url+'/'+@stop.tour+'/'+@stop.posterImage
-    else if @stop?.mediaType in ['1','4','5', 1, 4, 5]
-      'http:'+url+'/audio-still.png'

@@ -1,6 +1,7 @@
 require '../../ui/layout'
 require '../../ui/menu/index'
 require '../../ui/tours/index'
+require '../../ui/stops/index'
 require '../../ui/admin/index'
 
 BlazeLayout.setRoot 'body'
