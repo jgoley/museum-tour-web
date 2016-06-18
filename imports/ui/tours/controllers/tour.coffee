@@ -1,7 +1,7 @@
-{ Template }  = require 'meteor/templating'
+{ Template } = require 'meteor/templating'
 { Tour }     = require '../../../api/tours/index'
 { TourStop } = require '../../../api/tour_stops/index'
-{ _ }       = require 'meteor/underscore'
+{ _ }        = require 'meteor/underscore'
 
 require '../views/tour.jade'
 require '../../stops/controllers/stopSearch'
@@ -36,10 +36,8 @@ Template.tour.helpers
     @type is "group"
 
   childStopCount: ->
-    @childStops.length
+    @children().fetch().length
 
   getTypes: ->
-    children = TourStop.find
-      _id:
-        $in: @childStops
-    _.sortBy _.uniq(_.pluck(children.fetch(), 'mediaType')), (type) -> type
+    mediaTypes = _.pluck(@children().fetch(), 'mediaType')
+    _.sortBy _.uniq(mediaTypes), (type) -> type
