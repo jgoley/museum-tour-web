@@ -8,7 +8,7 @@ Template.stopContent.helpers
     Template.instance().stop.type is 'single'
   posterImage: ->
     stop = Template.instance().stop
-    url = Meteor.settings.awsURL
+    url = Meteor.settings.public.awsURL
     if stop.posterImage and stop.mediaType in ['2', 2]
       "http:#{url}/#{stop.tour}/#{stop.posterImage}"
     else if stop.mediaType in ['1','4','5', 1, 4, 5]

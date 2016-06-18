@@ -15,6 +15,7 @@ TourStop = Class.create
     media: String
     mediaType: Number
     order: Number
+    posterImage: String
 
   methods:
     children: ->
