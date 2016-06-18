@@ -1,5 +1,5 @@
 template(name="offCanvasMenu")
-  .menu(class="{{showMenu}}")
+  .menu(class="{{#if showing}} showing {{/if}}")
     .menu-header
       h1.logo
         a(href="/") TAP into CMA

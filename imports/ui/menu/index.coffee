@@ -1,4 +1,2 @@
-require './nav.jade'
-
-require './header'
-require './offCanvasMenu'
+require './controllers/header'
+require './controllers/offCanvasMenu'
