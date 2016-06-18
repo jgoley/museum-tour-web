@@ -3,6 +3,7 @@ require '../../ui/menu/index'
 require '../../ui/tours/index'
 require '../../ui/stops/index'
 require '../../ui/admin/index'
+require '../../ui/help/help.coffee'
 
 BlazeLayout.setRoot 'body'
 FlowRouter.triggers.enter [ -> $('body').attr 'ontouchstart', '' ]
