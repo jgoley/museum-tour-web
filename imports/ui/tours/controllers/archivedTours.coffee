@@ -1,4 +1,4 @@
-{ moment }   = require 'meteor/momentjs:moment'
+{ moment }   = require 'momentjs'
 { Tour }    = require '../../../api/tours/index'
 
 require '../views/archivedTours.jade'

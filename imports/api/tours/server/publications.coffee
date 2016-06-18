@@ -1,5 +1,5 @@
-{ moment } = require 'meteor/momentjs:moment'
-{ Tour }  = require '../index'
+moment   = require 'momentjs'
+{ Tour } = require '../index'
 
 Meteor.publish 'tours', ->
   Tour.find()

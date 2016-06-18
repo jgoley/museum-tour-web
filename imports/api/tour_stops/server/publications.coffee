@@ -1,5 +1,6 @@
-{ TourStop } = require '../../tour_stops/index'
-{ Tour }     = require '../index'
+{ Tour }     = require '../../tours/index'
+{ TourStop } = require '../index'
+moment       = require 'momentjs'
 
 Meteor.publish 'stop', (stopID) ->
   TourStop.find stopID
@@ -18,8 +19,8 @@ Meteor.publish 'adjacentStops', (stopID) ->
 Meteor.publish 'tourStops', (tourID) ->
   TourStop.find tour: tourID
 
-Meteor.publish 'currentTourStop', ->
-  today = moment(new Date()).format('YYYY-MM-DD')
+Meteor.publish 'currentTourStops', ->
+  today = moment(new Date()).format 'YYYY-MM-DD'
   tours = Tour.find
     $and: [
       {

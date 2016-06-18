@@ -13,5 +13,6 @@ Template.currentTours.onCreated ->
 Template.currentTours.helpers
   tours: ->
     Tour.find()
-  stopNumbers: ->
+
+  stops: ->
     TourStop.find()

@@ -1,4 +1,3 @@
-{ Template }    = require 'meteor/templating'
 { ReactiveVar } = require 'meteor/reactive-var'
 { TourStop }   = require '../../../api/tour_stops/index'
 { go }          = require '../../../helpers/route_helpers'
@@ -7,13 +6,14 @@ require './stop_search.jade'
 
 Template.stopSearch.onCreated ->
   @buttonState = new ReactiveVar(true)
+  @stops = @data.stops
 
 Template.stopSearch.events
-  'input .stopNumber': _.throttle (e, instance)->
+  'input .stopNumber': (e, instance) ->
     if TourStop.findOne(stopNumber: +e.target.value)
-      instance.buttonState.set(false)
+      instance.buttonState.set false
     else
-      instance.buttonState.set(true)
+      instance.buttonState.set true
 
   'submit .goto-stop': (e, instance) ->
     e.preventDefault()
