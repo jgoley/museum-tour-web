@@ -36,3 +36,6 @@ Template.header.events
     menuState = instance.menuState
     menuState.set not menuState.get()
     $(event.currentTarget).blur()
+
+  'click .content-curtain' : (event, instance) ->
+    instance.menuState.set false

@@ -6,14 +6,17 @@ template(name="editTours")
         i.fa.fa-plus-square-o.left
         span Create Tour
 
-  ul.tap-edit-list.current-tours
-    each tours
-      li
-        a.edit-tour(href="{{pathFor 'editTour' tourID=_id}}")
-          span.title #{mainTitle}
-          span.sub-title #{subTitle}
-          if isFamily
-            span.tour-type-icon.fa.fa-child
-        .tour-edit-actions
-          a.delete-tour(href="")
-            i.fa.fa-trash
+  if Template.subscriptionsReady
+    ul.tap-edit-list.current-tours
+      each tours
+        li
+          a.edit-tour(href="{{pathFor 'editTour' tourID=_id}}")
+            span.title #{mainTitle}
+            span.sub-title #{subTitle}
+            if isFamily
+              span.tour-type-icon.fa.fa-child
+          .tour-edit-actions
+            a.delete-tour(href="")
+              i.fa.fa-trash
+  else
+    .loading

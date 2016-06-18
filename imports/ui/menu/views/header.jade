@@ -1,5 +1,5 @@
 template(name="header")
-  header
+  header(class="{{#if menuOpen}} stuck {{/if}}")
     .header-wrap
       a(href="/")
         h1.logo TAP into CMA
@@ -9,3 +9,4 @@ template(name="header")
       button.btn.menu-btn(class="{{buttonAction}}")
         span Menu
       +offCanvasMenu menuState=menuState
+  .content-curtain(class="{{#if menuOpen}} down {{/if}}")
