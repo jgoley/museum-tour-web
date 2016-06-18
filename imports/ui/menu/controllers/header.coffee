@@ -1,3 +1,4 @@
+{ ReactiveVar } = require 'meteor/reactive-var'
 require '../views/header.jade'
 
 Template.header.onCreated ->
@@ -28,10 +29,10 @@ Template.header.events
     window.history.back()
 
   'click .sign-out': ->
-    Meteor.logout()
+    Meteor.logout ->
+      FlowRouter.go '/login'
 
   'click .menu-btn': (event, instance) ->
     menuState = instance.menuState
     menuState.set not menuState.get()
-    console.log menuState
     $(event.currentTarget).blur()

@@ -1,8 +1,3 @@
-{Meteor}      = require 'meteor/meteor'
-{BlazeLayout} = require 'meteor/kadira:blaze-layout'
-{FlowRouter}  = require 'meteor/kadira:flow-router'
-{go}          = require '../../helpers/route_helpers'
-
 require '../../ui/layout'
 require '../../ui/menu/index'
 require '../../ui/tours/index'
@@ -16,7 +11,7 @@ loggedIn = FlowRouter.group
   triggersEnter: [ ->
     unless Meteor.loggingIn() or Meteor.userId()
       route = FlowRouter.current()
-      go 'signIn'
+      FlowRouter.redirect '/login'
   ]
 
 FlowRouter.route '/',
@@ -60,15 +55,17 @@ FlowRouter.route '/feedback',
     BlazeLayout.render 'layout',
       content: 'feedback'
 
-FlowRouter.route '/signIn',
-  name: 'signIn'
+FlowRouter.route '/login',
+  name: 'login'
   action: () ->
     BlazeLayout.render 'layout',
-      content: 'signIn'
-  triggersEnter: [->
-    if Meteor.user()
-      go 'admin'
-  ]
+      content: 'login'
+
+loggedIn.route '/signIn',
+  triggersEnter: [ -> FlowRouter.redirect '/login' ]
+
+loggedIn.route '/admin',
+  triggersEnter: [ -> FlowRouter.redirect '/tours/edit' ]
 
 loggedIn.route '/tours/edit',
   name: 'editTours'

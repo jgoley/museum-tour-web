@@ -2,5 +2,9 @@
 
 AccountsTemplates.configure
   forbidClientAccountCreation: true
-  hideSignUpLink: false
+  hideSignUpLink: true
   showPlaceholders: false
+  homeRoutePath: '/admin'
+
+Accounts.onLogin ->
+  if FlowRouter.current().path is '/login' then FlowRouter.go '/admin'

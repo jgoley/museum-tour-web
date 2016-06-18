@@ -1,3 +1,4 @@
+{ ReactiveVar } = require 'meteor/reactive-var'
 { parsley, updateStop } = require '../../../helpers/edit'
 
 require '../views/add_stop.jade'

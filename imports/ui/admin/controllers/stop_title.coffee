@@ -1,3 +1,4 @@
+{ ReactiveVar } = require 'meteor/reactive-var'
 { setStopEditingState } = require '../../../helpers/edit'
 parsley = require 'parsleyjs'
 

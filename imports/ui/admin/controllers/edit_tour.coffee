@@ -1,3 +1,4 @@
+{ ReactiveVar } = require 'meteor/reactive-var'
 { showNotification } = require '../../../helpers/notifications'
 { go }               = require '../../../helpers/route_helpers'
 { Tour }             = require '../../../api/tours/index'

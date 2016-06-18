@@ -1,7 +1,6 @@
 { TourStop } = require '../../tour_stops/index'
 { Tour }     = require '../index'
 
-
 Meteor.publish 'stop', (stopID) ->
   TourStop.find stopID
 
