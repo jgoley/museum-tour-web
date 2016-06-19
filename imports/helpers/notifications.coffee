@@ -15,6 +15,7 @@ showNotification = (error) ->
 killNotification = ->
   Session.set 'notifying', false
   $('.notification').fadeOut(-> $(@).remove())
+  $(window).off 'click', 'keyup'
 
 removeNotification = ->
   $(window).on 'click', ->
@@ -22,10 +23,10 @@ removeNotification = ->
   $(window).keyup ->
     killNotification()
 
-  setTimeout (->
-    killNotification()
-    $(window).off 'click', 'keyup'
-  ), 1300
+  # setTimeout (->
+  #   killNotification()
+  #   $(window).off 'click', 'keyup'
+  # ), 1300
 
 module.exports =
   showNotification: showNotification

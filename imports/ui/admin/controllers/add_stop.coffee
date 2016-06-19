@@ -1,6 +1,8 @@
-{ ReactiveVar }         = require 'meteor/reactive-var'
-{ parsley, updateStop } = require '../../../helpers/edit'
-{ getLastStopNum }      = require '../../../helpers/edit'
+{ ReactiveVar }    = require 'meteor/reactive-var'
+{ parsley,
+  uploadFile,
+  saveStop }       = require '../../../helpers/edit'
+{ getLastStopNum } = require '../../../helpers/edit'
 
 
 require '../views/add_stop.jade'
@@ -23,9 +25,6 @@ Template.addStop.onRendered ->
 Template.addStop.helpers
   isCreating: ->
     Template.instance().creatingStop.get()
-
-  # files: ->
-  #   uploadingFiles()
 
   isParent: ->
     @type is 'new-parent'
@@ -59,6 +58,8 @@ Template.addStop.events
     type         = instance.type
     siblings     = instance.siblings
 
+    creatingStop.set true
+
     files = []
     _.each $(form).find("[type='file']"), (file) ->
       if file.files[0] then files.push file.files[0]
@@ -66,13 +67,13 @@ Template.addStop.events
       values:
         title: form.title?.value
         speaker: form.speaker?.value
-        mediaType: form.mediaType?.value
+        mediaType: +form.mediaType?.value
       files: files
 
     if files.length
       if form.media?.files[0]
         props.values.media = form.media.files[0].name.split(" ").join "+"
-      if form.mediaType?.value is '2' and form.posterImage?.files[0]
+      if form.mediaType?.value is 2 and form.posterImage?.files[0]
         props.values.posterImage = form.posterImage.files[0].name.split(" ").join("+")
 
     #Tour ID
@@ -104,10 +105,11 @@ Template.addStop.events
 
     files = props.files
     if files.length
-
-
-
-    # updateStop null, props, reactives
+      uploadFile(files, tour._id)
+        .then ->
+          creatingStop.set false
+          console.log 'Uploading'
+          saveStop null, props, reactives
 
   'click .cancel-add-stop' : (event, instance) ->
     instance.addingStop.set false

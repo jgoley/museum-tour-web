@@ -1,10 +1,11 @@
 template(name="editMedia")
   if media
     if mediaIsImage
-        .col-lg-6
+      .col-sm-12.row.media-preview
+        .col-sm-6
           +mediaPreview stop=stop media=media tourID=tourID typeName=typeName
     else
-      .col-lg-10.row.media-video-container
+      .col-lg-10.row.media-preview
         .video.col-md-6
           video.media-video(
             src="http:#{awsUrl}/#{stop.tour}/#{stop.media}"

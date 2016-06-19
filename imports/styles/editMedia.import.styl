@@ -1,12 +1,15 @@
 .media-image
   position relative
   min-width 100%
-  border-radius 4px
-  background $m-gray
+  background $l-gray
   img
     width auto
     max-width 100%
+    max-height 300px
     border 1px solid $ll-gray
+  &
+  .curtain
+    border-radius 4px
 
 .media-options
   position absolute
@@ -28,7 +31,7 @@
   .delete-image
     margin-top -10px
 
-.media-video-container
+.media-preview
   margin 30px -30px 40px -30px
 
 .media-video
