@@ -19,6 +19,7 @@ Template.editTour.onCreated ->
   Session.set 'editingAStop', false
   @editTourDetails = new ReactiveVar false
   @creatingStop = new ReactiveVar false
+  @addingStop = new ReactiveVar false
   @tourID = @data?.tourID
   if @tourID
     @subscribe 'tourDetails', @tourID
@@ -48,8 +49,11 @@ Template.editTour.helpers
   getEditing: ->
     Template.instance().editTourDetails
 
-  showAddStop: ->
-    Session.get('add-stop')
+  isAddingStop: ->
+    Template.instance().addingStop.get()
+
+  addingStop: ->
+    Template.instance().addingStop
 
 Template.editTour.events
   'click .delete-tour': (e, template) ->
@@ -61,5 +65,11 @@ Template.editTour.events
     Tour.remove @tour._id, () ->
       go '/admin'
 
-  'click .show-tour-details': (e) ->
-    Template.instance().editTourDetails.set(true)
+  'click .show-tour-details': (event, instance) ->
+    instance.editTourDetails.set true
+
+  'click .show-add-stop': (event, instance) ->
+    instance.addingStop.set true
+    setTimeout (->
+      $('html, body').animate({ scrollTop: $(".add-stop").offset().top - 55 }, 800)
+      ), 0

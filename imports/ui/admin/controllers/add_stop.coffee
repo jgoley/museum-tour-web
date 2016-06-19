@@ -1,22 +1,31 @@
-{ ReactiveVar } = require 'meteor/reactive-var'
+{ ReactiveVar }         = require 'meteor/reactive-var'
 { parsley, updateStop } = require '../../../helpers/edit'
+{ getLastStopNum }      = require '../../../helpers/edit'
+
 
 require '../views/add_stop.jade'
 
 Template.addStop.onCreated ->
-  @newStopType = new ReactiveVar 'single'
-  @mediaType = new ReactiveVar null
-  @addingStop = @data.addingStop
+  @tour         = @data.tour
+  @stops        = @data.stops
+  @type         = @data.type
+  @siblings     = @data.siblings
+  @parent       = @data.parent
+  @newStopType  = new ReactiveVar 'single'
+  @mediaType    = new ReactiveVar null
+  @creatingStop = new ReactiveVar false
+  @addingStop   = @data.addingStop
+
 
 Template.addStop.onRendered ->
   parsley '.add-stop'
 
 Template.addStop.helpers
-  # isCreating: ->
-  #   Template.instance.creatingStop.get()
+  isCreating: ->
+    Template.instance().creatingStop.get()
 
-  files: ->
-    uploadingFiles()
+  # files: ->
+  #   uploadingFiles()
 
   isParent: ->
     @type is 'new-parent'
@@ -40,14 +49,20 @@ Template.addStop.events
     else
       template.newStopType.set 'single'
 
-  'submit .add-stop' : (event) ->
+  'submit .add-stop' : (event, instance) ->
     event.preventDefault()
-    Template.instance.creatingStop.set true
-    form = event.target
+
+    creatingStop = instance.creatingStop
+    form         = event.target
+    tour         = instance.tour
+    stops        = instance.stops
+    type         = instance.type
+    siblings     = instance.siblings
+
     files = []
     _.each $(form).find("[type='file']"), (file) ->
       if file.files[0] then files.push file.files[0]
-    values =
+    props =
       values:
         title: form.title?.value
         speaker: form.speaker?.value
@@ -56,33 +71,43 @@ Template.addStop.events
 
     if files.length
       if form.media?.files[0]
-        values.values.media = form.media.files[0].name.split(" ").join "+"
+        props.values.media = form.media.files[0].name.split(" ").join "+"
       if form.mediaType?.value is '2' and form.posterImage?.files[0]
-        values.values.posterImage = form.posterImage.files[0].name.split(" ").join("+")
+        props.values.posterImage = form.posterImage.files[0].name.split(" ").join("+")
 
     #Tour ID
-    values.values.type = Session.get 'newStopType'
-    if _.isObject(@tour) then tour = @tour._id else tour = @tour
-    values.values.tour = tour
+    props.values.type = instance.newStopType.get()
+    if _.isObject(tour) then _tour = tour._id else _tour = tour
+    props.values.tour = _tour
 
-    if @type is 'new-parent'
-      values.values.stopNumber = getLastStopNum(@stops.fetch())+1 or @tour.baseNum+1
-      values.values.type = form.type.value
+    if type is 'new-parent'
+      props.values.stopNumber = getLastStopNum(stops.fetch())+1 or tour.baseNum+1
+      props.values.type = form.type.value
 
-    else if @type is 'new-child'
-      if @siblings and @siblings.length
-        last = @siblings.length+1
+    else if type is 'new-child'
+      if siblings and siblings.length
+        last = siblings.length+1
       else
         last = 1
-      values.values.order = last
-      values.values.parent = @parent
-      values.values.type = 'child'
+      props.values.order = last
+      props.values.parent = instance.parent
+      props.values.type = 'child'
 
     else
-      values.values.stopNumber = getLastStopNum(@stops.fetch())+1 or @tour.baseNum+1
-      that = @
+      props.values.stopNumber = getLastStopNum(stops.fetch())+1 or tour.baseNum+1
 
-    updateStop '', values, 'create'
+    reactives =
+      creatingStop: creatingStop
+      addingStop  : instance.addingStop
+
+    console.log props, reactives
+
+    files = props.files
+    if files.length
+
+
+
+    # updateStop null, props, reactives
 
   'click .cancel-add-stop' : (event, instance) ->
     instance.addingStop.set false

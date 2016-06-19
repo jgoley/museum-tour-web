@@ -1,6 +1,3 @@
-{Template} = require 'meteor/templating'
-{S3} = require 'meteor/lepozepo:s3'
-
 require './upload_progress.jade'
 
 uploadingFiles = ->

@@ -1,28 +1,32 @@
-showNotification = (error, sessionString, editing) ->
+showNotification = (error) ->
+  Session.set 'notifying', true
+  message = ''
   if error
-      error()
-    else
-      success(sessionString, editing)
+    notificationClasses = 'error'
+    message = error.message
+  else
+    classes = ['thumbs', 'spock', 'peace', 'cake', 'smile', 'star', 'trophy']
+    randomNum = Math.floor (Math.random() *7)
+    notificationClasses = "success #{classes[randomNum]}"
 
-removeNotification = (sessionString, editing) ->
-  setTimeout (->
-    Session.set sessionString, false
-    if editing then editing.set(false)
-    $('.notification').fadeOut(-> $(@).remove())
-  ), 1300
-
-error = () ->
-  $('body').prepend($("<div class='notification error'></div>").fadeIn())
+  $('body').prepend($("<div class='notification #{notificationClasses}'>#{message}</div>").fadeIn())
   removeNotification()
 
-success = (sessionString, editing) ->
-  classes = ['thumbs', 'spock', 'peace', 'cake', 'smile', 'star', 'trophy']
-  ran = Math.floor (Math.random() *7)
-  $('body').prepend($("<div class='notification success #{classes[ran]}'></div>").fadeIn())
-  removeNotification(sessionString, editing)
+killNotification = ->
+  Session.set 'notifying', false
+  $('.notification').fadeOut(-> $(@).remove())
+
+removeNotification = ->
+  $(window).on 'click', ->
+    killNotification()
+  $(window).keyup ->
+    killNotification()
+
+  setTimeout (->
+    killNotification()
+    $(window).off 'click', 'keyup'
+  ), 1300
 
 module.exports =
   showNotification: showNotification
   removeNotification: removeNotification
-  error: error
-  success: success

@@ -68,7 +68,6 @@ Template.editStop.events
   'submit .edit-stop': (event, instance) ->
     # $(e.target).addClass('saved')
     event.preventDefault()
-    Session.set('updating'+@stop._id, true)
     form = event.target
     mediaType = form.mediaType?.value
     files = []
@@ -88,16 +87,13 @@ Template.editStop.events
       if mediaType is '2' and form.posterImage?.files[0]
         values.values.posterImage = form.posterImage.files[0].name.split(" ").join("+")
 
-    updateStop(@stop, values, 'update')
+    reactives =
+      addingStop  : instance.addingStop
 
-  'click .show-add-stop': ->
-    Session.set('add-stop', true)
-    setTimeout (->
-      $('html, body').animate({ scrollTop: $(".add-stop").offset().top - 55 }, 800)
-      ), 0
+    updateStop @stop, values, reactives
 
-  'click .cancel-add-stop': ->
-    Session.set('add-stop', false)
+  'click .cancel-add-stop': (event, instance) ->
+    instance.addingStop.set false
 
   'click .delete': ->
     if @type is 'group'

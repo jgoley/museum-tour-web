@@ -1,5 +1,4 @@
 { Tour }             = require '../../../api/tours/index'
-{ S3 }               = require 'meteor/lepozepo:s3'
 { showNotification } = require '../../../helpers/notifications'
 parsley              = require 'parsleyjs'
 { $ }                = require 'meteor/jquery'
@@ -39,13 +38,13 @@ Template.tourDetails.events
     if not @tour
       Tour.insert values, (e, tourID)->
         if files.length
-          Meteor.call 'uploadFile', files, tourID, values, true
+          # Meteor.call 'uploadFile', files, tourID, values, true
         else
           go '/admin/edit/'+tourID
     else
       tourID = @tour._id
       if files.length
-        Meteor.call 'uploadFile', files, tourID, values, false, instance
+        # Meteor.call 'uploadFile', files, tourID, values, false, instance
       else
         Tour.update {_id: tourID}, {$set: values}, (e) ->
           notify.showNotification(e, '', instance.data.editing)

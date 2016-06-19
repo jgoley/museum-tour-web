@@ -1,29 +1,51 @@
 { showNotification } = require './notifications'
+{ TourStop }         = require '../api/tour_stops/index'
 
-updateStop = (stop, values, method) ->
-  if values.files.length
-    Meteor.call 'uploadFile', values.files, values.values.tour, (err,res)->
-      if err
-        throw new Meteor.Error err.reason
-      else
-        Meteor.call 'saveStop', stop, values, method, (err, res) ->
-          if err
-            showNotification(err.reaon, sessionString)
+saveStop = (stop, props, reactives) ->
+  stop = stop or new TourStop()
+  stop.set props.values
+  stop.save (error, id) ->
+    if error
+      showNotification error
+    else
+      reactives.addingStop.set false
+      reactives.creatingStop.set false
+      #update ord of stops higher than edited stop
+        # if stop.order != values.values.order
+        #   siblings = TourStop().find({$and: [
+        #     { parent: stop.parent }
+        #     { _id: $ne: stop._id }
+        #     { order: $gte: +values.values.order }
+        #   ]}).fetch()
+        #   _.each siblings, (sibling, i) ->
+        #     TourStop().update {_id: sibling._id}, {$set: {order: sibling.order + 1}}, (e,r) ->
+
+# updateStop = (stop, props, reactives) ->
+#   if props.files.length
+#     uploadFile(props.files, props.values.tour)
+#       .then (err) ->
+#         if err
+#           throw new Meteor.Error err.reason
+#         else
+#           saveStop stop, props, reactives
+#   else
+#     saveStop stop, props, reactives
+
+uploadFile = (files, tourID) ->
+  new Promise (resolve) ->
+    if files.length
+      S3.upload
+        files:files
+        unique_name: false
+        path: tourID
+        (error, response) ->
+          if error
+            showNotification message: "Something went wrong with the upload. Are you connected to the interwebs?"
+            resolve(error)
           else
-            showNotification(err, sessionString)
-            Session.set('add-stop', false)
-            Session.set('creating-stop', false)
-            Session.set(id,true)
-
-  else
-     Meteor.call 'saveStop', stop, values, method, (err, res) ->
-      if err
-        showNotification(err.reaon, sessionString)
-      else
-        showNotification(err, sessionString)
-        Session.set('add-stop', false)
-        Session.set('creating-stop', false)
-        Session.set(id,true)
+            resolve()
+    else
+      resolve(-> showNotification(message: 'No files to upload :/'))
 
 getLastStopNum = (stops) ->
   _.last(stops)?.stopNumber

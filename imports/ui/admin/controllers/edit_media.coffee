@@ -5,9 +5,10 @@ require '../views/edit_media.jade'
 Template.editMedia.helpers
   'mediaIsImage': ->
     image = ['image', 3, '3']
+    console.log @currentMediaType in image
     @currentMediaType in image
-  'mediaisVideo': ->
-    video = ['video', 2, '2']
+  'mediaIsVideo': ->
+    video = ['video', 2, '2', 'film', 5, '5']
     @mediaType?.get() in video
 
 Template.editMedia.events

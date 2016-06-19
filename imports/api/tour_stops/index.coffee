@@ -7,12 +7,24 @@ TourStop = Class.create
   name: 'TourStop'
   collection: TourStops
   fields:
-    media: String
-    mediaType: Number
-    order: Number
-    parent: String
-    posterImage: String
-    speaker: String
+    media:
+      type: String
+      optional: true
+    mediaType:
+      type: Number
+      optional: true
+    order:
+      type: Number
+      optional: true
+    parent:
+      type: String
+      optional: true
+    posterImage:
+      type: String
+      optional: true
+    speaker:
+      type: String
+      optional: true
     stopNumber: Number
     title: String
     tour: String
