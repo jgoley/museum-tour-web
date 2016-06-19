@@ -1,11 +1,18 @@
 template(name="editStop")
-  +stopTitle stop=stop activelyEditing=activelyEditing
-  if isActivelyEditing
-    if isGroup
+  +stopTitle(
+    stop=stop
+    editingStop=editingStop
+    parentStopNumber=parentStopNumber)
+  if isEditingStop
+    .editing-container
+      +editing stop=stop editingStop=editingStop
+    if stop.isGroup
       if showChildStops
         +childStops stop=stop
-        if addChild
-          +addStop type='new-child' tour=tour parent=_id siblings=childStops
-    else
-      .editing-container
-        +editing stop=stop stops=stops childStops=children
+      if isAddingStop
+        +addStop(
+          type='new-child'
+          tour=tour
+          parent=_id
+          siblings=childStops
+          addingStop=addingStop)

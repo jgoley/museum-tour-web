@@ -44,7 +44,7 @@ Meteor.methods
       stop.set values.values
       stop.save ->
 
-      # TourSto().insert values.values, (e, id) ->
+      # TourStop().insert values.values, (e, id) ->
         #   Session.set('add-stop', false)
         #   Session.set('creating-stop', false)
         #   parent = values.values.parent
@@ -57,7 +57,7 @@ Meteor.methods
     S3.delete path, (e,s)-> console.log e,s
     stop.set media: ''
     stop.save()
-    # TourSto().update({_id: stop._id}, {$set:{media: ''}})
+    TourStop().update({_id: stop._id}, {$set:{media: ''}})
 
   deleteFolder: (tourID) ->
     path = "#{tourID}"

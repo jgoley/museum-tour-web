@@ -32,8 +32,12 @@ parsley = (formElement) ->
   $(formElement).parsley
     trigger: 'change'
 
+stopEditing = (editing) ->
+  Session.set 'editingAStop', false
+  editing.set false
 
 module.exports =
-  updateStop          : updateStop
-  getLastStopNum      : getLastStopNum
-  parsley             : parsley
+  updateStop     : updateStop
+  getLastStopNum : getLastStopNum
+  parsley        : parsley
+  stopEditing    : stopEditing

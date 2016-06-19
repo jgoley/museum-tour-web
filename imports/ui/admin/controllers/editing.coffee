@@ -1,44 +1,45 @@
 { ReactiveVar } = require 'meteor/reactive-var'
 { TourStop }        = require '../../../api/tour_stops/index'
 { parsley }          = require '../../../helpers/edit'
-{ showNotification } = require '../../../helpers/notifications'
+{ setStopEditingState,
+  stopEditing }         = require '../../../helpers/edit'
 
 require '../views/editing.jade'
 
 Template.editing.onCreated ->
   @mediaType = new ReactiveVar()
+  @stop = @data.stop
+  @mediaType.set @data.stop.mediaType
+  @editingStop = @data.editingStop
 
 Template.editing.onRendered ->
   parsley('.edit-stop')
-  template = Template.instance()
-  template.mediaType.set(template.data.stop.mediaType)
 
 Template.editing.helpers
   parent: ->
-    @stop.type is 'parent' or @stop.type is 'group'
-  isChild: () ->
-    @stop?.type is 'child'
+    stop = Template.instance().stop
+    stop.type is 'parent' or stop.type is 'group'
+
   progress: () ->
     Math.round this.uploader.progress() * 100
+
   parentStops: ->
     TourStop.find {type: 'group'}, {sort: {title: 1}}
+
   getMediaType: ->
     Template.instance().mediaType
 
 Template.editing.events
-  'click .cancel': (e)->
-    if @type is 'single'
-      Session.set(@stop._id,false)
-    else
-      Session.set("child-" + @stop.parent + '-' + @stop._id, false)
+  'click .cancel': (event, instance)->
+    stopEditing instance.editingStop
 
-  'click .delete-file' : ()->
-    deleteFile(@stop)
+  'click .delete-file': ->
+    deleteFile @stop
 
-  'submit .add-to-group': (e, template) ->
+  'submit .add-to-group': (event, instance) ->
     e.preventDefault()
     parentID = e.target.parent.value
-    data = template.data
+    data = instance.data
     stop = data.stop
     childStops = _.filter data.childStops.fetch(), (stop) -> stop.parent is parentID
     order = _.last(_.sortBy(childStops, 'order')).order + 1

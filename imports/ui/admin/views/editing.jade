@@ -1,40 +1,40 @@
 template(name="editing")
   form(class="edit-stop edit-#{stop.type}" data-parsley-validate)
-    unless parent
-      .row
-        .col-sm-6
-          if isChild
-            .row
-              .col-sm-2
-                label
-                  span Order
-                  input.form-control(value="#{stop.order}" name="order" placeholder="Order Number" type="number")
-          +stopData stop=stop mediaType=getMediaType
-          .action-btns
-            button.btn.btn-success.save(type="submit") Save Stop
-            button.btn.btn-default.cancel(type="button") Done
-
-      .other-edit-options
-        label Other Options
-        if isChild
-          button.btn.btn-default.convert-single
-            i.fa.fa-square-o
-            span Convert to Single Stop
-         else
+    h3.tap-edit-list--section-title.pull-back Stop Details
+    .edit-stop-details.row
+      .col-sm-6
+        if stop.isChild
           .row
             .col-sm-2
-              button.btn.btn-default.convert-group
-                i.fa.fa-clone.left
-                span Convert to Group
-            if parentStops
-              .col-sm-7.col-sm-offset-1
-                .row.add-to-group-wrap
-                  form.add-to-group
-                    .col-sm-8
-                      select.parent-stops-list.form-control(name="parent")
-                        each parentStops
-                          option(value=_id)= title
-                    .col-sm-4
-                      button.btn.btn-default
-                        i.fa.fa-plus-square.left
-                        span Add to group
+              label
+                span Order
+                input.form-control(value="#{stop.order}" name="order" placeholder="Order Number" type="number")
+        +stopData stop=stop mediaType=getMediaType
+        .action-btns
+          button.btn.btn-success.save(type="submit") Save Stop
+          button.btn.btn-default.cancel(type="button") Done
+
+    h3.tap-edit-list--section-title.pull-back Other Options
+    .other-edit-options
+      if stop.isChild
+        button.btn.btn-default.convert-single
+          i.fa.fa-square-o
+          span Convert to Single Stop
+       else
+        .row
+          .col-sm-2
+            button.btn.btn-default.convert-group
+              i.fa.fa-clone.left
+              span Convert to Group
+          if parentStops
+            .col-sm-7.col-sm-offset-1
+              .row.add-to-group-wrap
+                form.add-to-group
+                  .col-sm-8
+                    select.parent-stops-list.form-control(name="parent")
+                      each parentStops
+                        option(value=_id)= title
+                  .col-sm-4
+                    button.btn.btn-default
+                      i.fa.fa-plus-square.left
+                      span Add to group

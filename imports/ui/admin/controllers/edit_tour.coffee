@@ -16,6 +16,7 @@ require '../views/edit_tour.jade'
 
 
 Template.editTour.onCreated ->
+  Session.set 'editingAStop', false
   @editTourDetails = new ReactiveVar false
   @creatingStop = new ReactiveVar false
   @tourID = @data?.tourID
@@ -36,8 +37,8 @@ Template.editTour.helpers
         ]
       }, {sort: stopNumber: 1}
 
-  onlyOneStop: ->
-    TourStop.findOne()
+  sortableOptions : ->
+    handle: '.handle'
 
   editTourDetails: ->
     Template.instance().editTourDetails.get()

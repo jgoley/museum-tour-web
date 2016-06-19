@@ -10,6 +10,9 @@
 
 .editing-container
   min-height 0
+  padding-left 6%
+  padding-top 1em
+  padding-bottom 1em
   transition ease-in-out
   &.showing
     min-height 1000px
@@ -27,10 +30,12 @@
     padding 5px 3%
     border-bottom #CCC 1px solid
     background white
+    transition 2s
+    transition-delay .2s
     +mobile()
       padding 5px 3%
     &:nth-child(even)
-      background $l-gray
+      background $ll-gray
     .delete
       position absolute
       right 3%
@@ -48,26 +53,31 @@
         cursor grabbing
   .handle
     font-size 1.5em
-    color $m-gray
+    color $l-gray
     margin-right 5px
     cursor grab
     +below(2)
       font-size 1em
 
+.not-editing
+  opacity .15
+  pointer-events none
+
 .edit-child-stops
-  // margin 10px -3.2% 0 -3.2%
+  margin-left 6%
   position relative
-  border-top 2px solid $secondary
   > li
     position relative
-    padding 5px 5%
-    border-bottom 1px solid darken($l-gray, 5%)
+    padding 5px 10px
+    border-bottom 1px solid darken($ll-gray, 5%)
     &:nth-child(even)
-      background $l-gray
+      background $ll-gray
     .stop-number
       font-size 1.5em
       +below(2)
         font-size 1em
+  .editing-container
+    padding-left   0
 
 .sortble-ghost
   background #f0f0f0 !important
@@ -139,11 +149,13 @@
     transform translate(0,0)
 
 .edit-single
-  padding 10px 65px
   +mobile()
     padding 10px 5px 10px 20px
 .edit-child
-  padding 10px 15px
+  padding 10px
+  .tap-edit-list--section-title
+    font-size 2em
+    color $l-gray
 
 .action-btns
   margin 15px 0 10px 0
@@ -154,6 +166,19 @@
 .delete-file
   margin-left 5px
   font-size 110%
+
+.tap-edit-list--section-title
+  margin-bottom 0
+  margin-left 6%
+  border-bottom 2px solid lighten($secondary, 80%)
+  font-size 2.5em
+  font-weight 800
+  text-transform uppercase
+  color $secondary-light
+  letter-spacing .03em
+  line-height 1em
+  &.pull-back
+    margin-left 0%
 
 .main-title-wrap
   .main-title
@@ -179,6 +204,8 @@
         box-shadow 0
         outline 0
 
+.add-stop
+  margin-top 1em
 
 .add-stop-link
   background-color #FFF !important
@@ -202,14 +229,13 @@
 .add-stop-container
   padding-right 3.5%
 
-
 .add-child
   a
     padding-left 15px
 
 .new-child
   margin-bottom 20px
-  padding-left 3.5%
+  padding-left 6%
 
 .new-parent
   margin-bottom 50px
@@ -220,13 +246,14 @@
     &:first-of-type
       margin-top 0
 
+.edit-stop-details
+  margin-bottom 2em
+  margin-top 1em
+
+
 .other-edit-options
-  margin-top 20px
   margin-bottom 20px
   padding-top 20px
-  padding-left 6%
-  padding-right 6%
-  border-top 2px solid lighten($secondary, 70%)
 
 .add-to-group-wrap
   select
@@ -236,7 +263,6 @@
 
 .parent-number
   color $m-gray
-  margin-right -3px
 
 .no-file
   color lighten($primary,30%)

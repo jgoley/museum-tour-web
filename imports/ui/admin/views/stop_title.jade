@@ -1,8 +1,14 @@
 template(name="stopTitle")
-  li.parent(class="#{stop.type} {{#unless isActivelyEditing}} not-editing {{/unless}}")
-    unless onlyOneStop
+  li(class="#{stop.type} {{#if editingAStop}} not-editing {{/if}}")
+    if draggable
       i.handle.fa.fa-bars
-    span.stop-number #{stop.stopNumber}
+
+    span.stop-number
+      if stop.isChild
+        span.parent-number #{parentStopNumber}
+        span.order-number .#{stop.order}
+      else
+        {{stop.stopNumber}}
 
     unless editingTitle
       span.title(class="#{stop.type}-title")= stop.title
@@ -19,7 +25,7 @@ template(name="stopTitle")
               i.fa.fa-times-circle
 
     .stop-count
-      if isGroup
+      if stop.isGroup
         each stop.children
           if this.media
             i.fa.fa-square
@@ -28,9 +34,8 @@ template(name="stopTitle")
         else
           i.fa.fa-exclamation-triangle.no-file-warning
       else
-        if stop.media
-          i.fa.fa-square
-        else
-          i.fa.fa-square-o.no-file
+        unless stop.media
+          i.fa.fa-exclamation-triangle.no-file-warning
+
     a.delete(href="#")
       i.fa.fa-trash

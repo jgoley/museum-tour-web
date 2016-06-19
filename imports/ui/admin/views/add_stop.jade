@@ -1,6 +1,5 @@
 template(name='addStop')
   .add-stop-container(class=type)
-    h2=addTitle
     form.add-stop(data-parsley-validate)
       .row
         .col-sm-6
@@ -35,8 +34,7 @@ template(name='addStop')
                   tourID=tour._id
                   mediaType=mediaType
                   typeName='media'
-                  currentMediaType=stop.mediaType
-                  )
+                  currentMediaType=stop.mediaType)
           if isCreating
             +uploadProgress
           .action-btns

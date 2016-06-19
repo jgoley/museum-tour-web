@@ -4,48 +4,49 @@
 require '../views/add_stop.jade'
 
 Template.addStop.onCreated ->
-  @newStopType = new ReactiveVar('single')
-  # @newStopType = new ReactiveVar()
-  @mediaType = new ReactiveVar()
+  @newStopType = new ReactiveVar 'single'
+  @mediaType = new ReactiveVar null
+  @addingStop = @data.addingStop
 
 Template.addStop.onRendered ->
-  parsley('.add-stop')
+  parsley '.add-stop'
 
 Template.addStop.helpers
-  addTitle: ->
-    if @type is 'new-parent'
-      'Add new stop'
-    else if @type is 'new-child'
-      'Add new child stop'
-  isCreating: ->
-    Template.instance.creatingStop.get()
+  # isCreating: ->
+  #   Template.instance.creatingStop.get()
+
   files: ->
     uploadingFiles()
+
   isParent: ->
     @type is 'new-parent'
+
   showSingleData: ->
     Template.instance().newStopType.get() is 'single'
+
   groupSelected: ->
     Template.instance().newStopType.get() is 'group'
+
   singleSelected: ->
     Template.instance().newStopType.get() is 'single'
+
   mediaType: ->
     Template.instance().mediaType
 
 Template.addStop.events
-  'change input[type=radio]': (e, template) ->
+  'change input[type=radio]': (event, template) ->
     if $('input[name=type]:checked').val() is 'group'
-      template.newStopType.set('group')
+      template.newStopType.set 'group'
     else
-      template.newStopType.set('single')
+      template.newStopType.set 'single'
 
-  'submit .add-stop' : (e) ->
-    e.preventDefault()
-    Template.instance.creatingStop.set(true)
-    form = e.target
+  'submit .add-stop' : (event) ->
+    event.preventDefault()
+    Template.instance.creatingStop.set true
+    form = event.target
     files = []
     _.each $(form).find("[type='file']"), (file) ->
-      if file.files[0] then files.push(file.files[0])
+      if file.files[0] then files.push file.files[0]
     values =
       values:
         title: form.title?.value
@@ -55,12 +56,12 @@ Template.addStop.events
 
     if files.length
       if form.media?.files[0]
-        values.values.media = form.media.files[0].name.split(" ").join("+")
+        values.values.media = form.media.files[0].name.split(" ").join "+"
       if form.mediaType?.value is '2' and form.posterImage?.files[0]
         values.values.posterImage = form.posterImage.files[0].name.split(" ").join("+")
 
     #Tour ID
-    values.values.type = Session.get('newStopType')
+    values.values.type = Session.get 'newStopType'
     if _.isObject(@tour) then tour = @tour._id else tour = @tour
     values.values.tour = tour
 
@@ -81,7 +82,7 @@ Template.addStop.events
       values.values.stopNumber = getLastStopNum(@stops.fetch())+1 or @tour.baseNum+1
       that = @
 
-    updateStop('', values, 'create')
+    updateStop '', values, 'create'
 
-  'click .cancel-add-stop' : (e) ->
-    Session.set('add-child-'+@parent, false)
+  'click .cancel-add-stop' : (event, instance) ->
+    instance.addingStop.set false
