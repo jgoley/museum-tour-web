@@ -1,20 +1,14 @@
 template(name="editing")
   form(class="edit-stop edit-#{stop.type}" data-parsley-validate)
-    h3.tap-edit-list--section-title.pull-back Stop Details
-    .edit-stop-details.row
-      .col-sm-6
-        if stop.isChild
-          .row
-            .col-sm-2
-              label
-                span Order
-                input.form-control(value="#{stop.order}" name="order" placeholder="Order Number" type="number")
+    h3.section-title.pull-back Stop Details
+    .edit-stop-details.clearfix
+      .col-sm-12.row
         +stopData stop=stop mediaType=getMediaType
         .action-btns
           button.btn.btn-success.save(type="submit") Save Stop
           button.btn.btn-default.cancel(type="button") Done
 
-    h3.tap-edit-list--section-title.pull-back Other Options
+    h3.section-title.pull-back Other Options
     .other-edit-options
       if stop.isChild
         button.btn.btn-default.convert-single

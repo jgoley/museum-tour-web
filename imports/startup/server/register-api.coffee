@@ -1,4 +1,3 @@
-# require '../../api/client/sortable'
 require '../../api/server/methods'
 
 require '../../api/tours/index'

@@ -1,8 +1,8 @@
-{ ReactiveVar } = require 'meteor/reactive-var'
+{ ReactiveVar }      = require 'meteor/reactive-var'
 { showNotification } = require '../../../helpers/notifications'
-{ go }               = require '../../../helpers/route_helpers'
 { Tour }             = require '../../../api/tours/index'
 { TourStop }         = require '../../../api/tour_stops/index'
+{ go }               = require '../../../helpers/route_helpers'
 { parsley
   updateStop,
   setStopEditingState,
@@ -29,13 +29,15 @@ Template.editTour.helpers
     Tour.findOne Template.instance().tourID
 
   stops: ->
-    TourStop.find {
+    stops = TourStop.find {
       $or:
         [
           {type: 'group'},
           {type: 'single'}
         ]
       }, {sort: stopNumber: 1}
+    console.log stops.fetch()
+    stops
 
   sortableOptions : ->
     handle: '.handle'

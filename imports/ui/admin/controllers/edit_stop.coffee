@@ -34,6 +34,9 @@ Template.editStop.helpers
   addingStop: ->
     Template.instance().addingStop
 
+  notParent: ->
+    not @stop.isGroup()
+
 Template.editStop.events
   'click .convert-group': ->
     convertStop = confirm('Are you sure you want to convert this stop to a group?')

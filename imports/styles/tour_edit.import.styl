@@ -16,6 +16,8 @@
   transition ease-in-out
   &.showing
     min-height 1000px
+  +below(2)
+    padding-right 5%
 
 .media-types
   display inline-block
@@ -52,6 +54,10 @@
       .handle
         cursor grabbing
   .handle
+    position absolute
+    left 3%
+    top 50%
+    transform translate(0, -50%)
     font-size 1.5em
     color $l-gray
     margin-right 5px
@@ -64,11 +70,10 @@
   pointer-events none
 
 .edit-child-stops
-  margin-left 6%
   position relative
   > li
     position relative
-    padding 5px 10px
+    padding 5px 5%
     border-bottom 1px solid darken($ll-gray, 5%)
     &:nth-child(even)
       background $ll-gray
@@ -76,8 +81,6 @@
       font-size 1.5em
       +below(2)
         font-size 1em
-  .editing-container
-    padding-left   0
 
 .sortble-ghost
   background #f0f0f0 !important
@@ -151,11 +154,6 @@
 .edit-single
   +mobile()
     padding 10px 5px 10px 20px
-.edit-child
-  padding 10px
-  .tap-edit-list--section-title
-    font-size 2em
-    color $l-gray
 
 .action-btns
   margin 15px 0 10px 0
@@ -167,7 +165,7 @@
   margin-left 5px
   font-size 110%
 
-.tap-edit-list--section-title
+.section-title
   margin-bottom 0
   margin-left 6%
   border-bottom 2px solid lighten($secondary, 80%)
@@ -221,7 +219,6 @@
     margin-right 5px
   a
     color $primary
-    padding-left 30px
     display block
     &:hover
       text-decoration none
@@ -278,3 +275,6 @@
         @extend .font-awesome
         padding-right 5px
         transition .2s
+
+.tiny-media
+  min-width 100px

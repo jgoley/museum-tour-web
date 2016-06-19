@@ -2,6 +2,7 @@
 { Class } = require 'meteor/jagi:astronomy'
 
 TourStops = new Mongo.Collection 'tourStops'
+
 TourStop = Class.create
   name: 'TourStop'
   collection: TourStops
@@ -40,4 +41,5 @@ TourStop = Class.create
       @parent
 
 module.exports =
-  TourStop: TourStop
+  TourStop : TourStop
+  TourStops: TourStops

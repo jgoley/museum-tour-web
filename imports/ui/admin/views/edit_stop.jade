@@ -4,8 +4,9 @@ template(name="editStop")
     editingStop=editingStop
     parentStopNumber=parentStopNumber)
   if isEditingStop
-    .editing-container
-      +editing stop=stop editingStop=editingStop
+    if notParent
+      .editing-container
+        +editing stop=stop editingStop=editingStop
     if stop.isGroup
       if showChildStops
         +childStops stop=stop
