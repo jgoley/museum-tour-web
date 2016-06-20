@@ -33,7 +33,8 @@ Template.editing.helpers
 
 Template.editing.events
   'click .cancel': (event, instance)->
-    stopEditing instance.editingStop
+    instance.editingStop.set false
+    $('html, body').animate scrollTop: $('.group:not(.not-editing)').offset().top, 800
 
   'click .delete-file': ->
     deleteFile @stop

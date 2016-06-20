@@ -23,31 +23,3 @@ template(name="editMedia")
     +fileUpload name=typeName required=true label=label
     if mediaIsVideo
       +fileUpload name='posterImage' required=true label="Poster Image"
-  //- if mediaIsVideo
-
-
-
-//-
-//-
-//- template(name="editMedia")
-//-   unless media
-//-     +fileUpload name=typeName required=true label=label
-//-   else
-//-     if mediaIsImage
-//-       .row
-//-         .col-sm-12
-//-           +mediaPreview stop=stop media=media tourID=tourID typeName=typeName
-//-     else
-//-       .video
-//-         video.media-video(src="http:#{awsUrl}/#{stop.tour}/#{stop.media}" controls)
-//-         .curtain
-//-         .media-options
-//-           a(href="#{awsUrl}/#{stop.tour}/#{stop.media}" target='_blank')
-//-             i.fa.fa-external-link
-//-           a(href="").delete-media
-//-             i.fa.fa-trash
-//-   if mediaisVideo
-//-     unless stop.posterImage
-//-       +fileUpload name='posterImage' required=true label="Poster Image"
-//-     else
-//-       +mediaPreview stop=stop media=stop.posterImage tourID=tourID typeName='posterImage'

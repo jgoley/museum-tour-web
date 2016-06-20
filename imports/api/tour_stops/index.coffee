@@ -36,6 +36,9 @@ TourStop = Class.create
     children: ->
       TourStop.find {parent: @_id}, {sort: {order:1}}
 
+    parent: ->
+      TourStop.findOne parent
+
     isVideo: ->
       @mediaType in ['2',2,'5',5]
 
@@ -53,6 +56,30 @@ TourStop = Class.create
 
     isChild: ->
       @parent
+
+    delete: ->
+      console.log @
+      if @isGroup()
+        @deleteChildren()
+      @deleteMedia()
+        .then =>
+          @remove()
+
+    deleteChildren: ->
+      @children().forEach (child) ->
+        child.delete()
+
+    deleteMedia: ->
+      S3.delete "/#{@tour}/#{@media}", (error) =>
+        if error
+          showNotification error
+        else
+          if @posterImage
+            S3.delete "/#{@tour}/#{@posterImage}"
+          @set 'posterImage', null
+          @set 'media', null
+          @set 'mediaType', 1
+          @save()
 
 module.exports =
   TourStop : TourStop

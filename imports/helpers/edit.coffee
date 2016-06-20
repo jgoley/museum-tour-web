@@ -40,7 +40,7 @@ uploadFiles = (files, tourID, uploading) ->
 
 updateStop = (stop, props, form, reactives) ->
   props = buildStop props, stop, form
-  uploadFiles(props.files, props.tour, reactives.uploading)
+  uploadFiles(props.files, props.values.tour, reactives.uploading)
     .then ->
       saveStop stop, props, reactives.editing
 

@@ -42,11 +42,12 @@ Template.addStop.helpers
     Template.instance().mediaType
 
 Template.addStop.events
-  'change input[type=radio]': (event, template) ->
+  'change input[type=radio]': (event, instance) ->
+    console.log instance.tour
     if $('input[name=type]:checked').val() is 'group'
-      template.newStopType.set 'group'
+      instance.newStopType.set 'group'
     else
-      template.newStopType.set 'single'
+      instance.newStopType.set 'single'
 
   'submit .add-stop' : (event, instance) ->
     event.preventDefault()

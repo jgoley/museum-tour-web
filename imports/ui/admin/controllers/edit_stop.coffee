@@ -69,25 +69,28 @@ Template.editStop.events
   'click .cancel-add-stop': (event, instance) ->
     instance.addingStop.set false
 
-  'click .delete': ->
-    if @type is 'group'
-      deleteStop = confirm('Are you sure you want to delete this stop?\nAll child stops will also be deleted!')
-    else
-      deleteStop = confirm('Are you sure you want to delete this stop?')
-    if deleteStop
-      if @type is 'group'
-        Meteor.call 'removeGroup', @childStops
-      else if @type is 'single'
-        if @media
-          deleteFile(@)
-        TourStop.remove({_id: @_id})
-      else
-        that = @
-        siblings = _.filter Template.instance().data.childStops.fetch(), (stop) ->
-          stop.parent is that.parent
-        higherSiblings = _.filter siblings, (stop) ->
-          stop.order > that.order
-        _.each higherSiblings, (stop) ->
-          TourStop.update {_id: stop._id}, {$set: {order: stop.order-1}}
-        TourStop.update({_id: @parent}, {$pull: {childStops: @_id}})
-        TourStop.remove({_id: @_id})
+  'click .delete': (event) ->
+    event.preventDefault()
+    @stop.delete()
+
+    # if @type is 'group'
+    #   deleteStop = confirm('Are you sure you want to delete this stop?\nAll child stops will also be deleted!')
+    # else
+    #   deleteStop = confirm('Are you sure you want to delete this stop?')
+    # if deleteStop
+    #   if @type is 'group'
+    #     Meteor.call 'removeGroup', @childStops
+    #   else if @type is 'single'
+    #     if @media
+    #       deleteFile(@)
+    #     TourStop.remove({_id: @_id})
+    #   else
+    #     that = @
+    #     siblings = _.filter Template.instance().data.childStops.fetch(), (stop) ->
+    #       stop.parent is that.parent
+    #     higherSiblings = _.filter siblings, (stop) ->
+    #       stop.order > that.order
+    #     _.each higherSiblings, (stop) ->
+    #       TourStop.update {_id: stop._id}, {$set: {order: stop.order-1}}
+    #     TourStop.update({_id: @parent}, {$pull: {childStops: @_id}})
+    #     TourStop.remove({_id: @_id})

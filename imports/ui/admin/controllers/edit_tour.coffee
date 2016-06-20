@@ -37,6 +37,7 @@ Template.editTour.helpers
           {type: 'single'}
         ]
       }, {sort: stopNumber: 1}
+    console.log stops.fetch()
     stops
 
   sortableOptions : ->
@@ -55,9 +56,9 @@ Template.editTour.helpers
     Template.instance().addingStop
 
 Template.editTour.events
-  'click .delete-tour': (e, template) ->
+  'click .delete-tour': (event, instance) ->
     deleteTour = confirm("Delete tour? All stops will be deleted")
-    template.data.stops.forEach (stop) ->
+    instance.data.stops.forEach (stop) ->
       deleteFile(stop)
       TourStop.remove stop._id
     deleteFolder(@tour._id)

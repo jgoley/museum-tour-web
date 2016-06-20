@@ -6,16 +6,16 @@ Tour = Class.create
   name: 'Tour'
   collection: Tour
   fields:
-    tourID   : String
-    mainTitle: String
-    subTitle : String
-    openDate : Date
-    closeDate: Date
     baseNum  : Number
-    tourType : Number
+    closeDate: Date
+    image:
+      type: String
+      optional: true
+    mainTitle: String
     menu     : Boolean
-    image    : String
-    stops    : Object
+    openDate : Date
+    subTitle : String
+    tourType : Number
 
 
 module.exports =

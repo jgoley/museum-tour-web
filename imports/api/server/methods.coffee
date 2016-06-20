@@ -36,16 +36,6 @@ Meteor.methods
     stop.set title: title
     stop.save()
 
-  deleteMedia: (prop, fileName, stopID, tourID)->
-    path = "/#{tourID}/#{fileName}"
-    S3.delete(path, (e,s)-> console.log e,s)
-    newProp = {}
-    newProp[prop] = ''
-    if stopID
-      TourStop().update({_id: stopID}, {$set:newProp})
-    else
-      Tour().update({_id: tourID}, {$set:newProp})
-
   deleteTourImage: (tour)->
     path = "/#{tour.tourID}/#{tour.image}"
     S3.delete(path, (e,s)-> console.log e,s)
