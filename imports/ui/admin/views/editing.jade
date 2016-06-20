@@ -3,7 +3,10 @@ template(name="editing")
     h3.section-title.pull-back Stop Details
     .edit-stop-details.clearfix
       .col-sm-12.row
-        +stopData stop=stop mediaType=getMediaType
+        +stopData(
+          stop=stop
+          mediaType=mediaType
+          uploading=uploading)
         .action-btns
           button.btn.btn-success.save(type="submit") Save Stop
           button.btn.btn-default.cancel(type="button") Done

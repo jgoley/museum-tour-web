@@ -25,7 +25,9 @@ TourStop = Class.create
     speaker:
       type: String
       optional: true
-    stopNumber: Number
+    stopNumber:
+      type: Number
+      optional: true
     title: String
     tour: String
     type: String

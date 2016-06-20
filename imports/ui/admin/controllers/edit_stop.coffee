@@ -16,6 +16,7 @@ require '../views/edit_stop.jade'
 Template.editStop.onCreated ->
   @editingStop = new ReactiveVar false
   @addingStop = new ReactiveVar false
+  @uploading = new ReactiveVar false
   @subscribe 'childStops', @data.stop._id
 
 Template.editStop.helpers
@@ -64,33 +65,6 @@ Template.editStop.events
   'click .add-child': (event, instance) ->
     adding = instance.addingStop
     adding.set not adding.get()
-
-  'submit .edit-stop': (event, instance) ->
-    # $(e.target).addClass('saved')
-    event.preventDefault()
-    form = event.target
-    mediaType = form.mediaType?.value
-    files = []
-    _.each $(form).find("[type='file']"), (file) ->
-      if file.files[0] then files.push(file.files[0])
-    values =
-      values:
-        speaker: form.speaker?.value
-        mediaType: mediaType
-        order: +form.order?.value
-        tour: @stop?.tour
-      files: files
-
-    if files.length
-      if form.media?.files[0]
-        values.values.media = form.media.files[0]?.name.split(" ").join("+")
-      if mediaType is '2' and form.posterImage?.files[0]
-        values.values.posterImage = form.posterImage.files[0].name.split(" ").join("+")
-
-    reactives =
-      addingStop  : instance.addingStop
-
-    updateStop @stop, values, reactives
 
   'click .cancel-add-stop': (event, instance) ->
     instance.addingStop.set false

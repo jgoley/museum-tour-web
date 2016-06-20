@@ -1,13 +1,15 @@
 { ReactiveVar } = require 'meteor/reactive-var'
-{ TourStop }        = require '../../../api/tour_stops/index'
-{ parsley }          = require '../../../helpers/edit'
-{ setStopEditingState,
-  stopEditing }         = require '../../../helpers/edit'
+{ TourStop }    = require '../../../api/tour_stops/index'
+{ parsley }     = require '../../../helpers/edit'
+{ stopEditing,
+  updateStop,
+  formFiles }   = require '../../../helpers/edit'
 
 require '../views/editing.jade'
 
 Template.editing.onCreated ->
   @mediaType = new ReactiveVar()
+  @uploading = new ReactiveVar false
   @stop = @data.stop
   @mediaType.set @data.stop.mediaType
   @editingStop = @data.editingStop
@@ -20,14 +22,14 @@ Template.editing.helpers
     stop = Template.instance().stop
     stop.type is 'parent' or stop.type is 'group'
 
-  progress: () ->
-    Math.round this.uploader.progress() * 100
-
   parentStops: ->
     TourStop.find {type: 'group'}, {sort: {title: 1}}
 
-  getMediaType: ->
+  mediaType: ->
     Template.instance().mediaType
+
+  uploading: ->
+    Template.instance().uploading
 
 Template.editing.events
   'click .cancel': (event, instance)->
@@ -35,6 +37,23 @@ Template.editing.events
 
   'click .delete-file': ->
     deleteFile @stop
+
+  'submit .edit-stop': (event, instance) ->
+    event.preventDefault()
+
+    form = event.target
+    stop = instance.stop
+
+    props =
+      files: formFiles instance.$(form)
+      values:
+        tour: stop.tour
+
+    reactives =
+      uploading: instance.uploading
+      editing  : instance.editingStop
+
+    updateStop stop, props, form, reactives
 
   'submit .add-to-group': (event, instance) ->
     e.preventDefault()

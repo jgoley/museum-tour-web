@@ -6,10 +6,17 @@ template(name="stopData")
           .col-sm-2.tiny-input
             label
               span Order
-              input.form-control(value="#{stop.order}" name="order" placeholder="Order Number" type="number")
+              input.form-control(
+                value="#{stop.order}"
+                name="order"
+                placeholder="Order Number"
+                type="number")
       label
         span Speaker or Subtitle
-        input.form-control(value="#{stop.speaker}" name="speaker" placeholder="Speaker")
+        input.form-control(
+          value="#{stop.speaker}"
+          name="speaker"
+          placeholder="Speaker")
       +mediaTypes stop=stop mediaType=mediaType
   +editMedia(
     label="Media File"
@@ -19,7 +26,6 @@ template(name="stopData")
     stop=stop
     mediaType=mediaType
     typeName='media'
-    currentMediaType=stop.mediaType
-    )
+    currentMediaType=stop.mediaType)
   if isUpdating
     +uploadProgress

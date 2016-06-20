@@ -35,7 +35,7 @@ template(name='addStop')
                   mediaType=mediaType
                   typeName='media'
                   currentMediaType=stop.mediaType)
-          if isCreating
+          if isUploading
             +uploadProgress
           .action-btns
             button.btn.btn-success(type="submit")

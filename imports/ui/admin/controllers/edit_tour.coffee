@@ -18,7 +18,7 @@ require '../views/edit_tour.jade'
 Template.editTour.onCreated ->
   Session.set 'editingAStop', false
   @editTourDetails = new ReactiveVar false
-  @creatingStop = new ReactiveVar false
+  @uploading = new ReactiveVar false
   @addingStop = new ReactiveVar false
   @tourID = @data?.tourID
   if @tourID
@@ -37,7 +37,6 @@ Template.editTour.helpers
           {type: 'single'}
         ]
       }, {sort: stopNumber: 1}
-    console.log stops.fetch()
     stops
 
   sortableOptions : ->
