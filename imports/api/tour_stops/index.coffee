@@ -58,7 +58,6 @@ TourStop = Class.create
       @parent
 
     delete: ->
-      console.log @
       if @isGroup()
         @deleteChildren()
       @deleteMedia()

@@ -37,7 +37,6 @@ Template.editTour.helpers
           {type: 'single'}
         ]
       }, {sort: stopNumber: 1}
-    console.log stops.fetch()
     stops
 
   sortableOptions : ->

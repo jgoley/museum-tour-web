@@ -10,34 +10,59 @@ template(name="tourDetails")
             .col-sm-10
               label
                 span Main Title
-                input.form-control(name='mainTitle' type='text' value=tour.mainTitle required)
+                input.form-control(
+                  name='mainTitle'
+                  type='text'
+                  value=tour.mainTitle
+                  required)
           .row
             .col-sm-10
               label
                 span Sub Title
-                input.form-control(name='subTitle' type='text' value=tour.subTitle)
+                input.form-control(
+                  name='subTitle'
+                  type='text'
+                  value=tour.subTitle)
           .row
             .col-sm-6
               label
                 span Opening Date
-                input.form-control(name='openDate' type='date' value='{{formatDate tour.openDate}}' required)
+                input.form-control(
+                  name='openDate'
+                  type='date'
+                  value='{{formatDate tour.openDate}}'
+                  required)
           .row
             .col-sm-6
               label
                 span Closing Date
-                input.form-control(name='closeDate' type='date'  value='{{formatDate tour.closeDate}}' required)
+                input.form-control(
+                  name='closeDate'
+                  type='date'
+                  value='{{formatDate tour.closeDate}}'
+                  required)
           .row
             .col-sm-4
               label
                 span Base Number (i.e '100')
-                input.form-control(name='baseNum' type='number' placeholder='100'  value=tour.baseNum required)
+                input.form-control(
+                  name='baseNum'
+                  type='number'
+                  placeholder='100'
+                  value=tour.baseNum
+                  required)
           .row
             .col-sm-10
               label
                 span Tour Type
                 .radio
                   label
-                    input(name='tourType' type='radio' value='0' checked required)
+                    input(
+                      name='tourType'
+                      type='radio'
+                      value='0'
+                      checked
+                      required)
                     | Adult
                 .radio
                   label
@@ -47,18 +72,28 @@ template(name="tourDetails")
             .col-sm-10
               label.outside
                 span Tour Image
-                  +editMedia media=tour.image tourID=tour._id currentMediaType='image' typeName='image'
+                  +editMedia(
+                    media=tour.image
+                    tourID=tour._id
+                    currentMediaType='image'
+                    typeName='image')
           .row.media-details
             .col-sm-10
               label.outside
                 span Thumbnail Image (100 pixels x 100 pixels)
-                  +editMedia media=tour.thumbnail tourID=tour._id currentMediaType='image' typeName='thumbnail'
-          +uploadProgress
+                  +editMedia(
+                    media=tour.thumbnail
+                    tourID=tour._id
+                    currentMediaType='image'
+                    typeName='thumbnail')
+          if uploading
+            +uploadProgress
 
           .action-btns
-            unless tour
-              button.btn.btn-success(type="submit") Create Tour
-            else
-              button.btn.btn-success(type="submit") Save Tour Details
+            button.btn.btn-success(type="submit")
+              unless tour
+                | Create Tour
+              else
+                | Save Tour Details
 
             button.btn.btn-default.tour-details-cancel(type="button") Done

@@ -40,14 +40,3 @@ Meteor.methods
     path = "/#{tour.tourID}/#{tour.image}"
     S3.delete(path, (e,s)-> console.log e,s)
     Tour.update({_id: tour.tourID}, {$set:{image: ''}})
-
-
-  # uploadFile: (files, tour) ->
-  #   new Promise (resolve, reject) ->
-  #     S3.upload
-  #       files:files
-  #       unique_name: false
-  #       path: tour
-  #       (e,r) ->
-  #         console.log e, r
-  #         resolve(r)

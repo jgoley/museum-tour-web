@@ -1,5 +1,6 @@
 { showNotification } = require './notifications'
 { TourStop }         = require '../api/tour_stops/index'
+{ go }               = require './route_helpers'
 
 saveStop = (stop, props, editing) ->
   stop = stop or new TourStop()
@@ -51,11 +52,10 @@ buildStop = (props, stop, form) ->
     mediaType: +form.mediaType?.value
     order    : +form.order?.value
 
-  if props.files.length
-    if form.media?.files[0]
-      baseValues.media = form.media.files[0]?.name.split(" ").join("+")
-    if baseValues.mediaType is 2 and form.posterImage?.files[0]
-      baseValues.posterImage = form.posterImage.files[0].name.split(" ").join("+")
+  if form.media?.files[0]
+    props.media = formatFileName form.media
+  if form.posterImage?.files[0]
+    props.posterImage = formatFileName form.posterImage
 
   props.values = _.extend props.values, baseValues
   props
@@ -65,6 +65,9 @@ formFiles = ($form) ->
   _.each $form.find("[type='file']"), (file) ->
     if file.files[0] then files.push(file.files[0])
   files
+
+formatFileName = (file) ->
+  file.files[0]?.name.split(" ").join("+")
 
 getLastStopNum = (stops) ->
   _.last(stops)?.stopNumber
@@ -77,6 +80,12 @@ stopEditing = (editing) ->
   Session.set 'editingAStop', false
   editing.set false
 
+finishTourSave = (tourID, isNew) ->
+  if isNew
+    go '/tour/edit/'+tourID
+  else
+    showNotification()
+
 module.exports =
   saveStop       : saveStop
   updateStop     : updateStop
@@ -85,3 +94,5 @@ module.exports =
   parsley        : parsley
   stopEditing    : stopEditing
   formFiles      : formFiles
+  formatFileName : formatFileName
+  finishTourSave : finishTourSave

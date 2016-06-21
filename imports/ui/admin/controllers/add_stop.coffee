@@ -43,7 +43,6 @@ Template.addStop.helpers
 
 Template.addStop.events
   'change input[type=radio]': (event, instance) ->
-    console.log instance.tour
     if $('input[name=type]:checked').val() is 'group'
       instance.newStopType.set 'group'
     else

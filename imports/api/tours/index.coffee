@@ -12,9 +12,12 @@ Tour = Class.create
       type: String
       optional: true
     mainTitle: String
-    menu     : Boolean
+    menu     :
+      type: Boolean
+      optional: true
     openDate : Date
     subTitle : String
+    thumbnail: String
     tourType : Number
 
 
