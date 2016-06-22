@@ -53,9 +53,9 @@ buildStop = (props, stop, form) ->
     order    : +form.order?.value
 
   if form.media?.files[0]
-    props.media = formatFileName form.media
+    baseValues.media = formatFileName form.media
   if form.posterImage?.files[0]
-    props.posterImage = formatFileName form.posterImage
+    baseValues.posterImage = formatFileName form.posterImage
 
   props.values = _.extend props.values, baseValues
   props
