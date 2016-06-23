@@ -1,8 +1,8 @@
 {AccountsTemplates} = require 'meteor/useraccounts:core'
 
 AccountsTemplates.configure
-  forbidClientAccountCreation: true
-  hideSignUpLink: true
+  forbidClientAccountCreation: false
+  hideSignUpLink: false
   showPlaceholders: false
   homeRoutePath: '/admin'
 

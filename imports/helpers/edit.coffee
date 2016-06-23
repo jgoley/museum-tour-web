@@ -50,7 +50,7 @@ buildStop = (props, stop, form) ->
     title    : form.title?.value or stop.title
     speaker  : form.speaker?.value
     mediaType: +form.mediaType?.value
-    order    : +form.order?.value
+    order    : props.values.order or +form.order?.value
 
   if form.media?.files[0]
     baseValues.media = formatFileName form.media

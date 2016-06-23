@@ -17,12 +17,12 @@ Template.editStop.onCreated ->
   @editingStop = new ReactiveVar false
   @addingStop = new ReactiveVar false
   @uploading = new ReactiveVar false
-  @subscribe 'childStops', @data.stop._id
+  @stopID = @data.stop._id
+  @subscribe 'childStops', @stopID, =>
+    unless TourStop.findOne(parent: @stopID)
+      @addingStop.set true
 
 Template.editStop.helpers
-  showChildStops: ->
-    Template.instance().editingStop.get()
-
   editingStop: ->
     Template.instance().editingStop
 
@@ -37,6 +37,10 @@ Template.editStop.helpers
 
   notParent: ->
     not @stop.isGroup()
+
+  hasChildren: ->
+    TourStop.findOne parent: Template.instance().data.stop._id
+
 
 Template.editStop.events
   'click .convert-group': ->
@@ -61,10 +65,6 @@ Template.editStop.events
       lastStopNumber = _.last(Template.instance().data.stops.fetch()).stopNumber
       TourStop.update {_id: that.stop.parent}, {$pull:{childStops: that.stop._id}}, () ->
         showNotification(e)
-
-  'click .add-child': (event, instance) ->
-    adding = instance.addingStop
-    adding.set not adding.get()
 
   'click .cancel-add-stop': (event, instance) ->
     instance.addingStop.set false

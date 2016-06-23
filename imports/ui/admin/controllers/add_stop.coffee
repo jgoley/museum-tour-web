@@ -4,20 +4,13 @@
   formFiles,
   getLastStopNum }  = require '../../../helpers/edit'
 
-
 require '../views/add_stop.jade'
 
 Template.addStop.onCreated ->
-  @tour         = @data.tour
-  @stops        = @data.stops
-  @type         = @data.type
-  @siblings     = @data.siblings
-  @parent       = @data.parent
   @newStopType  = new ReactiveVar 'single'
   @mediaType    = new ReactiveVar null
   @uploading    = new ReactiveVar false
   @addingStop   = @data.addingStop
-
 
 Template.addStop.onRendered ->
   parsley '.add-stop'
@@ -51,12 +44,12 @@ Template.addStop.events
   'submit .add-stop' : (event, instance) ->
     event.preventDefault()
 
+    data = instance.data
     form      = event.target
-    siblings  = instance.siblings
-    tour      = instance.tour
-    stops     = instance.stops
-    siblings  = instance.siblings
-    type      = instance.type
+    tour      = instance.data.tour
+    stops     = instance.data.stops
+    siblings  = instance.data.siblings?.fetch()
+    type      = instance.data.type
     reactives =
       uploading: instance.uploading
       editing  : instance.addingStop
@@ -65,20 +58,19 @@ Template.addStop.events
       files: formFiles instance.$(form)
       values: {}
 
-    if _.isObject(tour) then tourID = tour._id else tourID = tour
-    props.values.tour = tourID
+    props.values.tour = if _.isObject(tour) then tour._id else tour
 
     switch type
       when 'new-parent'
-        props.values.stopNumber = getLastStopNum(stops.fetch())+1 or tour.baseNum+1
+        props.values.stopNumber = getLastStopNum(stops?.fetch())+1 or tour.baseNum+1
         props.values.type = form.type.value
       when 'new-child'
         if siblings and siblings.length
-          last = siblings.length+1
+          last = siblings.length + 1
         else
           last = 1
         props.values.order = last
-        props.values.parent = instance.parent
+        props.values.parent = instance.data.parent
         props.values.type = 'child'
       else
         props.values.stopNumber = getLastStopNum(stops.fetch())+1 or tour.baseNum+1

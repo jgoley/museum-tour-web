@@ -1,6 +1,6 @@
 template(name="thumbnail")
   if tour.thumbnail
-    .image(style="background-image: url(//s3.amazonaws.com/tap-cma/#{tour._id}/#{tour.thumbnail})")
+    .image(style="background-image: url(#{awsURL}/#{tour._id}/#{tour.thumbnail})")
       .tour-type(class="{{type}}")
   else
     .no-image

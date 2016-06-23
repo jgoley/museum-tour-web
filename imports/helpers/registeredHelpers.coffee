@@ -6,7 +6,7 @@ Template.registerHelper 'formatDate', (date) ->
   moment(date).format('YYYY-MM-DD')
 
 Template.registerHelper 'awsUrl', ->
-  '//s3.amazonaws.com/tap-cma'
+  Meteor.settings.public.awsUrl
 
 # From the arillo:meteor-flow-router-helpers package
 Template.registerHelper 'pathFor', (path, view = {hash:{}}) ->

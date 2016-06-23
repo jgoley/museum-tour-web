@@ -1,19 +1,26 @@
 template(name="editStop")
-  +stopTitle(
-    stop=stop
-    editingStop=editingStop
-    parentStopNumber=parentStopNumber)
-  if isEditingStop
-    if notParent
-      .editing-container
-        +editing stop=stop editingStop=editingStop
-    if stop.isGroup
-      if showChildStops
-        +childStops stop=stop
-      if isAddingStop
-        +addStop(
-          type='new-child'
-          tour=tour
-          parent=_id
-          siblings=childStops
-          addingStop=addingStop)
+  if Template.subscriptionsReady
+    +stopTitle(
+      stop=stop
+      editingStop=editingStop
+      parentStopNumber=parentStopNumber)
+    if isEditingStop
+      if notParent
+        .editing-container
+          +editing stop=stop editingStop=editingStop
+      if stop.isGroup
+        if hasChildren
+          +childStops(
+            stop=stop
+            addingStop=addingStop
+            hasChildren=hasChildren)
+        if isAddingStop
+          +addStop(
+            type='new-child'
+            tour=tour
+            stop=stop
+            parent=stop._id
+            siblings=stop.children
+            addingStop=addingStop)
+  else
+    .loading
