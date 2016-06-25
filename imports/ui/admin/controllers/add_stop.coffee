@@ -11,6 +11,7 @@ Template.addStop.onCreated ->
   @mediaType    = new ReactiveVar null
   @uploading    = new ReactiveVar false
   @addingStop   = @data.addingStop
+  @editingStop  = @data.editingStop
 
 Template.addStop.onRendered ->
   @autorun =>
@@ -80,4 +81,7 @@ Template.addStop.events
     updateStop(null, props, form, reactives)
 
   'click .cancel-add-stop' : (event, instance) ->
+    if @stop and not @stop.children().count()
+      Session.set 'editingAStop', false
+      instance.editingStop.set false
     instance.addingStop.set false

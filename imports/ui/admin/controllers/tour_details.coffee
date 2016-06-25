@@ -1,6 +1,5 @@
 { Tour }             = require '../../../api/tours/index'
 { showNotification } = require '../../../helpers/notifications'
-{ $ }                = require 'meteor/jquery'
 { ReactiveVar }      = require 'meteor/reactive-var'
 { formatFileName,
   formFiles,

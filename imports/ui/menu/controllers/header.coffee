@@ -9,7 +9,7 @@ Template.header.helpers
     Template.instance().menuState
 
   previousURL: ->
-    Session.get('previousURL')
+    Session.get 'previousURL'
 
   history: ->
     window.history.length

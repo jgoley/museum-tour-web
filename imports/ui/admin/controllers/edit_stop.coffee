@@ -66,9 +66,6 @@ Template.editStop.events
       TourStop.update {_id: that.stop.parent}, {$pull:{childStops: that.stop._id}}, () ->
         showNotification(e)
 
-  'click .cancel-add-stop': (event, instance) ->
-    instance.addingStop.set false
-
   'click .delete': (event) ->
     event.preventDefault()
     @stop.delete()
