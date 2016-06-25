@@ -15,7 +15,9 @@ Template.editing.onCreated ->
   @editingStop = @data.editingStop
 
 Template.editing.onRendered ->
-  parsley('.edit-stop')
+  @autorun =>
+    if @editingStop.get()
+      parsley '.edit-stop'
 
 Template.editing.helpers
   parent: ->

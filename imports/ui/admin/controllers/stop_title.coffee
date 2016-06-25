@@ -1,7 +1,7 @@
-parsley                 = require 'parsleyjs'
 { ReactiveVar }         = require 'meteor/reactive-var'
 { setStopEditingState,
-  stopEditing }         = require '../../../helpers/edit'
+  stopEditing,
+  parsley }             = require '../../../helpers/edit'
 
 require '../views/stop_title.jade'
 
@@ -10,14 +10,14 @@ Template.stopTitle.onCreated ->
   @editingTitle = new ReactiveVar false
 
 Template.stopTitle.onRendered ->
-  $('.edit-title-form').parsley()
+  @autorun =>
+    if @editingTitle.get()
+      Meteor.defer ->
+        parsley '.edit-title-form'
 
 Template.stopTitle.helpers
   editingTitle: ->
     Template.instance().editingTitle.get()
-
-  editChildStop: (parent) ->
-    Session.get("child-" + @stop.parent + '-' + @stop._id)
 
   editingStop: ->
     Template.instance().editingStop.get()

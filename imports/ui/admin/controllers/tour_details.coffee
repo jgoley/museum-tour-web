@@ -1,12 +1,12 @@
 { Tour }             = require '../../../api/tours/index'
 { showNotification } = require '../../../helpers/notifications'
-parsley              = require 'parsleyjs'
 { $ }                = require 'meteor/jquery'
 { ReactiveVar }      = require 'meteor/reactive-var'
 { formatFileName,
   formFiles,
   uploadFiles,
-  finishTourSave }   = require '../../../helpers/edit'
+  finishTourSave,
+  parsley }          = require '../../../helpers/edit'
 
 require '../views/tour_details.jade'
 
@@ -14,8 +14,7 @@ Template.tourDetails.onCreated ->
   @uploading = new ReactiveVar false
 
 Template.tourDetails.onRendered ->
-  $('.create-tour').parsley
-    trigger: 'change'
+  parsley '.edit-tour-details'
 
 Template.tourDetails.helpers
   uploading: ->

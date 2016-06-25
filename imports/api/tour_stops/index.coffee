@@ -39,6 +39,13 @@ TourStop = Class.create
     parent: ->
       TourStop.findOne parent
 
+    getAdjacentStops: ->
+      TourStop.find
+        $and:[
+          {tour: @tour}
+          {$or: [{stopNumber: @stopNumber + 1}, {stopNumber: @stopNumber - 1}]}
+        ]
+
     isVideo: ->
       @mediaType in ['2',2,'5',5]
 

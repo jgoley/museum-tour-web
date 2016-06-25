@@ -1,3 +1,4 @@
+parsley              = require 'parsleyjs'
 { showNotification } = require './notifications'
 { TourStop }         = require '../api/tour_stops/index'
 { go }               = require './route_helpers'

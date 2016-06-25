@@ -3,10 +3,10 @@
 { TourStop }         = require '../tour_stops/index'
 { showNotification } = require '../../helpers/notifications'
 
-Tour = new Mongo.Collection 'tours'
+Tours = new Mongo.Collection 'tours'
 Tour = Class.create
   name: 'Tour'
-  collection: Tour
+  collection: Tours
   fields:
     baseNum  : Number
     closeDate: Date
@@ -30,6 +30,7 @@ Tour = Class.create
             {type: 'single'}
           ]
         }, {sort: stopNumber: 1}
+
     deleteMedia: ->
       tourID = @_id
       image = @image

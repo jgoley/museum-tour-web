@@ -9,32 +9,29 @@ Meteor.publish 'childStops', (stopID) ->
   TourStop.find parent: stopID
 
 Meteor.publish 'adjacentStops', (stopID) ->
-  currentStop = TourStop.findOne stopID
-  TourStop.find
-    $and:[
-      {tour: currentStop.tour}
-      {$or: [{stopNumber: currentStop.stopNumber + 1}, {stopNumber: currentStop.stopNumber - 1}]}
-    ]
+  tourStop = TourStop.findOne stopID
+  tourStop.getAdjacentStops()
 
 Meteor.publish 'tourStops', (tourID) ->
   TourStop.find tour: tourID
 
 Meteor.publish 'currentTourStops', ->
   today = moment(new Date()).format 'YYYY-MM-DD'
-  tours = Tour.find
-    $and: [
-      {
-        closeDate:
-          $gte: today
-      },
-      {
-        openDate:
-          $lte: today
-      }
-    ]
-    {fields: {_id: 1}}
+  currentTours =
+    Tours.find
+      $and: [
+        {
+          closeDate:
+            $gte: today
+        },
+        {
+          openDate:
+            $lte: today
+        }
+      ]
+      {fields: {_id: 1}}
 
-  query = _.map tours.fetch(), (tour)->
+  query = _.map currentTours.fetch(), (tour) ->
     {'tour': tour._id}
 
   TourStop.find
@@ -45,13 +42,5 @@ Meteor.publish 'currentTourStops', ->
     {fields: {_id: 1, tour: 1, stopNumber: 1}}
 
 Meteor.publish 'tourParentStops', (tourID) ->
-  TourStop.find
-    $and: [
-      {tour: tourID}
-      {$or:
-        [
-          {type: 'group'},
-          {type: 'single'}
-        ]
-      }
-    ]
+  tour = Tour.findOne tourID
+  tour.getParentStops()

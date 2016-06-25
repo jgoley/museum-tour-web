@@ -13,7 +13,9 @@ Template.addStop.onCreated ->
   @addingStop   = @data.addingStop
 
 Template.addStop.onRendered ->
-  parsley '.add-stop'
+  @autorun =>
+    if @addingStop.get()
+      parsley '.add-stop'
 
 Template.addStop.helpers
   isUploading: ->
