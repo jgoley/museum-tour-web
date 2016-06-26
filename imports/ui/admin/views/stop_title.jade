@@ -1,0 +1,41 @@
+template(name="stopTitle")
+  li(class="#{stop.type} {{#if editingAStop}} not-editing {{/if}}")
+    if draggable
+      i.handle.fa.fa-bars
+
+    span.stop-number
+      if stop.isChild
+        span.parent-number #{parentStopNumber}
+        span.order-number .#{stop.order}
+      else
+        {{stop.stopNumber}}
+
+    unless editingTitle
+      span.title(class="#{stop.type}-title")= stop.title
+      a.edit-title-btn
+        i.fa.fa-edit
+    else
+      form.edit-title-form.animate-in(data-parsley-validate)
+        .edit-title
+          input.edit-title-input.form-control.inline(value=stop.title name="title" required)
+          .action-btns-form
+            button.btn.btn-plain.save-title(type="submit")
+              i.fa.fa-check-circle
+            button.btn.btn-plain.cancel-edit-title(type="button")
+              i.fa.fa-times-circle
+
+    .stop-count
+      if stop.isGroup
+        each stop.children
+          if this.media
+            i.fa.fa-square
+          else
+            i.fa.fa-square-o.no-file
+        else
+          i.fa.fa-exclamation-triangle.no-file-warning
+      else
+        unless stop.media
+          i.fa.fa-exclamation-triangle.no-file-warning
+
+    a.delete
+      i.fa.fa-trash

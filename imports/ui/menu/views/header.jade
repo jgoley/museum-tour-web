@@ -1,0 +1,12 @@
+template(name="header")
+  header(class="{{#if menuOpen}} stuck {{/if}}")
+    .header-wrap
+      a(href="/")
+        h1.logo TAP into CMA
+      button.btn.back-btn(href="")
+        i.fa.fa-chevron-circle-left
+        span Back
+      button.btn.menu-btn(class="{{buttonAction}}")
+        span Menu
+      +offCanvasMenu menuState=menuState
+  .content-curtain(class="{{#if menuOpen}} down {{/if}}")

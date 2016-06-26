@@ -1,0 +1,37 @@
+template(name="stop")
+  if Template.subscriptionsReady
+    .tour-stop
+      if stop.children
+        h1.group-title
+          span.stopNumber #{stop.stopNumber}
+          | #{stop.title}
+        ul.child-stops
+          each stop.children
+            li.child-stop
+              .child-stop-info
+                h2.tap-list-title.child-stop-title
+                  span
+                    span.child-stop-number #{stop.stopNumber}.#{order}
+                    span #{title}
+                unless isNull speaker
+                  p.child-stop-subTitle #{speaker}
+              +stopContent stop=this
+      else
+        h1.single-title
+          span.stopNumber #{stop.stopNumber}
+          | #{stop.title}
+        unless isNull stop.speaker
+          p.child-stop-subTitle.single #{stop.speaker}
+        +stopContent stop=stop
+      .stop-nav
+        .col-xs-6
+            a.stop-nav-button.prev-stop(href="#" disabled="{{#unless prevStop}} disabled {{/unless}}")
+              i.fa.fa-chevron-circle-left
+              span Previous stop
+
+        .col-xs-6
+            a.stop-nav-button.next-stop(href="#" disabled="{{#unless nextStop}} disabled {{/unless}}")
+              span Next stop
+              i.fa.fa-chevron-circle-right
+  else
+    .loading

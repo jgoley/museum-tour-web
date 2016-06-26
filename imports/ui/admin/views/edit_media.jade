@@ -1,0 +1,25 @@
+template(name="editMedia")
+  if media
+    if mediaIsImage
+      .col-sm-12.row.media-preview
+        .col-sm-6
+          +mediaPreview stop=stop media=media tourID=tourID typeName=typeName
+    else
+      .col-lg-10.row.media-preview
+        .video.col-md-6
+          video.media-video(
+            src="http:#{awsUrl}/#{stop.tour}/#{stop.media}"
+            posterImage="http:#{awsUrl}/#{stop.tour}/#{stop.media}"
+            controls)
+          .curtain
+          .media-options
+            a(href="#{awsUrl}/#{stop.tour}/#{stop.media}" target='_blank')
+              i.fa.fa-external-link
+            a(href="").delete-media
+              i.fa.fa-trash
+        .col-md-6
+          +mediaPreview stop=stop media=stop.posterImage tourID=tourID typeName='posterImage'
+  else
+    +fileUpload name=typeName required=true label=label
+    if mediaIsVideo
+      +fileUpload name='posterImage' required=true label="Poster Image"

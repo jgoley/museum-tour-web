@@ -1,0 +1,61 @@
+label
+  margin-bottom 10px
+
+input[type="text"]
+input[type="email"]
+input[type="password"]
+input[type="number"]
+textarea
+  margin-bottom 3px
+  font-size 14px
+
+input
+select
+textarea
+.form-control
+  font-weight normal
+  &:focus
+    outline 0
+    box-shadow none
+    border 1px solid $secondary
+  // Parsley Overide
+  &.parsley-error
+    color $body-text
+    background-color lighten($primary, 95%)
+    border 1px solid $primary-light
+  &.parsley-success
+    color $body-text
+    background-color lighten($confirm, 95%)
+    border 1px solid $confirm
+
+
+label
+  > span
+    display block
+    margin-bottom 3px
+  &.outside
+    margin 0
+
+.file-upload
+  margin-bottom 10px
+
+input[typ=submit]
+  +above(1)
+    font-size 14px
+
+.radio
+  &:last-of-type
+    margin-bottom 0
+
+// Parsley Overide
+.parsley-errors-list
+  margin-top 6px
+  list-style-type none
+
+.parsley-error
+  &:focus
+    outline 0
+    box-shadow none
+
+.parsley-required
+  color $primary

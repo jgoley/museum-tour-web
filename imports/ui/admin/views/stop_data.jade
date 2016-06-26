@@ -1,0 +1,31 @@
+template(name="stopData")
+  .row
+    .col-sm-6
+      if stop.isChild
+        .row
+          .col-sm-2.tiny-input
+            label
+              span Order
+              input.form-control(
+                value="#{stop.order}"
+                name="order"
+                placeholder="Order Number"
+                type="number")
+      label
+        span Speaker or Subtitle
+        input.form-control(
+          value="#{stop.speaker}"
+          name="speaker"
+          placeholder="Speaker")
+      +mediaTypes stop=stop mediaType=mediaType
+  +editMedia(
+    label="Media File"
+    name="media"
+    media=stop.media
+    tourID=stop.tour
+    stop=stop
+    mediaType=mediaType
+    typeName='media'
+    currentMediaType=stop.mediaType)
+  if isUpdating
+    +uploadProgress

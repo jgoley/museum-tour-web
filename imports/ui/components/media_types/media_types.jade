@@ -1,0 +1,5 @@
+template(name='mediaTypes')
+  label Media Type
+    select.form-control.media-type-select(name="mediaType")
+      each stopTypesForm
+        option(value="#{value}" selected="{{selected ../stop}}") #{label}

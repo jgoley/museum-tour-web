@@ -1,0 +1,29 @@
+template(name="editTour")
+  if Template.subscriptionsReady
+    .main-title-wrap
+      h1.main-title.edit-tour-title #{tour.mainTitle}: #{tour.subTitle}
+      button.btn.btn-default.btn-plain.show-tour-details(type='button')
+        i.fa.fa-edit.right
+      a.btn.btn-default.btn-plain.view-tour(href="{{pathFor 'tour' _id=tour._id}}")
+        i.fa.fa-search
+      button.btn-plain.delete-tour(title="Delete Tour")
+        i.fa.fa-trash
+    if editTourDetails
+      +tourDetails tour=tour action='edit' editing=getEditing
+    if stops.count
+      ul.list-unstyled.tap-edit-list.edit-parent-stops
+        +sortable items=stops sortField="stopNumber" options=sortableOptions
+          +editStop stop=this tour=tour
+        if isAddingStop
+          .add-stop
+            +addStop type='new-parent' stops=stops tour=tour addingStop=addingStop
+        else
+          li.parent.add-stop-link
+            .title
+              a.show-add-stop
+                i.fa.fa-plus-square
+                span Add stop
+    else
+      +addStop type='new-parent' stops=stops tour=tour
+  else
+    .loading

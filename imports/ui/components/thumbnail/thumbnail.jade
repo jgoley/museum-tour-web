@@ -1,0 +1,7 @@
+template(name="thumbnail")
+  if tour.thumbnail
+    .image(style="background-image: url(#{awsURL}/#{tour._id}/#{tour.thumbnail})")
+      .tour-type(class="{{type}}")
+  else
+    .no-image
+      .tour-type(class="{{type}}")
