@@ -4,7 +4,6 @@
 { TourStop }         = require '../../../api/tour_stops/index'
 { go }               = require '../../../helpers/route_helpers'
 { parsley
-  updateStop,
   setStopEditingState,
   getLastStopNum }   = require '../../../helpers/edit'
 

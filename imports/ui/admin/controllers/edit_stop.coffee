@@ -30,7 +30,10 @@ Template.editStop.helpers
     Template.instance().editingStop.get()
 
   isAddingStop: ->
-    Template.instance().addingStop.get()
+    instance = Template.instance()
+    if not TourStop.findOne(parent: @stop._id)
+      instance.addingStop.set true
+    instance.addingStop.get()
 
   addingStop: ->
     Template.instance().addingStop

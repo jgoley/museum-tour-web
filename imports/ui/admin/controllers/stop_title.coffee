@@ -36,22 +36,21 @@ Template.stopTitle.events
     if editing.get prop then value = 0 else value = 1
     editing.set prop, value
 
+  'click .group-title, click .single-title': (event, instance)->
+    Session.set 'editingAStop', not Session.get 'editingAStop'
+    $(document).keyup (event) ->
+      if event.which is 27
+        stopEditing(editing)
+        $(document).off 'keyup'
+    $(document).on 'click', (event) ->
+      if event.target.className.match /edit\-parent\-stops/
+        stopEditing(editing)
+        $(document).off 'click'
+
   'click .title': (event, instance)->
     editing = instance.editingStop
     editing.set not editing.get()
     $('html, body').animate scrollTop: instance.$(event.target).parent().offset().top, 500
-
-  'click .single-title, click .group-title': (event, instance)->
-    Session.set 'editingAStop', not Session.get 'editingAStop'
-    editingStop = instance.editingStop
-    $(document).keyup (event) ->
-      if event.which is 27
-        stopEditing(editingStop)
-        $(document).off 'keyup'
-    $(document).on 'click', (event) ->
-      if event.target.className.match /edit\-parent\-stops/
-        stopEditing(editingStop)
-        $(document).off 'click'
 
   'click .cancel-edit-title': (event, instance) ->
     instance.editingTitle.set false

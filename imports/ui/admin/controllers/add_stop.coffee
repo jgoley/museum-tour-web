@@ -1,8 +1,9 @@
-{ ReactiveVar }    = require 'meteor/reactive-var'
+{ ReactiveVar }      = require 'meteor/reactive-var'
 { parsley,
   updateStop,
   formFiles,
-  getLastStopNum }  = require '../../../helpers/edit'
+  getLastStopNum }   = require '../../../helpers/edit'
+{ showNotification } = require '../../../helpers/notifications'
 
 require '../views/add_stop.jade'
 
@@ -53,9 +54,6 @@ Template.addStop.events
     stops     = instance.data.stops
     siblings  = instance.data.siblings?.fetch()
     type      = instance.data.type
-    reactives =
-      uploading: instance.uploading
-      editing  : instance.addingStop
 
     props =
       files: formFiles instance.$(form)
@@ -78,10 +76,16 @@ Template.addStop.events
       else
         props.values.stopNumber = getLastStopNum(stops.fetch())+1 or tour.baseNum+1
 
-    updateStop(null, props, form, reactives)
+    updateStop(null, props, form, instance.uploading)
+      .then ->
+        instance.addingStop.set false
+        showNotification()
+      .catch (error) ->
+        showNotification error
 
   'click .cancel-add-stop' : (event, instance) ->
     if @stop and not @stop.children().count()
       Session.set 'editingAStop', false
-      instance.editingStop.set false
     instance.addingStop.set false
+    if not @stop.children().count()
+      instance.editingStop.set false

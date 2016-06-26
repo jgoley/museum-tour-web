@@ -1,9 +1,10 @@
-{ ReactiveVar } = require 'meteor/reactive-var'
-{ TourStop }    = require '../../../api/tour_stops/index'
-{ parsley }     = require '../../../helpers/edit'
+{ ReactiveVar }      = require 'meteor/reactive-var'
+{ TourStop }         = require '../../../api/tour_stops/index'
+{ parsley }          = require '../../../helpers/edit'
 { stopEditing,
   updateStop,
-  formFiles }   = require '../../../helpers/edit'
+  formFiles }        = require '../../../helpers/edit'
+{ showNotification } = require '../../../helpers/notifications'
 
 require '../views/editing.jade'
 
@@ -55,11 +56,11 @@ Template.editing.events
       values:
         tour: stop.tour
 
-    reactives =
-      uploading: instance.uploading
-      editing  : instance.editingStop
-
-    updateStop stop, props, form, reactives
+    updateStop(stop, props, form, instance.uploading)
+      .then ->
+        showNotification()
+      .catch (error) ->
+        showNotification error
 
   'submit .add-to-group': (event, instance) ->
     e.preventDefault()

@@ -3,27 +3,28 @@ parsley              = require 'parsleyjs'
 { TourStop }         = require '../api/tour_stops/index'
 { go }               = require './route_helpers'
 
-saveStop = (stop, props, editing) ->
-  stop = stop or new TourStop()
-  stop.set props.values
-  stop.save (error, id) ->
-    console.error error, id
-    if error
-      showNotification error
-    else
-      showNotification()
-      #update ord of stops higher than edited stop
-        # if stop.order != values.values.order
-        #   siblings = TourStop().find({$and: [
-        #     { parent: stop.parent }
-        #     { _id: $ne: stop._id }
-        #     { order: $gte: +values.values.order }
-        #   ]}).fetch()
-        #   _.each siblings, (sibling, i) ->
-        #     TourStop().update {_id: sibling._id}, {$set: {order: sibling.order + 1}}, (e,r) ->
+saveStop = (stop, props) ->
+  new Promise (resolve, reject) ->
+    stop = stop or new TourStop()
+    stop.set props.values
+    stop.save (error, id) ->
+      console.error error, id
+      if error
+        reject error
+      else
+        resolve null
+        #update ord of stops higher than edited stop
+          # if stop.order != values.values.order
+          #   siblings = TourStop().find({$and: [
+          #     { parent: stop.parent }
+          #     { _id: $ne: stop._id }
+          #     { order: $gte: +values.values.order }
+          #   ]}).fetch()
+          #   _.each siblings, (sibling, i) ->
+          #     TourStop().update {_id: sibling._id}, {$set: {order: sibling.order + 1}}, (e,r) ->
 
 uploadFiles = (files, tourID, uploading) ->
-  new Promise (resolve) ->
+  new Promise (resolve, reject) ->
     if files.length
       uploading.set true
       S3.upload
@@ -33,18 +34,22 @@ uploadFiles = (files, tourID, uploading) ->
         (error, response) ->
           uploading.set false
           if error
-            showNotification message: "Something went wrong with the upload. Are you connected to the interwebs?"
-            resolve(error)
+            reject error
           else
-            resolve()
+            resolve null
     else
-      resolve()
+      resolve null
 
-updateStop = (stop, props, form, reactives) ->
-  props = buildStop props, stop, form
-  uploadFiles(props.files, props.values.tour, reactives.uploading)
-    .then ->
-      saveStop stop, props, reactives.editing
+updateStop = (stop, props, form, uploading) ->
+  console.log stop, props, form, uploading
+  new Promise (resolve, reject) ->
+    props = buildStop props, stop, form
+    uploadFiles(props.files, props.values.tour, uploading)
+      .then ->
+        saveStop stop, props
+      .then(resolve)
+      .catch (error) ->
+        reject error
 
 buildStop = (props, stop, form) ->
   baseValues =
