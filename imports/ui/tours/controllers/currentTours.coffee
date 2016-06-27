@@ -6,7 +6,7 @@ require '../../components/thumbnail/thumbnail'
 require '../../components/stop_search/stop_search.coffee'
 
 Template.currentTours.onCreated ->
-  @subscribe 'currentTour'
+  @subscribe 'currentTours'
   @subscribe 'currentTourStops'
   document.title = 'Current Tour'
 

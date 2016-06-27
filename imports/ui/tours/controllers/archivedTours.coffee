@@ -1,5 +1,5 @@
-{ moment }   = require 'momentjs'
-{ Tour }    = require '../../../api/tours/index'
+{ Tour } = require '../../../api/tours/index'
+moment   = require 'moment'
 
 require '../views/archivedTours.jade'
 require '../../components/thumbnail/thumbnail'
@@ -11,6 +11,5 @@ Template.archivedTours.onCreated ->
 Template.archivedTours.helpers
   tours: ->
     Tour.find()
-
-  formatDate: (date) ->
-    moment(date).format('MMMM D, YYYY')
+  sinceShow: ->
+    moment(@closeDate).fromNow()

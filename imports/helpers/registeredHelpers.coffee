@@ -1,9 +1,4 @@
-{ Template }   = require 'meteor/templating'
 { FlowRouter } = require 'meteor/kadira:flow-router'
-moment         = require 'momentjs'
-
-Template.registerHelper 'formatDate', (date) ->
-  moment(date).format('YYYY-MM-DD')
 
 Template.registerHelper 'awsUrl', ->
   Meteor.settings.public.awsUrl

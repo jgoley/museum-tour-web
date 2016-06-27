@@ -32,6 +32,13 @@ TourStop = Class.create
     tour: String
     type: String
 
+  behaviors:
+    timestamp:
+      hasCreatedField: true
+      createdFieldName: 'createdAt'
+      hasUpdatedField: true
+      updatedFieldName: 'updatedAt'
+
   methods:
     children: ->
       TourStop.find {parent: @_id}, {sort: {order:1}}

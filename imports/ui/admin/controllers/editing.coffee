@@ -26,7 +26,7 @@ Template.editing.helpers
     stop.type is 'parent' or stop.type is 'group'
 
   parentStops: ->
-    TourStop.find {type: 'group'}, {sort: {title: 1}}
+    Template.instance().data.tour.getParentStops(@stop._id).fetch()
 
   mediaType: ->
     Template.instance().mediaType

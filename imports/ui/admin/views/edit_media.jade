@@ -8,8 +8,8 @@ template(name="editMedia")
       .col-lg-10.row.media-preview
         .video.col-md-6
           video.media-video(
-            src="http:#{awsUrl}/#{stop.tour}/#{stop.media}"
-            posterImage="http:#{awsUrl}/#{stop.tour}/#{stop.media}"
+            src="#{awsUrl}/#{stop.tour}/#{stop.media}"
+            posterImage=posterImage
             controls)
           .curtain
           .media-options
@@ -17,8 +17,9 @@ template(name="editMedia")
               i.fa.fa-external-link
             a(href="").delete-media
               i.fa.fa-trash
-        .col-md-6
-          +mediaPreview stop=stop media=stop.posterImage tourID=tourID typeName='posterImage'
+        if mediaIsVideo
+          .col-md-6
+            +mediaPreview stop=stop media=stop.posterImage tourID=tourID typeName='posterImage'
   else
     +fileUpload name=typeName required=true label=label
     if mediaIsVideo

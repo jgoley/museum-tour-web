@@ -7,7 +7,7 @@ template(name="editStop")
     if isEditingStop
       if notParent
         .editing-container
-          +editing stop=stop editingStop=editingStop
+          +editing stop=stop tour=tour editingStop=editingStop
       if stop.isGroup
         if hasChildren
           +childStops(

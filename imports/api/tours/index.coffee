@@ -21,11 +21,20 @@ Tour = Class.create
     subTitle : String
     thumbnail: String
     tourType : Number
+
+  behaviors:
+    timestamp:
+      hasCreatedField: true
+      createdFieldName: 'createdAt'
+      hasUpdatedField: true
+      updatedFieldName: 'updatedAt'
+
   methods:
-    getParentStops: ->
-      TourStop.find {
+    getParentStops: (stopeToExcludeID='') ->
+      TourStop.find
         $and:
           [
+            _id: {$ne: stopeToExcludeID}
             tour: @_id
             $or:
               [
@@ -33,7 +42,7 @@ Tour = Class.create
                 {type: 'single'}
               ]
           ]
-        }, {sort: stopNumber: 1}
+        {sort: stopNumber: 1}
 
     deleteMedia: ->
       tourID = @_id

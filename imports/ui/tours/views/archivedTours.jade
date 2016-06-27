@@ -11,6 +11,6 @@ template(name="archivedTours")
               h2
                 | #{mainTitle}
                 span #{subTitle}
-                span.dates {{formatDate openDate}} - {{formatDate closeDate}}
+                span.dates #{sinceShow}
   else
     .loading

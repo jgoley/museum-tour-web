@@ -1,6 +1,5 @@
 { Tour }     = require '../../tours/index'
 { TourStop } = require '../index'
-moment       = require 'momentjs'
 
 Meteor.publish 'stop', (stopID) ->
   TourStop.find stopID
@@ -16,16 +15,16 @@ Meteor.publish 'tourStops', (tourID) ->
   TourStop.find tour: tourID
 
 Meteor.publish 'currentTourStops', ->
-  today = moment(new Date()).format 'YYYY-MM-DD'
+  today = new Date()
   currentTours =
-    Tours.find
+    Tour.find
       $and: [
         {
-          closeDate:
+          openDate:
             $gte: today
         },
         {
-          openDate:
+          closeDate:
             $lte: today
         }
       ]
@@ -34,12 +33,13 @@ Meteor.publish 'currentTourStops', ->
   query = _.map currentTours.fetch(), (tour) ->
     {'tour': tour._id}
 
-  TourStop.find
-    $and: [
-      {$or: query},
-      {$or: [{type: 'single'}, {type: 'group'}]}
-    ]
-    {fields: {_id: 1, tour: 1, stopNumber: 1}}
+  if query
+    TourStop.find
+      $and: [
+        {$or: query},
+        {$or: [{type: 'single'}, {type: 'group'}]}
+      ]
+      {fields: {_id: 1, tour: 1, stopNumber: 1}}
 
 Meteor.publish 'tourParentStops', (tourID) ->
   tour = Tour.findOne tourID
