@@ -4,10 +4,10 @@ template(name="image")
   else
     .row
       .col-sm-12
-        .tour-image(style="background-image: url(https://s3.amazonaws.com/tap-cma/#{tourID}/#{image})")
+        .tour-image(style="background-image: url(#{awsUrl}/#{tourID}/#{image})")
           .curtain
           .image-options
-            a(href="https://s3.amazonaws.com/tap-cma/#{tourID}/#{image}" target='_blank')
+            a(href="#{awsUrl}/#{tourID}/#{image}" target='_blank')
               i.fa.fa-external-link
             a(href="").delete-tour-image
               i.fa.fa-trash

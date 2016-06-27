@@ -24,10 +24,14 @@ Tour = Class.create
   methods:
     getParentStops: ->
       TourStop.find {
-        $or:
+        $and:
           [
-            {type: 'group'},
-            {type: 'single'}
+            tour: @_id
+            $or:
+              [
+                {type: 'group'},
+                {type: 'single'}
+              ]
           ]
         }, {sort: stopNumber: 1}
 

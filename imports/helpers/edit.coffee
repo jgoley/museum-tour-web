@@ -8,7 +8,6 @@ saveStop = (stop, props) ->
     stop = stop or new TourStop()
     stop.set props.values
     stop.save (error, id) ->
-      console.error error, id
       if error
         reject error
       else
@@ -41,7 +40,6 @@ uploadFiles = (files, tourID, uploading) ->
       resolve null
 
 updateStop = (stop, props, form, uploading) ->
-  console.log stop, props, form, uploading
   new Promise (resolve, reject) ->
     props = buildStop props, stop, form
     uploadFiles(props.files, props.values.tour, uploading)

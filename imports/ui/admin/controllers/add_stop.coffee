@@ -16,7 +16,7 @@ Template.addStop.onCreated ->
 
 Template.addStop.onRendered ->
   @autorun =>
-    if @addingStop.get()
+    if @addingStop?.get()
       parsley '.add-stop'
 
 Template.addStop.helpers
