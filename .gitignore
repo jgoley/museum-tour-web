@@ -1,6 +1,5 @@
 mup.json
-settings-dev.json
-settings-prod.json
+settings*
 /fn/
 /packages/s3/index.coffee
 /.scripts
