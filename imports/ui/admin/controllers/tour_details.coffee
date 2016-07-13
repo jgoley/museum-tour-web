@@ -1,6 +1,7 @@
 { Tour }             = require '../../../api/tours/index'
 { showNotification } = require '../../../helpers/notifications'
 { ReactiveVar }      = require 'meteor/reactive-var'
+moment               = require 'moment'
 { formatFileName,
   formFiles,
   uploadFiles,
@@ -8,6 +9,9 @@
   parsley }          = require '../../../helpers/edit'
 
 require '../views/tour_details.jade'
+
+formatDate = (date) ->
+  moment(date).format 'YYYY-MM-DD'
 
 Template.tourDetails.onCreated ->
   @uploading = new ReactiveVar false
@@ -18,6 +22,16 @@ Template.tourDetails.onRendered ->
 Template.tourDetails.helpers
   uploading: ->
     Template.instance().uploading.get()
+
+  openDate: ->
+    openDate = @tour?.openDate
+    if openDate
+      formatDate openDate
+
+  closeDate: ->
+    closeDate = @tour?.closeDate
+    if closeDate
+      formatDate closeDate
 
 Template.tourDetails.events
   'submit .edit-tour-details': (e, instance) ->

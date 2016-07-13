@@ -30,7 +30,7 @@ template(name="tourDetails")
                 input.form-control(
                   name='openDate'
                   type='date'
-                  value='{{formatDate tour.openDate}}'
+                  value=openDate
                   required)
           .row
             .col-sm-6
@@ -39,7 +39,7 @@ template(name="tourDetails")
                 input.form-control(
                   name='closeDate'
                   type='date'
-                  value='{{formatDate tour.closeDate}}'
+                  value=closeDate
                   required)
           .row
             .col-sm-4
