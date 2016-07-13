@@ -1,7 +1,7 @@
 template(name="stop")
   if Template.subscriptionsReady
     .tour-stop
-      if stop.children
+      if stop.isGroup
         h1.group-title
           span.stopNumber #{stop.stopNumber}
           | #{stop.title}

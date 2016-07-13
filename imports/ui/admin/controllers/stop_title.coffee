@@ -38,13 +38,14 @@ Template.stopTitle.events
 
   'click .group-title, click .single-title': (event, instance)->
     Session.set 'editingAStop', not Session.get 'editingAStop'
+    editing = instance.editingStop
     $(document).keyup (event) ->
       if event.which is 27
-        stopEditing(editing)
+        stopEditing editing
         $(document).off 'keyup'
     $(document).on 'click', (event) ->
       if event.target.className.match /edit\-parent\-stops/
-        stopEditing(editing)
+        stopEditing editing
         $(document).off 'click'
 
   'click .title': (event, instance)->

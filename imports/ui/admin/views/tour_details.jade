@@ -5,9 +5,9 @@ template(name="tourDetails")
   .container-fluid
     form(class="edit-tour-details" data-parsley-validate)
       .row
-        .col-sm-6
+        .col-sm-12
           .row
-            .col-sm-10
+            .col-sm-6
               label
                 span Main Title
                 input.form-control(
@@ -16,7 +16,7 @@ template(name="tourDetails")
                   value=tour.mainTitle
                   required)
           .row
-            .col-sm-10
+            .col-sm-6
               label
                 span Sub Title
                 input.form-control(
@@ -24,7 +24,7 @@ template(name="tourDetails")
                   type='text'
                   value=tour.subTitle)
           .row
-            .col-sm-6
+            .col-sm-4
               label
                 span Opening Date
                 input.form-control(
@@ -33,7 +33,7 @@ template(name="tourDetails")
                   value=openDate
                   required)
           .row
-            .col-sm-6
+            .col-sm-4
               label
                 span Closing Date
                 input.form-control(
@@ -42,7 +42,7 @@ template(name="tourDetails")
                   value=closeDate
                   required)
           .row
-            .col-sm-4
+            .col-sm-3
               label
                 span Base Number (i.e '100')
                 input.form-control(
@@ -52,7 +52,7 @@ template(name="tourDetails")
                   value=tour.baseNum
                   required)
           .row
-            .col-sm-10
+            .col-sm-6
               label
                 span Tour Type
                 .radio
@@ -69,7 +69,7 @@ template(name="tourDetails")
                     input(name='tourType' type='radio' value='1')
                     | Family
           .row.media-details
-            .col-sm-10
+            .col-sm-12
               label.outside
                 span Tour Image
                   +editMedia(
@@ -78,7 +78,7 @@ template(name="tourDetails")
                     currentMediaType='image'
                     typeName='image')
           .row.media-details
-            .col-sm-10
+            .col-sm-12
               label.outside
                 span Thumbnail Image (100 pixels x 100 pixels)
                   +editMedia(

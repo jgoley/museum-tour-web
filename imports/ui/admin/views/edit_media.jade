@@ -21,6 +21,8 @@ template(name="editMedia")
           .col-md-6
             +mediaPreview stop=stop media=stop.posterImage tourID=tourID typeName='posterImage'
   else
-    +fileUpload name=typeName required=true label=label
-    if mediaIsVideo
-      +fileUpload name='posterImage' required=true label="Poster Image"
+    .row
+      .col-sm-6
+        +fileUpload name=typeName required=true label=label
+        if mediaIsVideo
+          +fileUpload name='posterImage' required=true label="Poster Image"

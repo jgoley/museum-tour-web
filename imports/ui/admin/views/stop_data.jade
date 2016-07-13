@@ -1,6 +1,6 @@
 template(name="stopData")
   .row
-    .col-sm-6
+    .col-sm-12
       if stop.isChild
         .row
           .col-sm-2.tiny-input
@@ -11,13 +11,17 @@ template(name="stopData")
                 name="order"
                 placeholder="Order Number"
                 type="number")
-      label
-        span Speaker or Subtitle
-        input.form-control(
-          value="#{stop.speaker}"
-          name="speaker"
-          placeholder="Speaker")
-      +mediaTypes stop=stop mediaType=mediaType
+      .row
+        .col-sm-6
+          label
+            span Speaker or Subtitle
+            input.form-control(
+              value="#{stop.speaker}"
+              name="speaker"
+              placeholder="Speaker")
+      .row
+        .col-sm-4
+          +mediaTypes stop=stop mediaType=mediaType
   +editMedia(
     label="Media File"
     name="media"

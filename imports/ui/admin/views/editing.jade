@@ -1,8 +1,8 @@
 template(name="editing")
   form(class="edit-stop edit-#{stop.type}" data-parsley-validate)
-    h3.section-title.pull-back Stop Details
-    .edit-stop-details.clearfix
-      .col-sm-12.row
+    .row
+      h3.section-title.pull-back Stop Details
+      .edit-stop-details.clearfix
         +stopData(
           stop=stop
           mediaType=mediaType
