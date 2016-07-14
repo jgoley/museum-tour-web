@@ -2,7 +2,7 @@
 moment   = require 'moment'
 
 require '../views/archivedTours.jade'
-require '../../components/thumbnail/thumbnail'
+require '../../components/thumbnail/thumbnail.coffee'
 
 Template.archivedTours.onCreated ->
   @subscribe 'archivedTour'

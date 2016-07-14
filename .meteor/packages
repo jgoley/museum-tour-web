@@ -28,7 +28,7 @@ jagi:astronomy-timestamp-behavior
 # Routing
 kadira:blaze-layout
 kadira:flow-router
-okgrow:analytics
+# okgrow:analytics
 
 # Utilities
 rubaxa:sortable

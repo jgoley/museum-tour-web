@@ -1,4 +1,3 @@
-{ Template } = require 'meteor/templating'
 { Tour }     = require '../../../api/tours/index'
 { TourStop } = require '../../../api/tour_stops/index'
 { _ }        = require 'meteor/underscore'

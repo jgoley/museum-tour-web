@@ -1,5 +1,3 @@
-{Template} = require 'meteor/templating'
-
 require './thumbnail.jade'
 
 Template.thumbnail.helpers

@@ -68,7 +68,6 @@ mquandalle:jade-compiler@0.4.5
 npm-bcrypt@0.8.6_1
 npm-mongo@1.4.44_1
 observe-sequence@1.0.12
-okgrow:analytics@1.0.8
 ordered-dict@1.0.8
 promise@0.7.2_1
 random@1.0.10
