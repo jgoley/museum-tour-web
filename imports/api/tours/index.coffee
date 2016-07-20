@@ -7,14 +7,15 @@ Tours = new Mongo.Collection 'tours'
 Tour = Class.create
   name: 'Tour'
   collection: Tours
+  secured: false
   fields:
-    baseNum  : Number
+    baseNum: Number
     closeDate: Date
     image:
       type: String
       optional: true
     mainTitle: String
-    menu     :
+    menu:
       type: Boolean
       optional: true
     openDate : Date

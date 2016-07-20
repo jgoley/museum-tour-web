@@ -3,7 +3,10 @@ showNotification = (error) ->
   message = ''
   if error
     notificationClasses = 'error'
-    message = error.message
+    if _.isObject error
+      message = error.message
+    else
+      message = message
   else
     classes = ['thumbs', 'spock', 'peace', 'cake', 'smile', 'star', 'trophy']
     randomNum = Math.floor (Math.random() *7)

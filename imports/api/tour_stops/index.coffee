@@ -1,11 +1,14 @@
-{ Mongo } = require 'meteor/mongo'
-{ Class } = require 'meteor/jagi:astronomy'
+{ Mongo }           = require 'meteor/mongo'
+{ Class }           = require 'meteor/jagi:astronomy'
+{ showNotification} = require '../../helpers/notifications'
+
 
 TourStops = new Mongo.Collection 'tourStops'
 
 TourStop = Class.create
   name: 'TourStop'
   collection: TourStops
+  secured: false
   fields:
     media:
       type: String
@@ -72,27 +75,45 @@ TourStop = Class.create
       @parent
 
     delete: ->
-      if @isGroup()
-        @deleteChildren()
-      @deleteMedia()
-        .then =>
-          @remove()
+      stop = @
+      new Promise (resolve) ->
+        if stop.isGroup()
+          stop.deleteChildren()
+            .then -> stop.remove resolve
+        else
+          stop.deleteMedia(false)
+            .then -> stop.remove resolve
 
     deleteChildren: ->
-      @children().forEach (child) ->
-        child.delete()
-
-    deleteMedia: ->
-      S3.delete "/#{@tour}/#{@media}", (error) =>
-        if error
-          showNotification error
+      children = @children()
+      childCount = children.count()
+      new Promise (resolve) ->
+        if childCount
+          deletions = _.map children.fetch(), (child) ->
+            new Promise (cont) -> child.delete().then -> cont()
+          Promise.all(deletions).then -> resolve()
         else
-          if @posterImage
-            S3.delete "/#{@tour}/#{@posterImage}"
-          @set 'posterImage', null
-          @set 'media', null
-          @set 'mediaType', 1
-          @save()
+          resolve()
+
+    deleteMedia: (save=true) ->
+      stop = @
+      new Promise (resolve) ->
+        media = stop.media
+        resolve() unless media
+        _media = media.replace(/\+/g, ' ')
+        S3.delete "/#{stop.tour}/#{_media}", (error, res) ->
+          if error
+            showNotification error
+          else
+            if stop.posterImage
+              S3.delete "/#{stop.tour}/#{stop.posterImage}"
+            if save
+              stop.set 'posterImage', null
+              stop.set 'media', null
+              stop.set 'mediaType', 1
+              stop.save resolve
+            else
+              resolve()
 
 module.exports =
   TourStop : TourStop

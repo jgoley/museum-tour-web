@@ -1,9 +1,14 @@
+{ Tour }             = require '../tours/index'
+{ TourStop }         = require '../tour_stops/index'
 { showNotification } = require '../../helpers/notifications'
 { go }               = require '../../helpers/route_helpers'
 
 Meteor.methods
   deleteTour: (id) ->
     Tour.remove id
+
+  deleteTourStop: (id) ->
+    TourStop.remove id
 
   deleteFile: (stop)->
     path = "#{stop.tour}/#{stop.media}"

@@ -5,9 +5,9 @@ parsley              = require 'parsleyjs'
 
 saveStop = (stop, props) ->
   new Promise (resolve, reject) ->
-    stop = stop or new TourStop()
-    stop.set props.values
-    stop.save (error, id) ->
+    _stop = stop or new TourStop()
+    _stop.set props.values
+    _stop.save (error, id) ->
       if error
         reject error
       else
@@ -24,20 +24,18 @@ saveStop = (stop, props) ->
 
 uploadFiles = (files, tourID, uploading) ->
   new Promise (resolve, reject) ->
-    if files.length
-      uploading.set true
-      S3.upload
-        files      : files
-        unique_name: false
-        path       : tourID
-        (error, response) ->
-          uploading.set false
-          if error
-            reject error
-          else
-            resolve null
-    else
-      resolve null
+    resolve() if not files.length
+    uploading.set true
+    S3.upload
+      files      : files
+      unique_name: false
+      path       : tourID
+      (error, response) ->
+        uploading.set false
+        if error
+          reject error
+        else
+          resolve null
 
 updateStop = (stop, props, form, uploading) ->
   new Promise (resolve, reject) ->
