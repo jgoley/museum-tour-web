@@ -2,5 +2,5 @@ template(name="layout")
   .curtain(class="{{showCurtain}}")
   .page-wrap
     +header menuState=menuState
-    .main-content
+    .main-content(class="{{#if menuOpen}} menu-open {{/if}}")
       +Template.dynamic template=content data=data

@@ -1,18 +1,20 @@
-{Template} = require 'meteor/templating'
 {ReactiveVar} = require 'meteor/reactive-var'
-
 require './layout.jade'
 
 Template.layout.onCreated ->
-  @menuState = new ReactiveVar('closed')
+  @menuState = new ReactiveVar false
 
 Template.layout.helpers
   showCurtain: ->
-    if Template.instance().menuState.get() is 'open'
+    if Template.instance().menuState.get()
       'down'
+
   menuState: ->
     Template.instance().menuState
 
+  menuOpen: ->
+    Template.instance().menuState.get()
+
 Template.layout.events
   'click .curtain': (e, instance) ->
-    instance.menuState.set('closed')
+    instance.menuState.set false

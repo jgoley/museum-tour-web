@@ -15,3 +15,6 @@ Template.registerHelper 'pathFor', (path, view = {hash:{}}) ->
   query = if view.hash.query then FlowRouter._qs.parse(view.hash.query) else {}
   hashBang = if view.hash.hash then view.hash.hash else ''
   FlowRouter.path(path, view.hash, query) + hashBang
+
+Template.registerHelper 'isCordova', ->
+  Meteor.isCordova

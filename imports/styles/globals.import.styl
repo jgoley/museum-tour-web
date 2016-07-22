@@ -17,6 +17,8 @@ a
 
 .main-content
   padding 0 0 45px 0
+  &.menu-open
+    padding-top $header-height
 
 video
 audio
@@ -215,7 +217,7 @@ video
   background rgba(0,0,0,.6)
   content ''
   z-index 100
-  transition .2s
+  transition 1s
   opacity 0
   visibility hidden
   &.down
