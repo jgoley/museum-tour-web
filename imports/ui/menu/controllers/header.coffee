@@ -1,8 +1,7 @@
-{ ReactiveVar } = require 'meteor/reactive-var'
 require '../views/header.jade'
 
 Template.header.onCreated ->
-  @menuState = new ReactiveVar false
+  @menuState = @data.menuState
 
 Template.header.helpers
   menuState: ->

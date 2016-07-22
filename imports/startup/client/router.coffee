@@ -1,4 +1,4 @@
-require '../../ui/layout'
+require '../../ui/layout.coffee'
 require '../../ui/menu/index'
 require '../../ui/tours/index'
 require '../../ui/stops/index'
