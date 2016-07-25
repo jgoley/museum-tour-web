@@ -3,22 +3,31 @@ ul
   margin 0
   padding 0
 
+html
+body
+  height 100%
+
 body
   font-family inherit
-  height 100%
+  +tablet()
+    font-size 120%
 
 .page-wrap
   min-height 100%
   position relative
+  &.mobile
+    position absolute
+    height 100%
+    top $header-height
+    bottom 0
+    right 0
+    left 0
+    overflow-y scroll
+    -webkit-overflow-scrolling touch
 
 a
   &:focus
     text-decoration none
-
-.main-content
-  padding 0 0 45px 0
-  &.menu-open
-    padding-top $header-height
 
 video
 audio
@@ -27,7 +36,7 @@ img
   width 100%
   margin 0
   border-bottom 2px solid #888
-  +above(3)
+  +above(4)
     width 60%
     margin 0 auto
 
@@ -154,10 +163,10 @@ video
       color darken(@background-color, 40%)
 
 .stopNumber-wrap
-  +above(3)
+  +above(4)
     padding-right 0
 .goto-stop-btn-wrap
-  +above(3)
+  +above(4)
     paddin-left 0
 
 .btn
@@ -223,7 +232,7 @@ video
   &.down
     opacity .6
     visibility visible
-    +above(3)
+    +above(4)
       opacity 0
       visibility hidden
 .container-fluid

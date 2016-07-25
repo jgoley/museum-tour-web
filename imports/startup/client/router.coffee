@@ -6,7 +6,7 @@ require '../../ui/admin/index'
 require '../../ui/help/help.coffee'
 
 BlazeLayout.setRoot 'body'
-FlowRouter.triggers.enter [ -> $('body').attr 'ontouchstart', '' ]
+FlowRouter.triggers.enter [ -> $('body').animate(scrollTop: 0, 0) ]
 FlowRouter.triggers.exit [ -> $('.back-btn').blur() ]
 
 loggedIn = FlowRouter.group

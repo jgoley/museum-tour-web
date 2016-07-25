@@ -1,7 +1,7 @@
 template(name="header")
-  header(class="{{#if menuOpen}} stuck {{/if}}")
+  header(class="{{#if menuOpen}} stuck {{/if}} {{#if isCordova}} stuck-mobile {{/if}}")
     a(href="/")
-      h1.logo TAP into CMA
+      h1.logo(class="{{#if menuOpen}} invisible {{/if}}") TAP into CMA
     button.btn.back-btn(href="")
       i.fa.fa-chevron-circle-left
       span Back

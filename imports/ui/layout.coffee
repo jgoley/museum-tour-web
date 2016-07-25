@@ -13,7 +13,7 @@ Template.layout.helpers
     Template.instance().menuState
 
   menuOpen: ->
-    Template.instance().menuState.get()
+    Template.instance().menuState.get() or Meteor.isCordova
 
 Template.layout.events
   'click .curtain': (e, instance) ->
