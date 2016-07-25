@@ -1,4 +1,5 @@
 $border-color = darken($primary, 20%)
+$header-border-height = 5px
 
 .menu
   position fixed
@@ -7,7 +8,7 @@ $border-color = darken($primary, 20%)
   bottom 0
   width 75%
   max-width 400px
-  border-right 4px solid rgba(50,50,50,.2)
+  border-right $header-border-height solid rgba(50,50,50,.2)
   z-index 10000
   letter-spacing .05em
   transition left .3s ease-in
@@ -16,7 +17,7 @@ $border-color = darken($primary, 20%)
     position absolute
     width 100%
     height 100%
-  +above(3)
+  +above(4)
     background $primary
     position absolute
     right 0
@@ -34,6 +35,12 @@ $border-color = darken($primary, 20%)
       float right
       margin-right 3%
       background none
+  .logo
+    position absolute
+    top 50%
+    transform translate(0, -50%)
+    left .5em
+
   &.showing
     left 0% !important
     transition all .3s ease-out
@@ -41,21 +48,21 @@ $border-color = darken($primary, 20%)
     @extend .tap-list
     border-bottom 0
     font-size 1em
-    +above(3)
+    +above(4)
       display inline-block
       vertical-align top
     &:first-of-type
-      +above(3)
+      +above(4)
         margin-right -4px
     &.admin
-      +above(3)
+      +above(4)
         border-left 2px solid $border-color
     > li
       font-weight bold
       font-size 1.3em
       +below(2)
         font-size 1em
-      +above(3)
+      +above(4)
         float left
         border 0
         border-right 1px solid $border-color
@@ -66,7 +73,7 @@ $border-color = darken($primary, 20%)
       a
         font-size 1.1em
         padding .85em
-        +above(3)
+        +above(4)
           padding .58em .65em
           font-size 1em
           &::after
@@ -78,7 +85,6 @@ $border-color = darken($primary, 20%)
         +between(3,4)
           font-size .75em
           padding .95em
-          font-weight normal
         .fa
           display inline-block
           font-weight normal
@@ -86,21 +92,19 @@ $border-color = darken($primary, 20%)
           margin-right 3px
           margin-top -2px
           vertical-align middle
-          +below(4)
-            display none
           +above(4)
             color lighten($primary-light,30%)
           +mobile()
             display inline-block
       &.admin
-        +above(3)
+        +above(4)
           &:first-of-type
             border-left 3px solid $border-color
       &:last-of-type
         border-bottom 1px solid $primary-light
-        +above(3)
+        +above(4)
           border 0
-    +above(3)
+    +above(4)
       margin 0
       border 0
   h3
@@ -110,13 +114,13 @@ $border-color = darken($primary, 20%)
     background $secondary-light
     border-bottom 2px solid $secondary-dark
     font-size 2em
-    +above(3)
+    +above(4)
       display none
   .sign-out
     display block
     margin 20px auto
     width 80%
-    +above(3)
+    +above(4)
       width auto
       display inline-block
       font-size 80%
@@ -131,16 +135,21 @@ $border-color = darken($primary, 20%)
     @extend .logo
     position static
     transform translate(0,0)
-    +above(3)
+    +above(4)
       display none
 
 .menu-header
-  margin-right -4px
-  padding .75em .8em
-  // border-bottom 4px solid rgba(50,50,50,.2)
+  position relative
+  margin-right -1 * $header-border-height
+  min-height $header-height
   background-color $primary
-  +above(3)
+  +tablet()
+    min-height $header-height-tablet
+  +above(4)
     display none
+  &.mobile
+    +tablet()
+      border-bottom $header-border-height solid rgba(50,50,50,.2)
 
 .content-curtain
   position fixed

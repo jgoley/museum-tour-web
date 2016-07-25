@@ -10,13 +10,13 @@ $status-bar-height = 1.5em
 
 header
   position relative
-  // top 0
   height $header-height
   min-width 100%
   padding 0
   z-index 100
-  // border-bottom 5px solid rgba(50,50,50,.2)
   background-color $primary
+  +tablet()
+    height $header-height-tablet
   &.with-status-bar
     margin-top 1em
   &#group-header
@@ -31,11 +31,19 @@ header
     height auto
     padding 0
   &.stuck
+  &.stuck-mobile
     position fixed
     top 0
+    left 0
+    right 0
+  &.stuck-mobile
+    border-bottom 5px solid rgba(50,50,50,.2)
   button
     transition .2s ease-in-out
-    +above(3)
+    max-height $header-height
+    +tablet()
+      max-height $header-height-tablet
+    +above(4)
       display none
     &.btn
       font-size .9em
@@ -66,8 +74,10 @@ header
       background linear-gradient(to top, darken($primary, 3%), alpha(darken($primary, 3%),0))
       border-top 0
       border-radius 0
-      +below(2)
+      +below(3)
         z-index 10000
+      +tablet()
+        padding-top .25em
     &.back-btn
       display none
       left 0
@@ -76,7 +86,7 @@ header
       border-image linear-gradient(to top, darken($primary, 20%), alpha(darken($primary, 20%),0)) 1 100%
       .fa
         padding-right 2px
-      +below(2)
+      +below(3)
         display block
     &.menu-btn
       right 0
@@ -93,8 +103,9 @@ header
     &.sign-out
       margin-left 10px
       padding 1em
-      +above(2)
+      +above(4)
         position static
+
         transform translate(0,0)
     .fa
       line-height 0
@@ -103,29 +114,31 @@ header
   height $header-height
 
 .logo
-    position absolute
-    top 50%
-    left 50%
-    transform translate(-50%,-50%)
-    width 100px
-    height 24px
-    z-index 1000
-    margin 0
-    background url(images/title.svg) no-repeat
-    background-size 100px 24px
+  position absolute
+  top 50%
+  left 50%
+  transform translate(-50%,-50%)
+  width 100px
+  height 24px
+  z-index 1000
+  margin 0
+  background url(images/title.svg) no-repeat
+  background-size 100px 24px
+  text-indent -9999px
+  opacity .9
+  transition .2s
+  visibility visible
+  &:hover
+    opacity 1
+  &:active
+    opacity .3
+  +above(4)
+    left 3%
+    right auto
+    transform translate(0,-50%)
+  &.invisible
+    opacity 0
+  a
     text-indent -9999px
-    opacity .9
-    transition opacity .2s
-    &:hover
-      transition opacity .2s
-      opacity 1
-    &:active
-      opacity .3
-    +above(3)
-      left 3%
-      right auto
-      transform translate(0,-50%)
-    a
-      text-indent -9999px
-      display block
-      height 100%
+    display block
+    height 100%

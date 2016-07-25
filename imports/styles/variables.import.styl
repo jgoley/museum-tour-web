@@ -33,15 +33,19 @@ $warning = rgba(240, 173, 78, 1)
 $link-transition = .2s
 
 $header-height = 45px
+$header-height-tablet = $header-height + 10px
+
 
 // =======================================
 // Vendor
 // =======================================
 
 // Rupture
-rupture.scale = 0 480px 768px 1024px 1224px
+rupture.scale = 0        480px       768px       1024px     1224px
+//              └────┬────┘ └────┬────┘ └────┬────┘ └────┬────┘
+//                   1           2           3           4
 rupture.enable-em-breakpoints = true
-
+rupture.desktop-cutoff = 1024px
 
 // Typographic
 $myriad = 'myriad'

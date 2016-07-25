@@ -1,6 +1,6 @@
 template(name="offCanvasMenu")
   .menu(class="{{#if showing}} showing {{/if}}")
-    .menu-header
+    .menu-header(class="{{#if isCordova}} mobile {{/if}}")
       h1.logo
         a(href="/") TAP into CMA
     +nav
