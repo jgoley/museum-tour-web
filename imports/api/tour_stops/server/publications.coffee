@@ -19,19 +19,13 @@ Meteor.publish 'currentTourStops', ->
   currentTours =
     Tour.find
       $and: [
-        {
-          openDate:
-            $gte: today
-        },
-        {
-          closeDate:
-            $lte: today
-        }
+        { openDate: $lte: today }
+        { closeDate: $gte: today }
       ]
       {fields: {_id: 1}}
 
   query = _.map currentTours.fetch(), (tour) ->
-    {'tour': tour._id}
+    tour: tour._id
 
   if query
     TourStop.find
