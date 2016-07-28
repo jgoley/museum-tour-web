@@ -10,10 +10,10 @@ template(name="stopContent")
     .video-wrap
       video(
         src="#{awsUrl}/#{stop.tour}/#{stop.media}"
-        poster="#{awsUrl}/#{audioType}-poster.png"
+        poster="#{awsUrl}/#{stop.audioType}-poster.png"
         controls
         autoplay=autoplay
-        class=audioType)
+        class=stop.audioType)
   else
     .img-wrap
       img(src="#{awsUrl}/#{stop.tour}/#{stop.media}" controls)
