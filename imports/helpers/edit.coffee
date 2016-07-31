@@ -1,5 +1,4 @@
 parsley              = require 'parsleyjs'
-{ showNotification } = require './notifications'
 { TourStop }         = require '../api/tour_stops/index'
 { go }               = require './route_helpers'
 
@@ -69,7 +68,7 @@ formFiles = ($form) ->
   files
 
 formatFileName = (file) ->
-  file.files[0]?.name.split(" ").join("+")
+  file.files[0]?.name.split(' ').join '+'
 
 getLastStopNum = (stops) ->
   _.last(stops)?.stopNumber
@@ -82,19 +81,13 @@ stopEditing = (editing) ->
   Session.set 'editingAStop', false
   editing.set false
 
-finishTourSave = (tourID, isNew) ->
-  if isNew
-    go '/tour/edit/'+tourID
-  else
-    showNotification()
 
 module.exports =
-  saveStop       : saveStop
-  updateStop     : updateStop
-  uploadFiles    : uploadFiles
-  getLastStopNum : getLastStopNum
-  parsley        : parsley
-  stopEditing    : stopEditing
-  formFiles      : formFiles
-  formatFileName : formatFileName
-  finishTourSave : finishTourSave
+  saveStop            : saveStop
+  updateStop          : updateStop
+  uploadFiles         : uploadFiles
+  getLastStopNum      : getLastStopNum
+  parsley             : parsley
+  stopEditing         : stopEditing
+  formFiles           : formFiles
+  formatFileName      : formatFileName

@@ -49,12 +49,14 @@ Template.editTour.helpers
 Template.editTour.events
   'click .delete-tour': (event, instance) ->
     deleteTour = confirm("Delete tour? All stops will be deleted")
-    instance.data.stops.forEach (stop) ->
-      deleteFile(stop)
-      TourStop.remove stop._id
-    deleteFolder(@tour._id)
-    Tour.remove @tour._id, () ->
-      go '/admin'
+    tour = Tour.findOne @tourId
+    if deleteTour
+      tour.delete()
+        .then ->
+          go '/tours/edit'
+        .catch (error) ->
+          console.log error
+          showNotification error
 
   'click .show-tour-details': (event, instance) ->
     instance.editTourDetails.set true
