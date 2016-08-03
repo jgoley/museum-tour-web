@@ -20,6 +20,7 @@ Template.editTour.onCreated ->
   @uploading = new ReactiveVar false
   @addingStop = new ReactiveVar false
   @tourID = @data?.tourID
+  @deleting = new ReactiveVar false
   if @tourID
     @subscribe 'tourDetails', @tourID
     @subscribe 'tourParentStops', @tourID
@@ -46,6 +47,9 @@ Template.editTour.helpers
   addingStop: ->
     Template.instance().addingStop
 
+  deleting: ->
+    Template.instance().deleting.get()
+
 Template.editTour.events
   'click .delete-tour': (event, instance) ->
     deleteTour = confirm("Delete tour? All stops will be deleted")
@@ -55,6 +59,7 @@ Template.editTour.events
         .then ->
           go '/tours/edit'
         .catch (error) ->
+          console.log error
           showNotification error
 
   'click .show-tour-details': (event, instance) ->

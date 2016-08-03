@@ -12,6 +12,8 @@ template(name="editTours")
         li
           a.edit-tour(href="{{pathFor 'editTour' tourID=_id}}")
             span.title #{mainTitle}
+              if isFamily
+                span.tour-type-icon.fa.fa-child
             span.sub-title #{subTitle}
             if isFamily
               span.tour-type-icon.fa.fa-child

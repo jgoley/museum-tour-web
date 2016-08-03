@@ -21,7 +21,9 @@ Tour = Class.create
       optional: true
     openDate : Date
     subTitle : String
-    thumbnail: String
+    thumbnail:
+      type: String
+      optional: true
     tourType : Number
 
   behaviors:

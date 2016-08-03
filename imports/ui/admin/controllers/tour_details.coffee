@@ -2,6 +2,7 @@
 { showNotification } = require '../../../helpers/notifications'
 { ReactiveVar }      = require 'meteor/reactive-var'
 moment               = require 'moment'
+{ go }               = require '../../../helpers/route_helpers'
 { formatFileName,
   formFiles,
   uploadFiles,
