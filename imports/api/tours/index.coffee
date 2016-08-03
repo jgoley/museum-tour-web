@@ -1,7 +1,8 @@
-{ Mongo }            = require 'meteor/mongo'
-{ Class }            = require 'meteor/jagi:astronomy'
-{ TourStop }         = require '../tour_stops/index'
-{ showNotification } = require '../../helpers/notifications'
+{ Mongo }                = require 'meteor/mongo'
+{ Class }                = require 'meteor/jagi:astronomy'
+{ TourStop }             = require '../tour_stops/index'
+{ showNotification }     = require '../../helpers/notifications'
+{ revertFileNameFormat } = require '../../helpers/class_helpers'
 
 Tours = new Mongo.Collection 'tours'
 Tour = Class.create
@@ -49,27 +50,47 @@ Tour = Class.create
       tourID = @_id
       image = @image
       thumbnail = @thumbnail
-      new Promise (resolve) ->
-        if not image and not thumbnail
-          resolve()
+      new Promise (resolve, reject) ->
+        resolve() if not image and not thumbnail
         if image
-          S3.delete "/#{tourID}/#{image}", (error) ->
+          _image = revertFileNameFormat image
+          S3.delete "/#{tourID}/#{_image}", (error) ->
             if error
-              showNotification error
+              reject error
             else if not thumbnail
               resolve()
         if thumbnail
-          S3.delete "/#{tourID}/#{thumbnail}", (error) ->
+          _thumbnail = revertFileNameFormat thumbnail
+          S3.delete "/#{tourID}/#{_thumbnail}", (error) ->
             if error
-              showNotification error
+              reject error
             else
               resolve()
 
+    deleteMediaFolder: ->
+      new Promise (resolve, reject) =>
+        S3.delete "#{@_id}", (error) ->
+          if error
+            reject error
+          else
+            resolve()
+
     delete: ->
-      parentStops = @getParentStops()
-      parentStops.forEach (stop) ->
-        stop.deleteChildren()
-      @remove()
+      tour = @
+      new Promise (resolve, reject) ->
+        parentStops = tour.getParentStops()
+        parentStops.forEach (stop) ->
+          stop.delete()
+        tour.deleteMedia()
+          .then ->
+            tour.deleteMediaFolder()
+          .then ->
+            tour.remove (error) ->
+              if error
+                reject error
+              else
+                resolve()
+          .catch reject
 
 module.exports =
   Tour: Tour

@@ -2,7 +2,6 @@
 { Class }           = require 'meteor/jagi:astronomy'
 { showNotification} = require '../../helpers/notifications'
 
-
 TourStops = new Mongo.Collection 'tourStops'
 
 TourStop = Class.create

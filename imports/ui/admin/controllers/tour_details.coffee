@@ -10,6 +10,12 @@ moment               = require 'moment'
 
 require '../views/tour_details.jade'
 
+finishTourSave = (tourID, isNew) ->
+  if isNew
+    go '/tour/edit/'+tourID
+  else
+    showNotification()
+
 formatDate = (date) ->
   moment(date).format 'YYYY-MM-DD'
 
