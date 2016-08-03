@@ -55,7 +55,6 @@ Template.editTour.events
         .then ->
           go '/tours/edit'
         .catch (error) ->
-          console.log error
           showNotification error
 
   'click .show-tour-details': (event, instance) ->

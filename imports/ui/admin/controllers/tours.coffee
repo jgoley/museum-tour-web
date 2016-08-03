@@ -17,9 +17,3 @@ Template.editTours.helpers
 
   isFamily: ->
     @tourType is 1
-
-Template.editTours.events
-  'click .delete-tour': (e, template) ->
-    Meteor.call 'deleteTour', @_id, (error, result) ->
-      if error
-        throw new Meteor.Error error.reason
