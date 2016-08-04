@@ -36,4 +36,5 @@ template(name='addStop')
       .action-btns
         button.btn.btn-success(type="submit")
           span Add Stop
-        button.btn.btn-default.cancel-add-stop(type="button") Cancel
+        if stops.count
+          button.btn.btn-default.cancel-add-stop(type="button") Cancel

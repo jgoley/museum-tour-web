@@ -2,10 +2,10 @@ template(name="editTour")
   if Template.subscriptionsReady
     .main-title-wrap
       h1.main-title.edit-tour-title #{tour.mainTitle}: #{tour.subTitle}
-      button.btn.btn-default.btn-plain.show-tour-details(type='button')
+      button.btn.btn-plain.show-tour-details(type='button')
         i.fa.fa-edit.right
-      a.btn.btn-default.btn-plain.view-tour(href="{{pathFor 'tour' _id=tour._id}}")
-        i.fa.fa-search
+      a.btn.btn-plain.view-tour(href="{{pathFor 'tour' _id=tour._id}}")
+        i.fa.fa-link
       button.btn-plain.delete-tour(title="Delete Tour")
         i.fa.fa-trash
     if editTourDetails
