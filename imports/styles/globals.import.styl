@@ -70,12 +70,14 @@ video
   list-style-type none
   border-bottom 2px solid $primary
   > li
+    align-items center
     position relative
     border-bottom 1px solid lighten($secondary, 30%)
     &:last-of-type
       border 0
   a
-    display block
+    display flex
+    align-items center
     color $body-text
     padding 10px 7% 10px 3%
     transition .2s
@@ -88,7 +90,7 @@ video
       background lighten($secondary, 80%)
     &::after
       position absolute
-      right 10px
+      right 3%
       top 50%
       transform translate(0, -50%)
       @extend .font-awesome
@@ -117,18 +119,21 @@ video
   position relative
   width 100%
   padding 20px 3% 10px 3%
-  background-color rgba(red($secondary), green($secondary), blue($secondary), .85)
+  background-color $ll-gray
+  border-bottom 2px solid darken($ll-gray, 10%)
   h1
     display inline-block
     vertical-align middle
     margin-bottom 0
     line-height .8em
+    text-transform uppercase
   &.tour-title
     position absolute
     bottom 0
     padding 10px 3% 5px 3%
     text-align center
     background-color rgba(230,230,230,0.85)
+    border-bottom 0
     .main-title
       padding 0
       vertical-align middle
@@ -168,54 +173,6 @@ video
 .goto-stop-btn-wrap
   +above(4)
     paddin-left 0
-
-.btn
-  padding 6px 25px
-  .fa
-    margin-top -2px
-    vertical-align middle
-    &.left
-      margin-right 5px
-    &.right
-      margin-left 5px
-
-.btn-plain
-  margin 0
-  padding 0
-  border 0
-  background none
-  color darken($secondary,50%)
-  tranisition()
-  &:hover
-  &:active
-    color darken($secondary,70%)
-    background none
-    outline 0
-    box-shadow 0
-  &:active
-    color darken($secondary,80%)
-
-.btn-header
-  display inline-block
-  vertical-align middle
-  margin-left 10px
-  background-color alpha(lighten($secondary, 40%), 50%)
-  border darken($secondary, 20%)
-  font-family $body-font
-  transition .2s
-  i
-    margin-left 3px
-  &:hover
-  &:focus
-  &:active
-    background-color alpha(darken($secondary, 30%), 50%)
-    border darken($secondary, 20%)
-    color white
-    transition .2s
-    box-shadow none
-    outline 0
-  &:active
-    background-color alpha(darken($secondary, 30%), 70%)
 
 .curtain
   position absolute

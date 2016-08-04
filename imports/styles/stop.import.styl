@@ -1,19 +1,22 @@
 .stop-title
   font-weight bold
   font-size 1.2em
+  letter-spacing .02em
 
 .tour-stop
   h1
+    background $ll-gray
+    border-bottom 2px solid darken($ll-gray, 10%)
     padding 15px 3% 5px 3%
-    background $secondary
-    color black
+    color $body-text
     line-height 100%
     margin 0
-    border-bottom 3px solid darken($secondary, 10%)
+    display flex
     &.single-title
       padding-top 20px
     .stopNumber
-      color white
+      margin-right .25em
+      color $primary
       font-weight 400
 
 .child-stop
@@ -24,9 +27,10 @@
 .child-stop-title
   font-family $body-font
   > span
+    display flex
     font-size .7em
     color $body-text
-    background-color $secondary
+    background darken($ll-gray, 5%)
     border-top-right-radius 3px
     border-bottom-right-radius 3px
     margin-left -4%
@@ -37,14 +41,13 @@
     display inline-block
     font-weight bold
     &.child-stop-number
-      font-weight normal
-      color white
+      font-weight 800
+      color $primary
 
 
 .child-stop-info
   padding 25px 3% 5px 3%
-  background lighten(desaturate($secondary, 40%), 50%)
-  border-bottom 3px solid darken(@background, 10%)
+  border-bottom 3px solid
   h2
     line-height 100%
     margin 0 0 3px 0
@@ -56,7 +59,7 @@
   +above(4)
     padding 3px 3% 8px 18%
   &.single
-    background lighten($secondary, 30%)
+    background darken($ll-gray, 10%)
     padding 3px 3% 8px 3%
 
 .stop-nav

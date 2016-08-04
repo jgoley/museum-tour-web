@@ -1,16 +1,12 @@
 .edit-tour
   display inline-block
-  margin-left 5px
-  margin-top 4px
   vertical-align top
   font-size 150%
   cursor pointer
-  &:hover
-    color $primary
 
 .editing-container
   min-height 0
-  padding-left 6%
+  padding-left calc(3% + 50px)
   padding-top 1em
   padding-bottom 1em
   transition ease-in-out
@@ -32,36 +28,24 @@
     padding 5px 3%
     border-bottom #CCC 1px solid
     background white
-    transition 2s
+    transition 1s opacity
     transition-delay .2s
     +mobile()
       padding 5px 3%
     &:nth-child(even)
-      background $ll-gray
+      background lighten($secondary-light, 95%)
     .delete
-      position absolute
-      right 3%
-      top 50%
-      transform translate(0, -50%)
-      color #CCC
-      font-size 1.5em
-      transition color .3s ease-in-out, transform 0s
-      -webkit-transition color .3s ease-in-out, transform 0s
-      -ms-transition color .3s ease-in-out, transform 0s
-      &:hover
-        color $primary
+      @extend .delete-icon
     &[draggable=true]
       .handle
-        cursor grabbing
+        cursor -webkit-grabbing
   .handle
-    position absolute
-    left 3%
-    top 50%
-    transform translate(0, -50%)
-    font-size 1.5em
-    color $l-gray
+    font-size 1.2em
+    color lighten($l-gray, 10%)
     margin-right 5px
-    cursor grab
+    margin-top 2px
+    min-width 20px
+    cursor -webkit-grab
     +below(2)
       font-size 1em
 
@@ -73,14 +57,19 @@
   position relative
   > li
     position relative
-    padding 5px 5%
+    padding 5px 3%  5px calc(3% + 25px)
     border-bottom 1px solid darken($ll-gray, 5%)
+    display flex
+    align-items center
     &:nth-child(even)
       background $ll-gray
     .stop-number
       font-size 1.5em
       +below(2)
         font-size 1em
+    .delete
+      @extend .delete-icon
+      color lighten($l-gray, 20%)
 
 .sortble-ghost
   background #f0f0f0 !important
@@ -92,54 +81,56 @@
 .edit-title-input
   vertical-align bottom
   font-size 1.5em
-  font-weight bold
-  height 40px
+  font-weight 300
+  height 35px
+  border 1px solid #6dbcda
 
 .edit-title-form
-  display inline-block
-  width 50%
+  display flex
+  min-width 60%
 
 .edit-title
   position relative
-  margin-left 5px
   cursor pointer
   color $d-gray
-  .action-btns-form
-    position absolute
-    right 10px
-    top 50%
-    transform translate(0, -50%)
-    button
-      font-size 20px
+  width 100%
+
+.action-btns-form
+  display flex
+  margin-left 1em
+  button
+    font-size 1.75em
+    transition $link-transition
+  .save-title
+    color $confirm
+    margin-right .2em
+    &:hover
+      color darken(@color, 30%)
       transition $link-transition
-    .save-title
-      color $confirm
-      &:hover
-        color darken(@color, 30%)
-        transition $link-transition
-    .cancel-eidt-title
-      $m-gray
-      &:hover
-        color darken(@color, 30%)
-        transition $link-transition
+  .cancel-edit-title
+    color $m-gray
+    &:hover
+      color darken(@color, 30%)
+      transition $link-transition
 
 .edit-title-btn
+  margin-bottom 2px
+  padding 0 .5em 0 .25em
+  &:hover
+    i
+      color $primary
   i
-    vertical-align top
-    margin-top 7px
-    margin-left 2px
-    font-size 12px
-    color lighten($d-gray, 20%)
+    font-size .65em
+    color lighten($d-gray, 50%)
     transition $link-transition
+    line-height 0
     +mobile()
       margin-top 3px
-    &:hover
-      color $primary
-      transition $link-transition
 .stop-count
-  display inline-block
-  margin-left 10px
-  color lighten($secondary, 60%)
+  font-size 1.5em
+  color lighten($primary, 80%)
+  line-height 0
+  margin-right 1em
   +mobile()
     font-size .5em
   i
@@ -184,8 +175,8 @@
   .delete-tour
     centerVertically()
     right 3%
-    color lighten($secondary, 60%)
     font-size 150%
+    margin-right 0
     &:hover
       color $primary
   button
@@ -206,11 +197,13 @@
   margin-top 1em
 
 .add-stop-link
-  background-color #FFF !important
+  background-color #FFF
   transition .3s
+  cursor pointer
+  font-weight 700
   &:hover
-    background-color lighten($secondary, 80%) !important
     transition .3s
+    background $ll-gray
   i
   span
     vertical-align middle
@@ -229,6 +222,7 @@
 .add-child
   a
     padding-left 15px
+    font-weight 700
 
 .new-child
   padding-bottom 20px

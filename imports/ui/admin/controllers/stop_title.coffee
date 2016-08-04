@@ -5,6 +5,11 @@
 
 require '../views/stop_title.jade'
 
+openStop = (instance, event) ->
+  editing = instance.editingStop
+  editing.set not editing.get()
+  $('html, body').animate scrollTop: instance.$(event.target).parent().offset().top, 500
+
 Template.stopTitle.onCreated ->
   @editingStop = @data.editingStop
   @editingTitle = new ReactiveVar false
@@ -31,14 +36,27 @@ Template.stopTitle.helpers
 
 Template.stopTitle.events
   'click .edit-title-btn' : (event, instance) ->
+    event.stopPropagation()
     editing = instance.editingTitle
-    prop = "title-#{@stop._id}"
-    if editing.get prop then value = 0 else value = 1
-    editing.set prop, value
+    editing.set not editing.get()
+
+  'click .edit-title-form': (event, instance) ->
+    event.stopPropagation()
+
+  'click .cancel-edit-title': (event, instance) ->
+    instance.editingTitle.set false
+
+  'submit .edit-title-form': (event, instance) ->
+    event.preventDefault()
+    stop = @stop
+    stop.title = event.target.title.value
+    stop.save ->
+      instance.editingTitle.set false
 
   'click .group-title, click .single-title': (event, instance)->
-    Session.set 'editingAStop', not Session.get 'editingAStop'
     editing = instance.editingStop
+    openStop instance, event
+    Session.set 'editingAStop', not Session.get 'editingAStop'
     $(document).keyup (event) ->
       if event.which is 27
         stopEditing editing
@@ -48,16 +66,5 @@ Template.stopTitle.events
         stopEditing editing
         $(document).off 'click'
 
-  'click .title': (event, instance)->
-    editing = instance.editingStop
-    editing.set not editing.get()
-    $('html, body').animate scrollTop: instance.$(event.target).parent().offset().top, 500
-
-  'click .cancel-edit-title': (event, instance) ->
-    instance.editingTitle.set false
-
-  'submit .edit-title-form': (event, instance) ->
-    event.preventDefault()
-    stop = @stop
-    Meteor.call 'updateTitle', stop, event.target.title.value, (err, res) ->
-      instance.editingTitle.set false
+  'click .child-title': (event, instance)->
+    openStop instance, event

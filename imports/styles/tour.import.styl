@@ -25,6 +25,9 @@ $stop-info-color = darken($m-gray, 5%)
 
 .tour-stops
   border-top 2px solid $primary
+  a
+    flex-direction column
+    align-items flex-start
   .group
   .group-count
     color darken($stop-info-color, 10%)
@@ -54,4 +57,3 @@ $types = {
     .type-{$type}
       &::before
         content $code
-
