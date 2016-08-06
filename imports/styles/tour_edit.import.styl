@@ -84,10 +84,13 @@
   font-weight 300
   height 35px
   border 1px solid #6dbcda
+  +tablet()
+    height 45px
 
 .edit-title-form
   display flex
   min-width 60%
+  align-items center
 
 .edit-title
   position relative
@@ -134,7 +137,7 @@
   +mobile()
     font-size .5em
   i
-    margin-right 2px
+    margin-right 3px
 
 .open
   background lighten($secondary, 90%) !important
@@ -256,9 +259,9 @@
   color $m-gray
 
 .no-file
-  color lighten($primary,30%)
+  color lighten($primary, 50%)
 .no-file-warning
-  color lighten($warning,20%)
+  color lighten($warning,50%)
   margin-left 5px
 
 .saved

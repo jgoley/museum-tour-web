@@ -1,6 +1,7 @@
 { Mongo }           = require 'meteor/mongo'
 { Class }           = require 'meteor/jagi:astronomy'
 { showNotification} = require '../../helpers/notifications'
+{ classEvents }     = require '../../helpers/class_helpers'
 
 TourStops = new Mongo.Collection 'tourStops'
 
@@ -40,6 +41,8 @@ TourStop = Class.create
       createdFieldName: 'createdAt'
       hasUpdatedField: true
       updatedFieldName: 'updatedAt'
+
+  events: classEvents
 
   methods:
     children: ->

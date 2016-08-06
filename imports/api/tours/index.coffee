@@ -2,7 +2,8 @@
 { Class }                = require 'meteor/jagi:astronomy'
 { TourStop }             = require '../tour_stops/index'
 { showNotification }     = require '../../helpers/notifications'
-{ revertFileNameFormat } = require '../../helpers/class_helpers'
+{ revertFileNameFormat,
+  classEvents }          = require '../../helpers/class_helpers'
 
 Tours = new Mongo.Collection 'tours'
 Tour = Class.create
@@ -32,6 +33,8 @@ Tour = Class.create
       createdFieldName: 'createdAt'
       hasUpdatedField: true
       updatedFieldName: 'updatedAt'
+
+  events: classEvents
 
   methods:
     getParentStops: (stopeToExcludeID='') ->
