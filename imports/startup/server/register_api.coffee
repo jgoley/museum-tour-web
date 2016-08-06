@@ -1,5 +1,3 @@
-require '../../api/server/methods'
-
 require '../../api/tours/index'
 require '../../api/tours/server/publications'
 
