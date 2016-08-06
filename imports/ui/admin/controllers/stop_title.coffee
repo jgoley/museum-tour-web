@@ -50,8 +50,9 @@ Template.stopTitle.events
     event.preventDefault()
     stop = @stop
     stop.title = event.target.title.value
-    stop.save ->
-      instance.editingTitle.set false
+    stop.save (error) ->
+      unless error
+        instance.editingTitle.set false
 
   'click .group-title, click .single-title': (event, instance)->
     editing = instance.editingStop
