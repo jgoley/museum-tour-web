@@ -19,10 +19,6 @@ Template.addStop.onRendered ->
       parsley '.add-stop'
 
 Template.addStop.helpers
-  isUploading: ->
-    _.filter S3.collection.find().fetch(), (file) ->
-      file.status is 'uploading'
-
   isParent: ->
     @type is 'new-parent'
 

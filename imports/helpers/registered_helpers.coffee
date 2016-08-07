@@ -18,3 +18,7 @@ Template.registerHelper 'pathFor', (path, view = {hash:{}}) ->
 
 Template.registerHelper 'isCordova', ->
   Meteor.isCordova
+
+Template.registerHelper 'isUploading', ->
+  _.filter S3.collection.find().fetch(), (file) ->
+    file.status is 'uploading'
