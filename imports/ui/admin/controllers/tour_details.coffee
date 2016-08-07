@@ -20,16 +20,10 @@ finishTourSave = (tourID, isNew) ->
 formatDate = (date) ->
   moment(date).format 'YYYY-MM-DD'
 
-Template.tourDetails.onCreated ->
-  @uploading = new ReactiveVar false
-
 Template.tourDetails.onRendered ->
   parsley '.edit-tour-details'
 
 Template.tourDetails.helpers
-  uploading: ->
-    Template.instance().uploading.get()
-
   openDate: ->
     openDate = @tour?.openDate
     if openDate
@@ -68,12 +62,9 @@ Template.tourDetails.events
       if error
         showNotification error
         return
-      if files.length
-        uploadFiles(files, tourID, instance.uploading)
-          .then ->
-            finishTourSave tourID, isNew
-      else
-        finishTourSave tour, isNew
+      uploadFiles(files, tourID)
+        .then ->
+          finishTourSave tourID, isNew
 
   'click .tour-details-cancel': (e, instance) ->
     instance.data.editing.set false

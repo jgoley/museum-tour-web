@@ -10,7 +10,6 @@ require '../views/add_stop.jade'
 Template.addStop.onCreated ->
   @newStopType  = new ReactiveVar 'single'
   @mediaType    = new ReactiveVar null
-  @uploading    = new ReactiveVar false
   @addingStop   = @data.addingStop
   @editingStop  = @data.editingStop
 
@@ -20,9 +19,6 @@ Template.addStop.onRendered ->
       parsley '.add-stop'
 
 Template.addStop.helpers
-  isUploading: ->
-    Template.instance().uploading.get()
-
   isParent: ->
     @type is 'new-parent'
 
@@ -76,7 +72,7 @@ Template.addStop.events
       else
         props.values.stopNumber = getLastStopNum(stops.fetch())+1 or tour.baseNum+1
 
-    updateStop(null, props, form, instance.uploading)
+    updateStop(null, props, form)
       .then ->
         instance.addingStop.set false
         showNotification()

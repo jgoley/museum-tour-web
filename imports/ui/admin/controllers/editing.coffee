@@ -10,7 +10,6 @@ require '../views/editing.jade'
 
 Template.editing.onCreated ->
   @mediaType = new ReactiveVar()
-  @uploading = new ReactiveVar false
   @stop = @data.stop
   @mediaType.set @data.stop.mediaType
   @editingStop = @data.editingStop
@@ -30,9 +29,6 @@ Template.editing.helpers
 
   mediaType: ->
     Template.instance().mediaType
-
-  uploading: ->
-    Template.instance().uploading
 
 Template.editing.events
   'click .cancel': (event, instance)->
@@ -56,7 +52,7 @@ Template.editing.events
       values:
         tour: stop.tour
 
-    updateStop(stop, props, form, instance.uploading)
+    updateStop(stop, props, form)
       .then ->
         showNotification()
       .catch (error) ->
