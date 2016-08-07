@@ -86,8 +86,8 @@ template(name="tourDetails")
                     tourID=tour._id
                     currentMediaType='image'
                     typeName='thumbnail')
-          if uploading
-            +uploadProgress
+          if isUploading
+            +upload_progress
 
           .action-btns
             button.btn.btn-success(type="submit")

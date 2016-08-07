@@ -5,7 +5,7 @@ uploadingFiles = ->
     file.status is 'uploading'
   files
 
-Template.uploadProgress.helpers
+Template.upload_progress.helpers
   files: () ->
     files = uploadingFiles()
     files
