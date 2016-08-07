@@ -21,18 +21,26 @@ saveStop = (stop, props) ->
           #   _.each siblings, (sibling, i) ->
           #     TourStop().update {_id: sibling._id}, {$set: {order: sibling.order + 1}}, (e,r) ->
 
-uploadFiles = (files, tourID, uploading) ->
+uploadFiles = (files, tourID) ->
+  uploads = []
   new Promise (resolve, reject) ->
     resolve() if not files.length
-    uploading.set true
-    S3.upload
-      files      : files
-      unique_name: false
-      path       : tourID
-      (error, response) ->
-        uploading.set false
-        if error
-          reject error
+    _.each files, (file, i) ->
+      uploads.push new Promise (transferred, failed) ->
+        S3.upload
+          file       : file
+          unique_name: false
+          path       : tourID
+          (error, response) ->
+            if error
+              failed error
+            else
+              transferred null
+    Promise.all(uploads)
+      .then (errors) ->
+        _errors = _.without errors, null
+        if _errors.length
+          reject _errors[0]
         else
           resolve null
 
