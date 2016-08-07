@@ -1,5 +1,5 @@
 { ReactiveVar } = require 'meteor/reactive-var'
-{ TourStop }   = require '../../../api/tour_stops/index'
+{ TourStop }    = require '../../../api/tour_stops/index'
 { go }          = require '../../../helpers/route_helpers'
 
 require '../views/stop.jade'
@@ -20,6 +20,10 @@ Template.stop.onRendered ->
     instance.stop = TourStop.findOne instance.stopID.get()
     if instance.stop
       document.title = instance.stop.title
+
+  @autorun ->
+    stopID = FlowRouter.getParam 'stopID'
+    instance.stopID.set stopID
 
 Template.stop.helpers
   stop: ->
