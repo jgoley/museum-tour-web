@@ -68,7 +68,3 @@ Template.editStop.events
       lastStopNumber = _.last(Template.instance().data.stops.fetch()).stopNumber
       TourStop.update {_id: that.stop.parent}, {$pull:{childStops: that.stop._id}}, () ->
         showNotification(e)
-
-  'click .delete': (event) ->
-    event.preventDefault()
-    @stop.delete()
