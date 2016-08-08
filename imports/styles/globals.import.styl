@@ -151,23 +151,23 @@ video
 
 .goto-stop
   input
+  button
     height 45px
     padding 0 10px
     text-align center
     margin-bottom 10px
     font-size 1.4em
     &[type=submit]
-      background-color desaturate(lighten($confirm,8%),10%)
     &[type=number]
       +below(2)
         margin-bottom 10px
 
 .goto-stop-btn
-  &[type=submit]
-    &[disabled]
-      background-color $m-gray
-      border-color darken(@background-color, 20%)
-      color darken(@background-color, 40%)
+  background-color desaturate(lighten($confirm,8%),10%)
+  &[disabled]
+    background-color $m-gray
+    border-color darken(@background-color, 20%)
+    color darken(@background-color, 40%)
 
 .stopNumber-wrap
   +above(4)
