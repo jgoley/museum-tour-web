@@ -21,7 +21,7 @@ Template.header.helpers
       'menu-close'
 
 Template.header.events
-  'touchmove .back-btn': (event) ->
+  'click a': (event) ->
     $(event.target).blur()
 
   'click .back-btn': ->
@@ -34,7 +34,6 @@ Template.header.events
   'click .menu-btn': (event, instance) ->
     menuState = instance.menuState
     menuState.set not menuState.get()
-    $(event.currentTarget).blur()
 
   'click .content-curtain' : (event, instance) ->
     instance.menuState.set false

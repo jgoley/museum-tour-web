@@ -15,6 +15,8 @@ header
   padding 0
   z-index 100
   background-color $primary
+  +mobile()
+    height $header-height-tablet
   +tablet()
     height $header-height-tablet
   &.with-status-bar
@@ -38,9 +40,11 @@ header
     right 0
   &.stuck-mobile
     border-bottom 5px solid rgba(50,50,50,.2)
-  button
+  a
     transition .2s ease-in-out
     max-height $header-height
+    +mobile()
+      max-height $header-height-tablet
     +tablet()
       max-height $header-height-tablet
     +above(5)
@@ -70,14 +74,16 @@ header
       position absolute
       top 0
       bottom 0
-      padding .75em 1.25em 0 1.25em
+      display flex
+      align-items center
+      padding-top 1em
       background linear-gradient(to top, darken($primary, 3%), alpha(darken($primary, 3%),0))
       border-top 0
       border-radius 0
       +below(3)
         z-index 10000
       +tablet()
-        padding-top .25em
+        padding-top .75em
     &.back-btn
       display none
       left 0
@@ -87,7 +93,7 @@ header
       .fa
         padding-right 2px
       +below(3)
-        display block
+        display flex
     &.menu-btn
       right 0
       border-right 0
@@ -105,11 +111,11 @@ header
       padding 1em
       +above(4)
         position static
-
         transform translate(0,0)
     .fa
       line-height 0
       color lighten($primary, 50%)
+      margin-top 0
 .header-wrap
   height $header-height
 

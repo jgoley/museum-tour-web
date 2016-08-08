@@ -144,11 +144,15 @@ $header-border-height = 5px
   margin-right -1 * $header-border-height
   min-height $header-height
   background-color $primary
+  +mobile()
+    min-height $header-height-tablet
   +tablet()
     min-height $header-height-tablet
   +above(5)
     display none
   &.mobile
+    +mobile()
+      border-bottom $header-border-height solid rgba(50,50,50,.2)
     +tablet()
       border-bottom $header-border-height solid rgba(50,50,50,.2)
 

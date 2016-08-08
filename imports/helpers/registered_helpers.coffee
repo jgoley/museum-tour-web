@@ -22,3 +22,6 @@ Template.registerHelper 'isCordova', ->
 Template.registerHelper 'isUploading', ->
   _.filter S3.collection.find().fetch(), (file) ->
     file.status is 'uploading'
+
+Template.registerHelper 'hoverable', ->
+  'no-hover' if Meteor.isCordova
