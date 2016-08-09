@@ -10,6 +10,6 @@ Template.archivedTours.onCreated ->
 
 Template.archivedTours.helpers
   tours: ->
-    Tour.find()
+    Tour.find {}, sort: closeDate: -1
   sinceShow: ->
     moment(@closeDate).fromNow()
