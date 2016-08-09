@@ -26,6 +26,9 @@ body
     -webkit-overflow-scrolling touch
   &.menu-open
     padding-top $header-height-tablet
+    &:not(.mobile)
+      +above(4)
+        padding-top $header-height
 
 a
   &:focus
@@ -81,7 +84,7 @@ video
     display flex
     align-items center
     color $body-text
-    padding 10px 7% 10px 3%
+    padding 10px 10% 10px 3%
     transition .2s
     &:active
     &:hover
@@ -96,20 +99,22 @@ video
       top 50%
       transform translate(0, -50%)
       @extend .font-awesome
-      content '\f054'
+      content '\f105'
       color darken($ll-gray, 15%)
+      font-size 1.5em
 
 .tap-list-title
   h2
     margin 0
-    font-size 1.2em
-    font-weight bold
+    font-size 1em
+    font-weight 600
     letter-spacing .02em
     font-family $body-font
   span
     font-size .9em
     display block
     font-weight 400
+    font-style italic
   .dates
     margin-top 0
     padding 0

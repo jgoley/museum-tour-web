@@ -42,18 +42,14 @@ header
     border-bottom 5px solid rgba(50,50,50,.2)
   a
     transition .2s ease-in-out
-    max-height $header-height
-    +mobile()
-      max-height $header-height-tablet
-    +tablet()
-      max-height $header-height-tablet
     +above(5)
-      display none
+      max-height $header-height
     &.btn
       font-size .9em
       color lighten($primary, 80%)
       line-height 0
       background none
+      padding 1em 1.5em
       &:not(.no-hover):hover
         background darken($primary, 15%) //linear-gradient(to top, darken($primary, 15%), alpha(darken($primary, 20%),0))
         color white
@@ -82,18 +78,16 @@ header
       border-radius 0
       +below(3)
         z-index 10000
-      +tablet()
-        padding-top .75em
+      +above(5)
+        display none
     &.back-btn
-      display none
+      display flex
       left 0
       border-left 0
       border-right 1px solid
       border-image linear-gradient(to top, darken($primary, 20%), alpha(darken($primary, 20%),0)) 1 100%
       .fa
-        padding-right 2px
-      +below(3)
-        display flex
+        padding-right .25em
     &.menu-btn
       right 0
       border-right 0
@@ -101,17 +95,10 @@ header
       &::after
         content '\f0c9'
         @extend .font-awesome
-        padding-left 5px
+        padding-left .25em
       &.menu-close
         &::after
           content '\f00d'
-
-    &.sign-out
-      margin-left 10px
-      padding 1em
-      +above(4)
-        position static
-        transform translate(0,0)
     .fa
       line-height 0
       color lighten($primary, 50%)
@@ -143,7 +130,8 @@ header
     right auto
     transform translate(0,-50%)
   &.invisible
-    opacity 0
+    +below(4)
+      opacity 0
   a
     text-indent -9999px
     display block
