@@ -1,8 +1,5 @@
 { showNotification } = require './notifications'
 
-revertFileNameFormat = (fileName) ->
-  fileName.replace /\+/g, ' '
-
 checkAuth = ->
   if not Meteor.userId()
     showNotification 'Not Authorized'
@@ -14,5 +11,4 @@ classEvents =
   beforeDelete: checkAuth
 
 module.exports =
-  revertFileNameFormat: revertFileNameFormat
   classEvents         : classEvents

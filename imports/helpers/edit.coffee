@@ -1,6 +1,8 @@
 parsley              = require 'parsleyjs'
 { TourStop }         = require '../api/tour_stops/index'
 { go }               = require './route_helpers'
+{ uploadFiles,
+  formatFileName }   = require './files'
 
 saveStop = (stop, props) ->
   new Promise (resolve, reject) ->
@@ -20,29 +22,6 @@ saveStop = (stop, props) ->
           #   ]}).fetch()
           #   _.each siblings, (sibling, i) ->
           #     TourStop().update {_id: sibling._id}, {$set: {order: sibling.order + 1}}, (e,r) ->
-
-uploadFiles = (files, tourID) ->
-  uploads = []
-  new Promise (resolve, reject) ->
-    resolve() if not files.length
-    _.each files, (file, i) ->
-      uploads.push new Promise (transferred, failed) ->
-        S3.upload
-          file       : file
-          unique_name: false
-          path       : tourID
-          (error, response) ->
-            if error
-              failed error
-            else
-              transferred null
-    Promise.all(uploads)
-      .then (errors) ->
-        _errors = _.without errors, null
-        if _errors.length
-          reject _errors[0]
-        else
-          resolve null
 
 updateStop = (stop, props, form, uploading) ->
   new Promise (resolve, reject) ->
@@ -69,15 +48,6 @@ buildStop = (props, stop, form) ->
   props.values = _.extend props.values, baseValues
   props
 
-formFiles = ($form) ->
-  files = []
-  _.each $form.find("[type='file']"), (file) ->
-    if file.files[0] then files.push(file.files[0])
-  files
-
-formatFileName = (file) ->
-  file.files[0]?.name.split(' ').join '+'
-
 getLastStopNum = (stops) ->
   _.last(stops)?.stopNumber
 
@@ -93,9 +63,6 @@ stopEditing = (editing) ->
 module.exports =
   saveStop            : saveStop
   updateStop          : updateStop
-  uploadFiles         : uploadFiles
   getLastStopNum      : getLastStopNum
   parsley             : parsley
   stopEditing         : stopEditing
-  formFiles           : formFiles
-  formatFileName      : formatFileName

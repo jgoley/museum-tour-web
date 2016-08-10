@@ -73,6 +73,7 @@ template(name="tourDetails")
               label.outside
                 span Tour Image
                   +editMedia(
+                    object=tour
                     media=tour.image
                     tourID=tour._id
                     currentMediaType='image'
@@ -82,6 +83,7 @@ template(name="tourDetails")
               label.outside
                 span Thumbnail Image (100 pixels x 100 pixels)
                   +editMedia(
+                    object=tour
                     media=tour.thumbnail
                     tourID=tour._id
                     currentMediaType='image'
