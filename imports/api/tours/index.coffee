@@ -2,8 +2,8 @@
 { Class }                = require 'meteor/jagi:astronomy'
 { TourStop }             = require '../tour_stops/index'
 { showNotification }     = require '../../helpers/notifications'
-{ revertFileNameFormat,
-  classEvents }          = require '../../helpers/class_helpers'
+{ classEvents }          = require '../../helpers/class_helpers'
+{ deleteFile }           = require '../../helpers/files'
 
 Tours = new Mongo.Collection 'tours'
 Tour = Class.create
@@ -51,26 +51,25 @@ Tour = Class.create
           ]
         {sort: stopNumber: 1}
 
+    deleteThumbnail: -> deleteFile @thumbnail, @_id, @, 'thumbnail'
+
+    deleteImage: -> deleteFile @image, @_id, @, 'image'
+
     deleteMedia: ->
+      tour = @
       tourID = @_id
       image = @image
       thumbnail = @thumbnail
       new Promise (resolve, reject) ->
         resolve() if not image and not thumbnail
         if image
-          _image = revertFileNameFormat image
-          S3.delete "/#{tourID}/#{_image}", (error) ->
-            if error
-              reject error
-            else if not thumbnail
-              resolve()
+          tour.deleteImage()
+            .then ->
+              resolve() unless thumbnail
         if thumbnail
-          _thumbnail = revertFileNameFormat thumbnail
-          S3.delete "/#{tourID}/#{_thumbnail}", (error) ->
-            if error
-              reject error
-            else
-              resolve()
+          tour.deleteThumbnail()
+            .then (error) ->
+              if error then reject(error) else resolve()
 
     deleteMediaFolder: ->
       new Promise (resolve, reject) =>

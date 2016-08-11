@@ -5,8 +5,8 @@ moment               = require 'moment'
 { go }               = require '../../../helpers/route_helpers'
 { formatFileName,
   formFiles,
-  uploadFiles,
-  finishTourSave,
+  uploadFiles }      = require '../../../helpers/files'
+{ finishTourSave,
   parsley }          = require '../../../helpers/edit'
 
 require '../views/tour_details.jade'

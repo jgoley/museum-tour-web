@@ -1,9 +1,27 @@
-template(name="mediaPreview")
-  .media-image
-    img(src="http:#{awsUrl}/#{tourID}/#{media}")
+template(name="media_preview")
+  if isVideo
+    video.media-video(
+      src="#{awsUrl}/#{tourID}/#{media}"
+      posterImage=posterImage
+      controls)
     .curtain
     .media-options
-      a(href="#{awsUrl}/#{tourID}/#{media}" target='_blank')
+      a(href="#{awsUrl}/#{stop.tour}/#{stop.media}" target='_blank')
         i.fa.fa-external-link
-      a(href="").delete-image
+      a(href="").delete-media
         i.fa.fa-trash
+    if deleting
+      .deleting
+        .loading
+  else
+    .media-image
+      img(src="http:#{awsUrl}/#{tourID}/#{media}")
+      .curtain
+      .media-options
+        a(href="#{awsUrl}/#{tourID}/#{media}" target='_blank')
+          i.fa.fa-external-link
+        a(href="").delete-media
+          i.fa.fa-trash
+      if deleting
+       .deleting
+         .loading.contained

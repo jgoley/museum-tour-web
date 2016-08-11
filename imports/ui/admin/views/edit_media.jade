@@ -3,26 +3,44 @@ template(name="editMedia")
     if mediaIsImage
       .col-sm-12.row.media-preview
         .col-sm-6
-          +mediaPreview stop=stop media=media tourID=tourID typeName=typeName
+          +media_preview(
+            object=object
+            media=media
+            tourID=tourID
+            typeName=typeName)
     else
       .col-lg-10.row.media-preview
         .video.col-md-6
-          video.media-video(
-            src="#{awsUrl}/#{stop.tour}/#{stop.media}"
+          +media_preview(
+            object=object
+            media=stop.media
+            tourID=tourID
+            isVideo=true
             posterImage=posterImage
-            controls)
-          .curtain
-          .media-options
-            a(href="#{awsUrl}/#{stop.tour}/#{stop.media}" target='_blank')
-              i.fa.fa-external-link
-            a(href="").delete-media
-              i.fa.fa-trash
-        if mediaIsVideo
+            typeName='media')
+        if hasPosterImage
           .col-md-6
-            +mediaPreview stop=stop media=stop.posterImage tourID=tourID typeName='posterImage'
+            +media_preview(
+              object=object
+              media=stop.posterImage
+              tourID=tourID
+              typeName='posterImage')
   else
     .row
       .col-sm-6
         +fileUpload name=typeName required=true label=label
-        if mediaIsVideo
+    unless mediaIsImage
+      if hasPosterImage
+        .col-lg-10.row.media-preview
+          .col-md-6
+            +media_preview(
+              object=object
+              media=stop.posterImage
+              tourID=tourID
+              typeName='posterImage')
+
+  unless mediaIsImage
+    unless hasPosterImage
+      .row
+        .col-sm-6
           +fileUpload name='posterImage' required=true label="Poster Image"

@@ -1,8 +1,8 @@
 { ReactiveVar }      = require 'meteor/reactive-var'
 { parsley,
   updateStop,
-  formFiles,
   getLastStopNum }   = require '../../../helpers/edit'
+{ formFiles }        = require '../../../helpers/files'
 { showNotification } = require '../../../helpers/notifications'
 
 require '../views/add_stop.jade'

@@ -15,8 +15,5 @@ Template.editMedia.helpers
       "#{Meteor.settings.public.awsUrl}/#{@stop.tour}/#{@stop.media}"
     else
       "#{Meteor.settings.public.awsUrl}/audio-poster.png"
-
-
-Template.editMedia.events
-  'click .delete-media': (event, instance) ->
-    @stop.deleteMedia()
+  hasPosterImage: ->
+    @stop.posterImage

@@ -1,9 +1,9 @@
 { ReactiveVar }      = require 'meteor/reactive-var'
 { TourStop }         = require '../../../api/tour_stops/index'
-{ parsley }          = require '../../../helpers/edit'
-{ stopEditing,
-  updateStop,
-  formFiles }        = require '../../../helpers/edit'
+{ parsley,
+  stopEditing,
+  updateStop }       = require '../../../helpers/edit'
+{ formFiles }        = require '../../../helpers/files'
 { showNotification } = require '../../../helpers/notifications'
 
 require '../views/editing.jade'
@@ -37,9 +37,6 @@ Template.editing.events
       Session.set 'editingAStop', false
       return
     $('html, body').animate scrollTop: $('.group:not(.not-editing)').offset().top, 800
-
-  'click .delete-file': ->
-    deleteFile @stop
 
   'submit .edit-stop': (event, instance) ->
     event.preventDefault()
