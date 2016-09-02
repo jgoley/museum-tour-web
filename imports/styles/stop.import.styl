@@ -10,7 +10,9 @@
     padding 15px 3% 5px 3%
     color $body-text
     line-height 100%
-    margin 0
+    margin 0 0 10px 0
+    +above(5)
+      margin 0 0 20px 0
     display flex
     &.single-title
       padding-top 20px
@@ -20,6 +22,10 @@
       font-weight 400
 
 .child-stop
+  +above(5)
+    margin-bottom 20px
+  &:last-of-type
+    margin-bottom 40px
   &:first-of-type
     .child-stop-info
       padding-top 15px
@@ -32,13 +38,12 @@
     font-size .7em
     line-height 1em
     color $body-text
-    background darken($ll-gray, 5%)
     border-top-right-radius 3px
     border-bottom-right-radius 3px
     margin-left -4%
-    padding 5px 10px 5px 4%
+    padding 0 10px 0 4%
     +above(5)
-      padding 5px 10px 5px 22%
+      padding 0 10px 0 22%
   span
     font-style normal
     font-weight 600
@@ -50,10 +55,9 @@
 
 .child-stop-info
   padding 25px 3% 5px 3%
-  border-bottom 3px solid
   h2
     line-height 100%
-    margin 0 0 3px 0
+    margin 0
 
 .child-stop-subTitle
   margin 0
