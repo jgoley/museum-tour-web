@@ -5,6 +5,9 @@ require '../../ui/stops/index'
 require '../../ui/admin/index'
 require '../../ui/help/help.coffee'
 
+require '../../ui/components/loading/loading.jade'
+
+
 BlazeLayout.setRoot 'body'
 FlowRouter.triggers.enter [ -> $('body').animate(scrollTop: 0, 0) ]
 FlowRouter.triggers.exit [ -> $('.back-btn').blur() ]

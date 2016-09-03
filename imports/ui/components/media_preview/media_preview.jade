@@ -12,7 +12,7 @@ template(name="media_preview")
         i.fa.fa-trash
     if deleting
       .deleting
-        .loading
+        +loading
   else
     .media-image
       img(src="http:#{awsUrl}/#{tourID}/#{media}")
@@ -24,4 +24,4 @@ template(name="media_preview")
           i.fa.fa-trash
       if deleting
        .deleting
-         .loading.contained
+         +loading
