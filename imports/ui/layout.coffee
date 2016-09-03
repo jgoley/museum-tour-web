@@ -1,5 +1,6 @@
 {ReactiveVar} = require 'meteor/reactive-var'
 require './layout.jade'
+require './components/loading/loading.jade'
 
 Template.layout.onCreated ->
   @menuState = new ReactiveVar false

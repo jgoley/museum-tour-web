@@ -79,7 +79,7 @@ video
   > li
     align-items center
     position relative
-    border-bottom 1px solid lighten($secondary, 30%)
+    border-bottom 1px solid lighten($m-gray, 30%)
     &:last-of-type
       border 0
   a
@@ -90,11 +90,11 @@ video
     transition .2s
     &:active
     &:hover
-      background lighten($secondary, 90%)
+      background lighten($m-gray, 90%)
       text-decoration none
       transition .2s
     &:active
-      background lighten($secondary, 80%)
+      background lighten($m-gray, 80%)
     &::after
       position absolute
       right 3%
@@ -172,9 +172,13 @@ video
 .goto-stop-btn
   background-color desaturate(lighten($confirm,8%),10%)
   &[disabled]
-    background-color $m-gray
-    border-color darken(@background-color, 20%)
-    color darken(@background-color, 40%)
+    &
+    &:hover
+    &:active
+    &:focus
+      border-color darken(@background-color, 20%)
+      color darken(@background-color, 40%)
+      background $m-gray
 
 .stopNumber-wrap
   +above(4)
