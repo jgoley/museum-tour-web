@@ -29,7 +29,7 @@ template(name="editMedia")
     .row
       .col-sm-6
         +fileUpload name=typeName required=true label=label
-    unless mediaIsImage
+    if requiresPosterImage
       if hasPosterImage
         .col-lg-10.row.media-preview
           .col-md-6
@@ -39,7 +39,7 @@ template(name="editMedia")
               tourID=tourID
               typeName='posterImage')
 
-  unless mediaIsImage
+  if requiresPosterImage
     unless hasPosterImage
       .row
         .col-sm-6

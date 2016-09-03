@@ -14,10 +14,16 @@ Template.mediaTypes.helpers
       'selected'
 
 Template.mediaTypes.events
-  'change .media-type-select': (e, template) ->
-    if @stop and @stop.mediaType == @mediaType.get()
-      change = confirm("Changing the media type will most likely require uploading a new file. Continue with change?")
+  'change .media-type-select': (event, instance) ->
+    mediaType = instance.data.mediaType
+    value = event.target.value
+
+    if @stop and @stop.mediaType == mediaType.get()
+      change = confirm """
+        Changing the media type will most likely require uploading a new file.
+        Continue with change?
+        """
       if change
-        @mediaType.set(e.target.value)
+        mediaType.set value
     else
-      @mediaType.set(e.target.value)
+      mediaType.set value
