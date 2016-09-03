@@ -26,7 +26,7 @@ template(name="editTour")
     else
       +addStop type='new-parent' stops=stops tour=tour addingStop=addingStop
   else
-    .loading
+    +loading
 
   if deleting
-    .loading
+    +loading
