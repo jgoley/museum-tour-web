@@ -9,7 +9,7 @@ require '../views/add_stop.jade'
 
 Template.addStop.onCreated ->
   @newStopType  = new ReactiveVar 'single'
-  @mediaType    = new ReactiveVar null
+  @mediaType    = new ReactiveVar '1'
   @addingStop   = @data.addingStop
   @editingStop  = @data.editingStop
 
@@ -33,6 +33,9 @@ Template.addStop.helpers
 
   mediaType: ->
     Template.instance().mediaType
+
+  showCancel: ->
+    @siblings?.count() or Template.instance().data.stops?.count()
 
 Template.addStop.events
   'change input[type=radio]': (event, instance) ->
@@ -82,6 +85,5 @@ Template.addStop.events
   'click .cancel-add-stop' : (event, instance) ->
     if @stop and not @stop.children().count()
       Session.set 'editingAStop', false
-    instance.addingStop.set false
-    if not @stop.children().count()
       instance.editingStop.set false
+    instance.addingStop.set false
