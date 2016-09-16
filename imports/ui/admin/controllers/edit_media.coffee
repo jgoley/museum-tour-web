@@ -22,4 +22,4 @@ Template.editMedia.helpers
     @stop?.posterImage
 
   requiresPosterImage: ->
-    @mediaType?.get() in ['2','5']
+    @mediaType?.get() in ['2','5', 2, 5]

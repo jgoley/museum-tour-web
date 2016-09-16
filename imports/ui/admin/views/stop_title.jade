@@ -1,5 +1,5 @@
 template(name="stopTitle")
-  li(class="stop #{stop.type}-title #{stop.type} {{#if editingAStop}} not-editing {{/if}}")
+  li(class="stop #{stop.type}-title #{stop.type} {{#if editingAStop}} not-editing {{/if}}" data-id=stop._id)
     if draggable
       i.handle.fa.fa-bars
 

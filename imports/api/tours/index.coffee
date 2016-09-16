@@ -37,11 +37,11 @@ Tour = Class.create
   events: classEvents
 
   methods:
-    getParentStops: (stopeToExcludeID='') ->
+    getParentStops: (stopToExcludeID='') ->
       TourStop.find
         $and:
           [
-            _id: {$ne: stopeToExcludeID}
+            _id: {$ne: stopToExcludeID}
             tour: @_id
             $or:
               [

@@ -1,6 +1,16 @@
 template(name="stopData")
   .row
     .col-sm-12
+      unless stop.isChild
+        .row
+          .col-sm-2.tiny-input
+            label
+              span Stop Number
+              input.form-control(
+                value="#{stop.stopNumber}"
+                name="stopNumber"
+                placeholder="Stop Number"
+                type="number")
       if stop.isChild
         .row
           .col-sm-2.tiny-input

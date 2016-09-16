@@ -1,4 +1,17 @@
 template(name="childStops")
+  form.update-stop-number.row
+    .col-sm-2.tiny-input
+      label
+        span Stop Number
+        input.form-control(
+          value="#{stop.stopNumber}"
+          name="stopNumber"
+          placeholder="Stop Number"
+          type="number")
+    .action-btns-form
+      button.btn.btn-plain.save-input(type="submit")
+        i.fa.fa-check-circle
+
   ul.edit-child-stops.list-unstyled
     each stop.children
       +editStop stop=this parentStopNumber=../stop.stopNumber

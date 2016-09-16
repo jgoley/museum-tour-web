@@ -35,10 +35,11 @@ updateStop = (stop, props, form, uploading) ->
 
 buildStop = (props, stop, form) ->
   baseValues =
-    title    : form.title?.value or stop.title
-    speaker  : form.speaker?.value
-    mediaType: +form.mediaType?.value
-    order    : props.values.order or +form.order?.value
+    title     : form.title?.value or stop.title
+    speaker   : form.speaker?.value
+    mediaType : +form.mediaType?.value
+    order     : props.values.order or +form.order?.value
+    stopNumber: +form.stopNumber?.value or stop.stopNumber
 
   if form.media?.files[0]
     baseValues.media = formatFileName form.media
@@ -59,6 +60,33 @@ stopEditing = (editing) ->
   Session.set 'editingAStop', false
   editing.set false
 
+updateSortOrder = (event, instance, baseNum) ->
+  id = instance.$(event.item).data 'id'
+  oldOrder = ++event.oldIndex + baseNum
+  newOrder = ++event.newIndex + baseNum
+
+  # Get the moved object
+  movedTourStop = TourStop.findOne id
+  movingUp = movedTourStop.stopNumber > newOrder
+  query = []
+
+  query.push _id: $ne: movedTourStop._id
+
+  if movingUp
+    query.push stopNumber: $gte: newOrder
+    query.push stopNumber: $lte: oldOrder
+  else
+    query.push stopNumber: $lte: newOrder
+    query.push stopNumber: $gt: oldOrder
+
+  TourStop.find({$and: query}, {sort: stopNumber: 1}).forEach (stop) ->
+    if movingUp then amount = 1 else amount = -1
+    stop.stopNumber = stop.stopNumber + amount
+    stop.save()
+
+  movedTourStop.stopNumber = newOrder
+  movedTourStop.save()
+
 
 module.exports =
   saveStop            : saveStop
@@ -66,3 +94,4 @@ module.exports =
   getLastStopNum      : getLastStopNum
   parsley             : parsley
   stopEditing         : stopEditing
+  updateSortOrder     : updateSortOrder
