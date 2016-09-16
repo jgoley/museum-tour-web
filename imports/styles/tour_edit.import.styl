@@ -53,16 +53,25 @@
   opacity .15
   pointer-events none
 
+
+.update-stop-number
+  margin-top 1em
+  padding-left calc(3% + 25px)
+  display flex
+  .action-btns-form
+    margin-left 0
+
 .edit-child-stops
   position relative
+  border-top 1px solid darken($ll-gray, 5%)
   > li
     position relative
     padding 5px 3%  5px calc(3% + 25px)
     border-bottom 1px solid darken($ll-gray, 5%)
     display flex
     align-items center
-    &:nth-child(even)
-      background $ll-gray
+    // &:nth-child(even)
+    //   background $ll-gray
     .stop-number
       font-size 1.5em
       +below(2)
@@ -70,6 +79,8 @@
     .delete
       @extend .delete-icon
       color lighten($l-gray, 20%)
+    &:last-of-type
+      border 0
 
 .sortble-ghost
   background #f0f0f0 !important
@@ -105,6 +116,7 @@
     font-size 1.75em
     transition $link-transition
     line-height 1
+  .save-input
   .save-title
     color $confirm
     margin-right .2em

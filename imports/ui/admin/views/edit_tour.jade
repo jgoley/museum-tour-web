@@ -11,8 +11,8 @@ template(name="editTour")
     if editTourDetails
       +tourDetails tour=tour action='edit' editing=getEditing
     if stops.count
-      ul.list-unstyled.tap-edit-list.edit-parent-stops
-        +sortable items=stops sortField="stopNumber" options=sortableOptions
+      ul.list-unstyled.tap-edit-list.edit-parent-stops#stopTourList
+        each stops
           +editStop stop=this tour=tour
         if isAddingStop
           .add-stop

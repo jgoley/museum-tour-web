@@ -5,14 +5,15 @@
 { go }               = require '../../../helpers/route_helpers'
 { parsley
   setStopEditingState,
-  getLastStopNum }   = require '../../../helpers/edit'
+  getLastStopNum
+  updateSortOrder }  = require '../../../helpers/edit'
+Sort                 = require 'sortablejs'
 
 require '../../../ui/components/upload_progress/upload_progress.coffee'
 require './stop_title'
 require './edit_stop'
 require './child_stops'
 require '../views/edit_tour.jade'
-
 
 Template.editTour.onCreated ->
   Session.set 'editingAStop', false
@@ -21,9 +22,22 @@ Template.editTour.onCreated ->
   @addingStop = new ReactiveVar false
   @tourID = @data?.tourID
   @deleting = new ReactiveVar false
+  @stopsLoaded = new ReactiveVar false
   if @tourID
     @subscribe 'tourDetails', @tourID
-    @subscribe 'tourParentStops', @tourID
+    @subscribe 'tourParentStops', @tourID, () =>
+      @stopsLoaded.set true
+
+Template.editTour.onRendered ->
+  instance = @
+  @autorun ->
+    tour = Tour.findOne @tourID
+    if instance.stopsLoaded.get()
+      Meteor.defer ->
+        Sort.create stopTourList,
+          handle: '.handle'
+          onSort: (event) ->
+            updateSortOrder event, instance, tour.baseNum
 
 Template.editTour.helpers
   tour: ->
