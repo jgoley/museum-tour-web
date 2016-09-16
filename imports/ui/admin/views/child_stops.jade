@@ -1,4 +1,5 @@
 template(name="childStops")
+  form.update-stop-number.row
   ul.edit-child-stops.list-unstyled
     each stop.children
       +editStop stop=this parentStopNumber=../stop.stopNumber
