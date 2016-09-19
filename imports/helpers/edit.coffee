@@ -39,7 +39,6 @@ buildStop = (props, stop, form) ->
     speaker   : form.speaker?.value
     mediaType : +form.mediaType?.value
     order     : props.values.order or +form.order?.value
-    stopNumber: +form.stopNumber?.value or stop.stopNumber
 
   if form.media?.files[0]
     baseValues.media = formatFileName form.media
