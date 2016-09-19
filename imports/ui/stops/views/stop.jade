@@ -9,12 +9,11 @@ template(name="stop")
           each stop.children
             li.child-stop
               .child-stop-info
-                h2.tap-list-title.child-stop-title
-                  span
-                    span.child-stop-number #{stop.stopNumber}.#{order}
-                    span #{title}
-                unless isNull speaker
-                  p.child-stop-subTitle #{speaker}
+                .child-stop-number #{stop.stopNumber}.#{order}
+                .child-stop-titles-wrap
+                  h2.tap-list-title.child-stop-title=title
+                  unless isNull speaker
+                    p.child-stop-subTitle #{speaker}
               +stopContent stop=this
       else
         h1.single-title
