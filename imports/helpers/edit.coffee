@@ -13,15 +13,6 @@ saveStop = (stop, props) ->
         reject error
       else
         resolve null
-        #update ord of stops higher than edited stop
-          # if stop.order != values.values.order
-          #   siblings = TourStop().find({$and: [
-          #     { parent: stop.parent }
-          #     { _id: $ne: stop._id }
-          #     { order: $gte: +values.values.order }
-          #   ]}).fetch()
-          #   _.each siblings, (sibling, i) ->
-          #     TourStop().update {_id: sibling._id}, {$set: {order: sibling.order + 1}}, (e,r) ->
 
 updateStop = (stop, props, form, uploading) ->
   new Promise (resolve, reject) ->
@@ -59,31 +50,32 @@ stopEditing = (editing) ->
   Session.set 'editingAStop', false
   editing.set false
 
-updateSortOrder = (event, instance, baseNum) ->
+updateSortOrder = (event, instance, property, baseNum=0, parentStopId=null) ->
   id = instance.$(event.item).data 'id'
   oldOrder = ++event.oldIndex + baseNum
   newOrder = ++event.newIndex + baseNum
-
-  # Get the moved object
   movedTourStop = TourStop.findOne id
-  movingUp = movedTourStop.stopNumber > newOrder
+  movingUp = movedTourStop[property] > newOrder
   query = []
 
   query.push _id: $ne: movedTourStop._id
 
   if movingUp
-    query.push stopNumber: $gte: newOrder
-    query.push stopNumber: $lte: oldOrder
+    query.push "#{property}": $gte: newOrder
+    query.push "#{property}": $lte: oldOrder
   else
-    query.push stopNumber: $lte: newOrder
-    query.push stopNumber: $gt: oldOrder
+    query.push "#{property}": $lte: newOrder
+    query.push "#{property}": $gt: oldOrder
 
-  TourStop.find({$and: query}, {sort: stopNumber: 1}).forEach (stop) ->
-    if movingUp then amount = 1 else amount = -1
-    stop.stopNumber = stop.stopNumber + amount
+  if parentStopId
+    query.push parent: parentStopId
+
+  TourStop.find({$and: query}, {sort: "#{property}": 1}).forEach (stop) ->
+    amount = if movingUp then 1 else -1
+    stop[property] = stop[property] + amount
     stop.save()
 
-  movedTourStop.stopNumber = newOrder
+  movedTourStop[property] = newOrder
   movedTourStop.save()
 
 

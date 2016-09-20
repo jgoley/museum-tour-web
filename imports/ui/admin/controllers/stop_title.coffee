@@ -31,9 +31,6 @@ Template.stopTitle.helpers
     if Session.get('editingAStop') and not Template.instance().editingStop.get() and not @stop.isChild()
       true
 
-  draggable: ->
-    @stop.isGroup() or @stop.isSingle()
-
 Template.stopTitle.events
   'click .edit-title-btn' : (event, instance) ->
     event.stopPropagation()

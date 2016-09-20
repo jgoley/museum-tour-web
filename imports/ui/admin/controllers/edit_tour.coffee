@@ -33,11 +33,12 @@ Template.editTour.onRendered ->
   @autorun ->
     tour = Tour.findOne @tourID
     if instance.stopsLoaded.get()
-      Meteor.defer ->
-        Sort.create stopTourList,
+      Meteor.setTimeout ->
+        Sort.create stopList,
           handle: '.handle'
           onSort: (event) ->
-            updateSortOrder event, instance, tour.baseNum
+            updateSortOrder event, instance, 'stopNumber',  tour.baseNum
+      , 250
 
 Template.editTour.helpers
   tour: ->
