@@ -1,10 +1,10 @@
 template(name="childStops")
-  form.update-stop-number.row
-    ul.edit-child-stops.list-unstyled
-    each stop.children
-      +editStop stop=this parentStopNumber=../stop.stopNumber
-    if hasChildren
-      li.child.add-stop-link.add-child
-        a.title
-          i.fa.fa-plus-square
-          span Add Child
+  .row
+    ul.edit-child-stops.list-unstyled#childStopList
+      each stop.children
+        +editStop stop=this parentStopNumber=../stop.stopNumber
+      if hasChildren
+        li.child.add-stop-link.add-child
+          a.title
+            i.fa.fa-plus-square
+            span Add Child
