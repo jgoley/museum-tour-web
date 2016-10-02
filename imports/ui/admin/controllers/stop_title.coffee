@@ -67,7 +67,12 @@ Template.stopTitle.events
   'click .child-title': (event, instance)->
     openStop instance, event
 
-  'click .delete': (event) ->
+  'click .delete': (event, instance) ->
     event.stopPropagation()
     event.preventDefault()
+    deleting = instance.data.deleting
+    deleting.set true
     @stop.delete()
+      .then ->
+        stopEditing instance.editingStop
+        deleting.set false

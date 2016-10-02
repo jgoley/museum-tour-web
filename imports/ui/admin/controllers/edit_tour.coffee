@@ -33,7 +33,7 @@ Template.editTour.onRendered ->
   instance = @
   @autorun ->
     tour = Tour.findOne @tourID
-    if instance.stopsLoaded.get()
+    if instance.stopsLoaded.get() and TourStop.findOne() and not Template.instance().deleting.get()
       Meteor.setTimeout ->
         Sort.create stopList,
           handle: '.handle'
@@ -72,18 +72,19 @@ Template.editTour.helpers
   addingStop: ->
     Template.instance().addingStop
 
-  deleting: ->
-    Template.instance().deleting.get()
-
 Template.editTour.events
   'click .delete-tour': (event, instance) ->
     deleteTour = confirm("Delete tour? All stops will be deleted")
     tour = Tour.findOne @tourId
     if deleteTour
+      deleting = instance.deleting
+      deleting.set true
       tour.delete()
         .then ->
+          deleting.set false
           go '/tours/edit'
         .catch (error) ->
+          deleting.set false
           console.log error
           showNotification error
 

@@ -25,3 +25,7 @@ Template.registerHelper 'isUploading', ->
 
 Template.registerHelper 'hoverable', ->
   'no-hover' if Meteor.isCordova
+
+Template.registerHelper 'isDeleting', ->
+  instance = Template.instance()
+  instance.deleting?.get() or instance.data.deleting?.get()

@@ -2,6 +2,7 @@
 { Class }           = require 'meteor/jagi:astronomy'
 { showNotification} = require '../../helpers/notifications'
 { classEvents }     = require '../../helpers/class_helpers'
+{ formatFileName }  = require '../../helpers/files'
 
 TourStops = new Mongo.Collection 'tourStops'
 
@@ -102,13 +103,15 @@ TourStop = Class.create
       new Promise (resolve) ->
         media = stop.media
         resolve() unless media
-        _media = media.replace(/\+/g, ' ')
+        _media = formatFileName media, true
         S3.delete "/#{stop.tour}/#{_media}", (error, res) ->
           if error
             showNotification error
           else
-            if stop.posterImage
-              S3.delete "/#{stop.tour}/#{stop.posterImage}"
+            poster = stop.posterImage
+            if poster
+              posterFileName = formatFileName poster, true
+              S3.delete "/#{stop.tour}/#{posterFileName}"
             if save
               stop.set 'posterImage', null
               stop.set 'media', null

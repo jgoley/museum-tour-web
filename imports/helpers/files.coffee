@@ -30,8 +30,12 @@ formFiles = ($form) ->
     if file.files[0] then files.push(file.files[0])
   files
 
-formatFileName = (file) ->
-  file.files[0]?.name.split(' ').join '+'
+formatFileName = (file, reverse=false) ->
+  if reverse
+    file.replace(/\+/g, ' ')
+  else
+    file.files[0]?.name.split(' ').join '+'
+
 
 deleteFile = (fileName, tourID, obj, objProp) ->
   new Promise (resolve, reject) ->

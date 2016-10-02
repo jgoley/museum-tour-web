@@ -24,9 +24,10 @@ template(name="editTour")
                 i.fa.fa-plus-square
                 span Add stop
     else
-      +addStop type='new-parent' stops=stops tour=tour addingStop=addingStop
+      .add-first-stop
+        +addStop type='new-parent' stops=stops tour=tour addingStop=addingStop
   else
     +loading
 
-  if deleting
-    +loading
+  if isDeleting
+    +loading classes='fixed'
