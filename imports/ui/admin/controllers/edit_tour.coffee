@@ -46,7 +46,16 @@ Template.editTour.helpers
     Tour.findOne Template.instance().tourID
 
   stops: ->
-    Tour.findOne(Template.instance().tourID)?.getParentStops()
+    TourStop.find
+      $and:
+        [
+          $or:
+            [
+              {type: 'group'},
+              {type: 'single'}
+            ]
+        ]
+      {sort: stopNumber: 1}
 
   sortableOptions : ->
     handle: '.handle'

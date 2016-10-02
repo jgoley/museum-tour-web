@@ -2,9 +2,9 @@
 
 updateSortOrder = (event, instance, property, baseNum=0, parentStopId=null) ->
   id = instance.$(event.item).data 'id'
-  oldOrder = ++event.oldIndex + baseNum
-  newOrder = ++event.newIndex + baseNum
   movedTourStop = TourStop.findOne id
+  oldOrder = movedTourStop[property]
+  newOrder = ++event.newIndex + baseNum
   movingUp = movedTourStop[property] > newOrder
   query = []
 

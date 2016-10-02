@@ -13,6 +13,7 @@ Template.editing.onCreated ->
   @stop = @data.stop
   @mediaType.set @data.stop.mediaType
   @editingStop = @data.editingStop
+  @subscribe 'parentTourStops', @stop._id
 
 Template.editing.onRendered ->
   @autorun =>
@@ -25,7 +26,18 @@ Template.editing.helpers
     stop.type is 'parent' or stop.type is 'group'
 
   parentStops: ->
-    Template.instance().data.tour.getParentStops(@stop._id).fetch()
+    TourStop.find
+      $and:
+        [
+          _id: {$ne: @stop._id}
+          tour: @_id
+          $or:
+            [
+              {type: 'group'},
+              {type: 'single'}
+            ]
+        ]
+      {sort: stopNumber: 1}
 
   mediaType: ->
     Template.instance().mediaType
