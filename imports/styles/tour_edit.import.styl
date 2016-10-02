@@ -4,6 +4,9 @@
   font-size 150%
   cursor pointer
 
+.stop-editing-wrapper
+  position relative
+
 .editing-container
   min-height 0
   padding-left calc(3% + 50px)
@@ -173,6 +176,7 @@
   font-size 110%
 
 .section-title
+  margin-top .5em
   margin-bottom 0
   margin-left 6%
   border-bottom 2px solid lighten($secondary, 80%)
@@ -210,7 +214,7 @@
         outline 0
 
 .add-stop
-  margin-top 1em
+  padding-top 1em
 
 .add-stop-link
   background-color #FFF
@@ -235,6 +239,9 @@
 .add-stop-container
   padding-right 3.5%
 
+.add-first-stop
+  margin-top 2em
+
 .add-child
   a
     padding-left 15px
@@ -249,7 +256,6 @@
   margin-bottom 50px
   padding-left 6%
   padding-top 10px
-  border-top 3px solid $secondary
   .radio
     &:first-of-type
       margin-top 0

@@ -3,25 +3,29 @@ template(name="editStop")
     +stopTitle(
       stop=stop
       editingStop=editingStop
-      parentStopNumber=parentStopNumber)
+      parentStopNumber=parentStopNumber
+      deleting=deleting)
     if isEditingStop
-      if notParent
-        .editing-container
-          +editing stop=stop tour=tour editingStop=editingStop
-      if stop.isGroup
-        if hasChildren
-          +childStops(
-            stop=stop
-            addingStop=addingStop
-            hasChildren=hasChildren)
-        if isAddingStop
-          +addStop(
-            type='new-child'
-            tour=tour
-            stop=stop
-            parent=stop._id
-            siblings=stop.children
-            editingStop=editingStop
-            addingStop=addingStop)
+      .stop-editing-wrapper
+        if notParent
+          .editing-container
+            +editing stop=stop tour=tour editingStop=editingStop
+        if stop.isGroup
+          if hasChildren
+            +childStops(
+              stop=stop
+              addingStop=addingStop
+              hasChildren=hasChildren)
+          if isAddingStop
+            +addStop(
+              type='new-child'
+              tour=tour
+              stop=stop
+              parent=stop._id
+              siblings=stop.children
+              editingStop=editingStop
+              addingStop=addingStop)
+        if isDeleting
+          .veil
   else
     +loading

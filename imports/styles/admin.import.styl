@@ -1,19 +1,21 @@
 @import 'tour_edit.import'
 
+$list-border-color = darken($ll-gray, 10%)
+
 .tap-edit-list
   margin-bottom 30px
   list-style-type none
-  border-bottom 3px solid darken($ll-gray, 10%)
+  border-bottom 2px solid $list-border-color
   > li
     position relative
-    border-bottom 1px solid darken($ll-gray, 10%)
+    border-bottom 1px solid $list-border-color
     display flex
     justify-content flex-start
     align-items center
     +mobile()
       padding 15px 3%
     &:last-of-type
-      border 0
+      border-bottom 2px solid $list-border-color
     &.open
       padding-bottom 0
 

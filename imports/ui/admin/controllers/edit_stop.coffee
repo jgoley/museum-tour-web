@@ -17,6 +17,7 @@ Template.editStop.onCreated ->
   @editingStop = new ReactiveVar false
   @addingStop = new ReactiveVar false
   @uploading = new ReactiveVar false
+  @deleting = new ReactiveVar false
   @stopID = @data.stop._id
   @subscribe 'childStops', @stopID, =>
     unless TourStop.findOne(parent: @stopID)
@@ -44,6 +45,8 @@ Template.editStop.helpers
   hasChildren: ->
     TourStop.findOne parent: Template.instance().data.stop._id
 
+  deleting: ->
+    Template.instance().deleting
 
 Template.editStop.events
   'click .convert-group': ->
