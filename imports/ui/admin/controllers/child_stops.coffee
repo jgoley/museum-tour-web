@@ -1,6 +1,6 @@
 require '../views/child_stops.jade'
 { showNotification } = require '../../../helpers/notifications'
-{ updateSortOrder }  = require '../../../helpers/edit'
+{ updateSortOrder }  = require '../../../helpers/sort'
 Sort                 = require 'sortablejs'
 
 Template.childStops.onCreated ->
