@@ -1,13 +1,14 @@
-{ ReactiveVar }      = require 'meteor/reactive-var'
-{ showNotification } = require '../../../helpers/notifications'
-{ Tour }             = require '../../../api/tours/index'
-{ TourStop }         = require '../../../api/tour_stops/index'
-{ go }               = require '../../../helpers/route_helpers'
-{ parsley
+{ ReactiveVar }        = require 'meteor/reactive-var'
+{ showNotification }   = require '../../../helpers/notifications'
+{ Tour }               = require '../../../api/tours/index'
+{ TourStop }           = require '../../../api/tour_stops/index'
+{ go }                 = require '../../../helpers/route_helpers'
+{ parsley,
   setStopEditingState,
-  getLastStopNum
-  updateSortOrder }  = require '../../../helpers/edit'
-Sort                 = require 'sortablejs'
+  getLastStopNum }     = require '../../../helpers/edit'
+{ updateSortOrder }    = require '../../../helpers/sort'
+Sort                   = require 'sortablejs'
+
 
 require '../../../ui/components/upload_progress/upload_progress.coffee'
 require './stop_title'
@@ -45,7 +46,16 @@ Template.editTour.helpers
     Tour.findOne Template.instance().tourID
 
   stops: ->
-    Tour.findOne(Template.instance().tourID)?.getParentStops()
+    TourStop.find
+      $and:
+        [
+          $or:
+            [
+              {type: 'group'},
+              {type: 'single'}
+            ]
+        ]
+      {sort: stopNumber: 1}
 
   sortableOptions : ->
     handle: '.handle'
