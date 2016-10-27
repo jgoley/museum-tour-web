@@ -1,0 +1,29 @@
+.tour-type
+  centerVertically()
+  left -10px
+  @extend .icon
+  color $primary
+  font-size 2em
+  &.adult
+    &::before
+      content '1'
+  &.family
+    &::before
+      content '2'
+
+.tap-list-title
+  &.tour-title
+    padding-left 40px
+
+.tap-list
+  .tour-title
+    padding-left 15px
+  .image
+  .no-image
+    min-height 50px
+    min-width 50px
+    background-position center center
+    background-size cover
+    border-radius 100%
+  .no-image
+    background $secondary

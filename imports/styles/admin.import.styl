@@ -1,0 +1,102 @@
+@import 'tour_edit.import'
+
+$list-border-color = darken($ll-gray, 10%)
+
+.tap-edit-list
+  margin-bottom 30px
+  list-style-type none
+  border-bottom 2px solid $list-border-color
+  > li
+    position relative
+    border-bottom 1px solid $list-border-color
+    display flex
+    justify-content flex-start
+    align-items center
+    +mobile()
+      padding 15px 3%
+    &:last-of-type
+      border-bottom 2px solid $list-border-color
+    &.open
+      padding-bottom 0
+
+  .stop
+    cursor pointer
+    &:hover
+      background $ll-gray
+
+  .stop-number
+  .title
+    font-size 1.5em
+    margin-right .5em
+  .title
+    flex 1
+    max-width 60%
+    text-overflow ellipsis
+    overflow hidden
+    white-space nowrap
+    +below(2)
+      font-size 1em
+  .stop-number
+    flex 0
+    font-weight 800
+
+.current-tours
+  > li
+    > a
+      flex 1
+      padding .5em 5% .5em 3%
+      color darken($d-gray, 20%)
+      &:hover
+        background-color lighten($secondary-light, 90%)
+        text-decoration none
+        color $body-text
+  .delete-tour
+    font-size 1.5em
+
+.tour-edit-actions
+  centerVertically()
+  right 3%
+
+.stop-actions
+  display flex
+  align-items center
+  justify-content flex-end
+  margin-left auto
+
+.delete-tour
+  font-size 1em
+  color $m-gray
+  &:hover
+    color $primary
+
+.edit-tour
+  color $body-text
+  font-size 1em
+  flex-direction column
+  .title
+  .sub-title
+    flex 0
+    font-size 1.3em
+  .title
+    display block
+  .sub-title
+    font-size 1em
+    font-style italic
+    +mobile()
+      display block
+
+.tour-type-icon
+  margin-left 5px
+  font-size 1.3em
+  +below(2)
+    font-size 1em
+
+.create-tour
+  width 50%
+  max-width 500px
+  +between(2,3)
+    width 75%
+  +mobile()
+    width 100%
+  button
+    margin-top 10px

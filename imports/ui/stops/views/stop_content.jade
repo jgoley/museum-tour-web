@@ -1,0 +1,19 @@
+template(name="stopContent")
+  if stop.isVideo
+    .video-wrap
+      video(
+        src="#{awsUrl}/#{stop.tour}/#{stop.media}"
+        poster=posterImage
+        controls
+        autoplay=autoplay)
+  else if stop.isAudio
+    .video-wrap
+      video(
+        src="#{awsUrl}/#{stop.tour}/#{stop.media}"
+        poster="#{awsUrl}/#{stop.audioType}-poster.png"
+        controls
+        autoplay=autoplay
+        class=stop.audioType)
+  else
+    .img-wrap
+      img(src="#{awsUrl}/#{stop.tour}/#{stop.media}" controls)

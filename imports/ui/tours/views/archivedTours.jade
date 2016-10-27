@@ -1,0 +1,16 @@
+template(name="archivedTours")
+  .main-title-wrap
+    h1.main-title Archived Tours
+  if Template.subscriptionsReady
+    ul.tap-list.archived-tours
+      each tours
+        li
+          a(href="{{pathFor 'tour' _id=_id}}")
+            +thumbnail tour=this
+            .tap-list-title.tour-title
+              h2
+                | #{mainTitle}
+                span #{subTitle}
+                span.dates #{sinceShow}
+  else
+    +loading

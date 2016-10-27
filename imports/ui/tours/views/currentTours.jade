@@ -1,0 +1,15 @@
+template(name="currentTours")
+  .main-title-wrap
+    h1.main-title Current Tours
+  if Template.subscriptionsReady
+    ul.tap-list.current-tours
+      each tours
+        li
+          a(href="{{pathFor 'tour' _id=_id}}")
+            +thumbnail tour=this
+            .tap-list-title.tour-title
+              h2 #{mainTitle}
+                span #{subTitle}
+    +stopSearch stops=stops
+  else
+    +loading

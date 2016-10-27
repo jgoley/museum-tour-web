@@ -1,0 +1,101 @@
+template(name="tourDetails")
+  unless tour
+    .main-title-wrap
+      h1.main-title Create a Tour
+  .container-fluid
+    form(class="edit-tour-details" data-parsley-validate)
+      .row
+        .col-sm-12
+          .row
+            .col-sm-6
+              label
+                span Main Title
+                input.form-control(
+                  name='mainTitle'
+                  type='text'
+                  value=tour.mainTitle
+                  required)
+          .row
+            .col-sm-6
+              label
+                span Sub Title
+                input.form-control(
+                  name='subTitle'
+                  type='text'
+                  value=tour.subTitle)
+          .row
+            .col-sm-4
+              label
+                span Opening Date
+                input.form-control(
+                  name='openDate'
+                  type='date'
+                  value=openDate
+                  required)
+          .row
+            .col-sm-4
+              label
+                span Closing Date
+                input.form-control(
+                  name='closeDate'
+                  type='date'
+                  value=closeDate
+                  required)
+          .row
+            .col-sm-3
+              label
+                span Base Number (i.e '100')
+                input.form-control(
+                  name='baseNum'
+                  type='number'
+                  placeholder='100'
+                  value=tour.baseNum
+                  required)
+          .row
+            .col-sm-6
+              label
+                span Tour Type
+                .radio
+                  label
+                    input(
+                      name='tourType'
+                      type='radio'
+                      value='0'
+                      checked
+                      required)
+                    | Adult
+                .radio
+                  label
+                    input(name='tourType' type='radio' value='1')
+                    | Family
+          .row.media-details
+            .col-sm-12
+              label.outside
+                span Tour Image
+                  +editMedia(
+                    object=tour
+                    media=tour.image
+                    tourID=tour._id
+                    currentMediaType='image'
+                    typeName='image')
+          .row.media-details
+            .col-sm-12
+              label.outside
+                span Thumbnail Image (100 pixels x 100 pixels)
+                  +editMedia(
+                    object=tour
+                    media=tour.thumbnail
+                    tourID=tour._id
+                    currentMediaType='image'
+                    typeName='thumbnail')
+          if isUploading
+            +upload_progress
+
+          .action-btns
+            button.btn.btn-success(type="submit")
+              unless tour
+                | Create Tour
+              else
+                | Save Tour Details
+
+            button.btn.btn-default.tour-details-cancel(type="button") Done

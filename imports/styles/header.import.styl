@@ -1,0 +1,140 @@
+$status-bar-height = 1.5em
+
+.status-bar
+  height $status-bar-height
+  position fixed
+  top 0
+  left 0
+  right 0
+  background $primary
+
+header
+  position relative
+  height $header-height
+  min-width 100%
+  padding 0
+  z-index 100
+  background-color $primary
+  +mobile()
+    height $header-height-tablet
+  +tablet()
+    height $header-height-tablet
+  +above(4)
+    position fixed
+  &.with-status-bar
+    margin-top 1em
+  &#group-header
+    position relative
+  &.home
+    height 105px
+    padding 0
+    border none
+    background #FFF
+    position static
+    margin-bottom 20px
+    height auto
+    padding 0
+  &.stuck
+  &.stuck-mobile
+    position fixed
+    top 0
+    left 0
+    right 0
+  &.stuck-mobile
+    border-bottom 5px solid rgba(50,50,50,.2)
+  a
+    transition .2s ease-in-out
+    +above(5)
+      max-height $header-height
+    &.btn
+      font-size .9em
+      color lighten($primary, 80%)
+      line-height 0
+      background none
+      padding 1em 1.5em
+      &:not(.no-hover):hover
+        background darken($primary, 15%) //linear-gradient(to top, darken($primary, 15%), alpha(darken($primary, 20%),0))
+        color white
+        text-decoration none
+      &:active
+        background darken($primary, 60%) //linear-gradient(to top, darken($primary, 60%), alpha(darken($primary, 60%),0))
+        color white
+      &:focus
+      &:active
+      &:active:focus
+      &:hover
+        outline 0
+        box-shadow none
+        color white
+
+    &.menu-btn
+    &.back-btn
+      position absolute
+      top 0
+      bottom 0
+      display flex
+      align-items center
+      padding-top 1em
+      background linear-gradient(to top, darken($primary, 3%), alpha(darken($primary, 3%),0))
+      border-top 0
+      border-radius 0
+      +below(3)
+        z-index 10000
+      +above(5)
+        display none
+    &.back-btn
+      display flex
+      left 0
+      border-left 0
+      border-right 1px solid
+      border-image linear-gradient(to top, darken($primary, 20%), alpha(darken($primary, 20%),0)) 1 100%
+      .fa
+        padding-right .25em
+    &.menu-btn
+      right 0
+      border-right 0
+      border-image linear-gradient(to top, darken($primary, 20%), alpha(darken($primary, 20%),0)) 1 100%
+      &::after
+        content '\f0c9'
+        @extend .font-awesome
+        padding-left .25em
+      &.menu-close
+        &::after
+          content '\f00d'
+    .fa
+      line-height 0
+      color lighten($primary, 50%)
+      margin-top 0
+.header-wrap
+  height $header-height
+
+.logo
+  position absolute
+  top 50%
+  left 50%
+  transform translate(-50%,-50%)
+  width 100px
+  height 24px
+  z-index 1000
+  margin 0
+  background url(images/title.svg) no-repeat
+  background-size 100px 24px
+  text-indent -9999px
+  opacity .9
+  transition .2s
+  visibility visible
+  &:hover
+    opacity 1
+  &:active
+    opacity .3
+  +above(5)
+    left 3%
+    right auto
+    transform translate(0,-50%)
+  &.invisible
+    +below(4)
+      opacity 0
+  a
+    text-indent -9999px
+    display block
+    height 100%

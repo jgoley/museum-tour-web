@@ -1,0 +1,6 @@
+template(name="layout")
+  .curtain(class="{{showCurtain}}")
+  +header menuState=menuState
+  .page-wrap(class="{{#if isCordova}} mobile {{/if}} {{#if menuOpen}} menu-open {{/if}}")
+    .main-content
+      +Template.dynamic template=content data=data

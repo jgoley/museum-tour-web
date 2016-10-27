@@ -1,0 +1,46 @@
+template(name="editMedia")
+  if media
+    if mediaIsImage
+      .col-sm-12.row.media-preview
+        .col-sm-6
+          +media_preview(
+            object=object
+            media=media
+            tourID=tourID
+            typeName=typeName)
+    else
+      .col-lg-10.row.media-preview
+        .video.col-md-6
+          +media_preview(
+            object=object
+            media=stop.media
+            tourID=tourID
+            isVideo=true
+            posterImage=posterImage
+            typeName='media')
+        if hasPosterImage
+          .col-md-6
+            +media_preview(
+              object=object
+              media=stop.posterImage
+              tourID=tourID
+              typeName='posterImage')
+  else
+    .row
+      .col-sm-6
+        +fileUpload name=typeName required=true label=label
+    if requiresPosterImage
+      if hasPosterImage
+        .col-lg-10.row.media-preview
+          .col-md-6
+            +media_preview(
+              object=object
+              media=stop.posterImage
+              tourID=tourID
+              typeName='posterImage')
+
+  if requiresPosterImage
+    unless hasPosterImage
+      .row
+        .col-sm-6
+          +fileUpload name='posterImage' required=true label="Poster Image"

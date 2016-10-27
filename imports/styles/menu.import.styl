@@ -1,0 +1,180 @@
+$border-color = darken($primary, 20%)
+$header-border-height = 5px
+
+.menu
+  position fixed
+  left -75%
+  top 0
+  bottom 0
+  width 75%
+  max-width 400px
+  border-right $header-border-height solid rgba(50,50,50,.2)
+  z-index 10000
+  letter-spacing .05em
+  transition left .3s ease-in
+  nav
+    background white
+    position absolute
+    width 100%
+    height 100%
+    display flex
+    flex-direction column
+    +above(5)
+      position static
+      flex-direction row
+      width auto
+      height auto
+      float right
+      margin-right 3%
+      background none
+  +above(5)
+    background $primary
+    right 0
+    left auto
+    bottom auto
+    z-index 100
+    max-width 100%
+    width 100%
+    float right
+    border 0
+  .logo
+    position absolute
+    top 50%
+    transform translate(0, -50%)
+    left .5em
+
+  &.showing
+    left 0% !important
+    transition all .3s ease-out
+  ul
+    @extend .tap-list
+    display flex
+    flex-direction column
+    align-items center
+    border-bottom 0
+    font-size 1em
+    +above(5)
+      flex-direction row
+      &:first-of-type
+        margin-right -4px
+        > li
+          &:last-of-type
+            a
+              padding-right 1em
+      &.admin
+        border-left 2px solid $border-color
+        > li
+          &:first-of-type
+            a
+              padding-left 20px
+    > li
+      font-weight 600
+      font-size 1.3em
+      width 100%
+
+      +above(5)
+        width auto
+        border 0
+        border-right 1px solid $border-color
+        text-shadow 0 1px 0 alpha($primary-dark, 50%)
+      &:hover
+        color $primary
+        text-shadow none
+
+      a
+        display block
+        padding-top .75em
+        padding-bottom .75em
+        +mobile()
+          font-size 1em
+        +above(5)
+          padding .58em .65em
+          font-size 1em
+          &::after
+            content ''
+          color white
+          &:hover
+            color $body-text
+            background-color white
+        +between(3,4)
+          font-size .75em
+        .fa
+          font-weight 400
+          margin-right .25em
+          +above(4)
+            color lighten($primary-light,30%)
+          +mobile()
+            display inline-block
+      &.admin
+        +above(5)
+          &:first-of-type
+            border-left 3px solid $border-color
+      &:last-of-type
+        border-bottom 1px solid $primary-light
+        +above(5)
+          border 0
+    +above(5)
+      margin 0
+      border 0
+  h3
+    margin-bottom 0
+    padding .2em .4em
+    background $ll-gray
+    border-bottom 2px solid $secondary-dark
+    font-size 2em
+    line-height 1
+    width 100%
+    text-transform uppercase
+    +above(5)
+      display none
+  .sign-out
+    display block
+    margin 20px auto
+    width 80%
+    color darken($primary, 20%)
+    border 1px solid $primary
+    background-color lighten($primary, 90%)
+    &:hover
+      background-color darken($primary, 20%)
+      color white
+      border 1px solid darken(@background-color, 20%)
+    +above(5)
+      width auto
+      display inline-block
+      font-size 80%
+      margin 0 15px
+      padding .25em .75em
+
+  h1
+    @extend .logo
+    position static
+    transform translate(0,0)
+    +above(5)
+      display none
+
+.menu-header
+  position relative
+  margin-right -1 * $header-border-height
+  min-height $header-height
+  background-color $primary
+  +mobile()
+    min-height $header-height-tablet
+  +tablet()
+    min-height $header-height-tablet
+  +above(5)
+    display none
+  &.mobile
+    +mobile()
+      border-bottom $header-border-height solid rgba(50,50,50,.2)
+    +tablet()
+      border-bottom $header-border-height solid rgba(50,50,50,.2)
+
+.content-curtain
+  position fixed
+  top 0
+  bottom 0
+  left 0
+  right 0
+  display none
+  z-index 2
+  background rgba(0,0,0,.5)

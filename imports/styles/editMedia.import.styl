@@ -1,0 +1,76 @@
+$curtain-layer = 10
+$options-layer = 100
+$deleting-layer = 1000
+
+.media-image
+  position relative
+  min-width 100%
+  background $l-gray
+  img
+    width auto
+    max-width 100%
+    max-height 300px
+    border 1px solid $ll-gray
+  &
+  .curtain
+    border-radius 4px
+
+.media-options
+  position absolute
+  top 50%
+  left 50%
+  width 100%
+  transform translate(-50%, -50%)
+  display none
+  text-align center
+  z-index $options-layer
+  a
+    display inline-block
+    vertical-align middle
+    padding 0 20px
+    color white
+    font-size 4em
+    &:hover
+      color $primary
+  .delete-media
+    margin-top -10px
+
+.media-preview
+  margin 30px -30px 40px -30px
+
+.media-video
+  min-width 100%
+  border 0
+
+.video
+.media-image
+  position relative
+  +below(3)
+    margin-bottom 20px
+  &:hover
+    .curtain
+    .media-options
+      display block
+      opacity 1
+      visibility visible
+  .curtain
+    z-index $curtain-layer
+  .deleting
+    position absolute
+    top 0
+    bottom 0
+    left 0
+    right 0
+    background rgba(255,255,255,.95)
+    z-index $deleting-layer
+    .loading
+      &::before
+        color $primary
+
+
+.video
+  .curtain
+    background linear-gradient(to bottom, rgba(0,0,0,.6) 0%, rgba(0,0,0,0.6) 83%, rgba(0,0,0,0) 100%)
+    bottom 10%
+    left 15px
+    right 15px

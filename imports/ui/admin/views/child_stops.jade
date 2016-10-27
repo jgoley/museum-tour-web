@@ -1,0 +1,10 @@
+template(name="childStops")
+  .row
+    ul.edit-child-stops.list-unstyled#childStopList
+      each stop.children
+        +editStop stop=this parentStopNumber=../stop.stopNumber
+      unless isAddingChild
+        li.child.add-stop-link.add-child
+          a.title
+            i.fa.fa-plus-square
+            span Add Child

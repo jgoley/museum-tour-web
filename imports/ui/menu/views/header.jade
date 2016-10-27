@@ -1,0 +1,11 @@
+template(name="header")
+  header(class="{{#if menuOpen}} stuck {{/if}} {{#if isCordova}} stuck-mobile {{/if}}")
+    a(href="/" class=hoverable)
+      h1.logo(class="{{#if menuOpen}} invisible {{/if}}") TAP into CMA
+    a.btn.back-btn(class=hoverable)
+      i.fa.fa-chevron-circle-left
+      span Back
+    a.btn.menu-btn(class="{{buttonAction}} {{hoverable}}")
+      span Menu
+    +offCanvasMenu menuState=menuState
+  .content-curtain(class="{{#if menuOpen}} down {{/if}}")

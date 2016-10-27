@@ -1,0 +1,69 @@
+$awsUrl = '//s3.amazonaws.com/sand-box/'
+
+// FONTS
+
+$header-font = 'alternate-gothic-no-1-d'
+$body-font = 'source-sans-pro'
+$icon-font = 'icons'
+
+// COLORS
+
+$primary = #ED484C
+$primary-light = lighten($primary, 30%)
+$primary-dark = darken($primary, 30%)
+$secondary = #6DBCDA
+$secondary-light = lighten($secondary, 30%)
+$secondary-dark = darken($secondary, 30%)
+
+$ll-gray = #f9f9f9
+$l-gray = darken($ll-gray, 10%)
+$m-gray = #CCC
+$ml-gray = lighten($m-gray, 20%)
+$md-gray = darken($m-gray, 20%)
+$d-gray = #666
+$dd-gray = #333
+
+$border-gray = $m-gray
+$border-primary = lighten($primary-light, 20%)
+$border-secondary= lighten($secondary-light, 20%)
+
+$body-text = #333
+
+$confirm = rgba(103, 169, 104, 1)
+$warning = rgba(240, 173, 78, 1)
+$delete = $primary
+
+$link-transition = .2s
+
+$header-height = 45px
+$header-height-tablet = $header-height + 10px
+
+
+// =======================================
+// Vendor
+// =======================================
+
+// Rupture
+rupture.scale = 0        480px       768px       1024px     1224px
+//              └────┬────┘ └────┬────┘ └────┬────┘ └────┬────┘
+//                   1           2           3           4
+rupture.enable-em-breakpoints = true
+rupture.desktop-cutoff = 1024px
+
+// Typographic
+$myriad = 'myriad'
+
+$line-height-ratio  = 1.75
+$header-ratio       = $golden
+$body-font          = $body-font
+$body-font-weight   = 300
+$body-color         = #666
+$header-font        = $header-font
+$header-font-weight = 500
+$header-color       = #111
+$min-font           = 13px
+$max-font           = 22px
+$min-width          = 480px
+$max-width          = 1224px
+$vertical-rhythm    = false
+typographic()

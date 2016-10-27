@@ -1,0 +1,19 @@
+template(name="editTours")
+  .main-title-wrap
+    h1.main-title
+      span Tours
+    a(href="{{pathFor 'createTour'}}").btn.btn-default.btn-header
+      i.fa.fa-plus-square-o.left
+      span Create Tour
+
+  if Template.subscriptionsReady
+    ul.tap-edit-list.current-tours
+      each tours
+        li
+          a.edit-tour(href="{{pathFor 'editTour' tourID=_id}}")
+            span.title #{mainTitle}
+              if isFamily
+                span.tour-type-icon.fa.fa-child
+            span.sub-title #{subTitle}
+  else
+    +loading

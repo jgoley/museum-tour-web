@@ -1,0 +1,66 @@
+$stop-info-color = darken($m-gray, 5%)
+
+.tour-image
+  position relative
+  min-height 200px
+  width 100%
+  background-size cover
+  background-position center center
+  +above(2)
+    min-height 300px
+
+.stop-info
+  font-size
+  span
+  ul
+    vertical-align middle
+
+.seperator
+  margin 0 2px
+  color $stop-info-color
+
+.stop-number
+  font-weight 700
+  color $primary
+
+.tour-stops
+  border-top 2px solid $primary
+  a
+    flex-direction column
+    align-items flex-start
+  .group
+  .group-count
+    color darken($stop-info-color, 10%)
+    font-size 95%
+
+.group-count
+  margin-left 3px
+
+$types = {
+  '1' : 'a'
+  '2' : 'v'
+  '3' : 'p'
+  '4' : 'm'
+  '5' : 'l'
+}
+
+.media-types
+  li
+    &::before
+      margin 0 1px
+      font-family 'icons'
+      font-size 90%
+      content ''
+      color $stop-info-color
+      font-smoothing antialiased
+  for $type, $code in $types
+    .type-{$type}
+      &::before
+        content $code
+
+.media-details
+  &:first-of-type
+    margin-bottom 20px
+  .media-preview
+    margin-top 5px
+    margin-bottom 0

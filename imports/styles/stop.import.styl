@@ -1,0 +1,112 @@
+.stop-title
+  font-weight 600
+  font-size 1em
+  letter-spacing .02em
+
+.group-title
+  margin 0
+
+.tour-stop
+  h1
+    display flex
+    flex-direction column
+    background $ll-gray
+    padding 15px 3% 0 3%
+    color $body-text
+    line-height 100%
+    +above(5)
+      margin 0 0 20px 0
+    &.single-title
+    &.group-title
+      margin-bottom 0
+    &.group-title
+      padding-bottom .25em
+      margin-bottom .5em
+      border-bottom 2px solid $l-gray
+    .stopNumber
+      margin-right .25em
+      color $primary
+      font-weight 400
+
+.child-stop
+  margin-bottom 1.45em
+  +above(5)
+    margin-bottom 20px
+  &:last-of-type
+    margin-bottom 40px
+
+.child-stop-info
+  padding 0 3% .5em 3%
+  color $body-text
+  +above(5)
+    padding 0 10px 0 22%
+
+.child-stop-number
+.child-stop-title
+  font-family $body-font
+  font-style normal
+
+.child-stop-number
+  font-size 1.3em
+  margin-right .35em
+  font-weight 700
+  color $primary
+
+.child-stop-titles-wrap
+  flex 1 auto
+
+.child-stop-title
+  font-size 1.2em
+  font-weight 600
+  margin 0 0 .1em 0
+
+.child-stop-subTitle
+  margin 0
+  color $d-gray
+  font-size 95%
+  font-weight 300
+  padding-right 2%
+  +tablet()
+    font-size .8em
+  +above(5)
+    padding 3px 3% 8px 18%
+  &.single
+    padding 3px 3% 15px 3%
+    background $ll-gray
+
+.stop-nav
+  margin-top 20px
+  margin-bottom 50px
+  border-top 4px solid darken($primary, 20%)
+  > div
+    padding 0
+  div
+    &:first-of-type
+      border-right 1px solid darken($primary, 20%)
+    &:last-of-type
+      border-left 1px solid darken($primary, 20%)
+
+.stop-nav-button
+  display block
+  padding 15px
+  text-align center
+  color white
+  background $primary
+  transition .2s ease-in-out
+  text-shadow 0 1px 0 alpha($primary-dark, 50%)
+  &:hover
+    color white
+    text-decoration none
+  &:active
+    background $primary-dark
+    color white
+  &[disabled]
+    background desaturate(lighten($primary, 30%),20%)
+    color lighten(@background, 65%)
+    cursor not-allowed
+  span
+  i
+    vertical-align middle
+  i
+    font-size 150%
+    padding 0 4px

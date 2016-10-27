@@ -1,5 +1,0 @@
-template(name="uploadProgress")
-  each files
-    .progress
-      .progress-bar(role="progressbar" aria-valuenow="{{ percent_uploaded }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percent_uploaded }}%")
-        | {{ percent_uploaded }}

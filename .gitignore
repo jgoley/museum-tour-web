@@ -1,5 +1,6 @@
 mup.json
-mup_new.json
-settings.json
-/server/
-/server/config.coffee
+settings*
+/fn/
+/packages/s3/index.coffee
+/.scripts
+/data/

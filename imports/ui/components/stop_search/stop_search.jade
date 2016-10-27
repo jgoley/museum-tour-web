@@ -1,0 +1,15 @@
+template(name="stopSearch")
+  .goto-stop-wrap.clearfix
+    .col-xs-12
+      form.goto-stop.clearfix(autocomplete="off")
+        .col-xs-12.col-sm-10.stopNumber-wrap
+          input.form-control.stopNumber(
+            type="tel"
+            name="stopNumber"
+            maxlength="4"
+            placeholder="Tap & Enter a number")
+        .col-xs-12.col-sm-2.goto-stop-btn-wrap
+          button.btn.btn-success.btn-block.goto-stop-btn(
+            type="submit"
+            value=""
+            disabled=buttonState) GO
