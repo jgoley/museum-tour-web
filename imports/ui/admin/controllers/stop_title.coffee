@@ -2,6 +2,7 @@
 { setStopEditingState,
   stopEditing,
   parsley }             = require '../../../helpers/edit'
+{ updateSortOrder }     = require '../../../helpers/sort'
 
 require '../views/stop_title.jade'
 
@@ -72,7 +73,9 @@ Template.stopTitle.events
     event.preventDefault()
     deleting = instance.data.deleting
     deleting.set true
-    @stop.delete()
+    stop = @stop
+    stop.delete()
       .then ->
+        updateSortOrder null, stop, true
         stopEditing instance.editingStop
         deleting.set false

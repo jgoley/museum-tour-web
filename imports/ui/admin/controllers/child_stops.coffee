@@ -14,7 +14,8 @@ Template.childStops.onRendered  ->
     Sort.create childStopList,
       handle: '.handle'
       onSort: (event) ->
-        updateSortOrder event, instance, 'order', 0, instance.data.stop._id
+        indices = [event.oldIndex, event.newIndex]
+        updateSortOrder indices, instance.$(event.item).data('id')
   , 250
 
 Template.childStops.helpers
