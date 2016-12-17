@@ -36,7 +36,7 @@ Tour = Class.create
 
   events: classEvents
 
-  methods:
+  helpers:
     getParentStops: (stopToExcludeID='') ->
       TourStop.find
         $and:

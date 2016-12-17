@@ -45,7 +45,7 @@ TourStop = Class.create
 
   events: classEvents
 
-  methods:
+  helpers:
     children: ->
       TourStop.find {parent: @_id}, {sort: {order:1}}
 
