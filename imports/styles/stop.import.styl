@@ -7,26 +7,28 @@
   margin 0
 
 .tour-stop
-  h1
+  .tour-stop--info
     display flex
-    flex-direction column
-    background $ll-gray
+    flex-direction row
     padding 15px 3% 0 3%
-    color $body-text
-    line-height 100%
+    background $ll-gray
+    border-bottom 2px solid $l-gray
+    &.group
+      margin-bottom 1em
     +above(5)
-      margin 0 0 20px 0
-    &.single-title
-    &.group-title
-      margin-bottom 0
-    &.group-title
-      padding-bottom .25em
-      margin-bottom .5em
-      border-bottom 2px solid $l-gray
-    .stopNumber
-      margin-right .25em
+      padding-left 20%
+    span
+      @extend h1
       color $primary
+      line-height 1
+      margin-right .2em
       font-weight 400
+  .tour-stop--info--title
+    flex 1
+    h1
+      line-height 100%
+      color $body-text
+      margin 0
 
 .child-stop
   margin-bottom 1.45em
@@ -39,7 +41,7 @@
   padding 0 3% .5em 3%
   color $body-text
   +above(5)
-    padding 0 10px 0 22%
+    padding 0 10px 0 20%
 
 .child-stop-number
 .child-stop-title
@@ -69,34 +71,68 @@
   +tablet()
     font-size .8em
   +above(5)
-    padding 3px 3% 8px 18%
+    padding 3px 0 10px 0
   &.single
-    padding 3px 3% 15px 3%
+    padding 3px 0 15px 0
     background $ll-gray
 
+$stop-nav-border-color = darken($primary, 20%)
+
 .stop-nav
-  margin-top 20px
-  margin-bottom 50px
-  border-top 4px solid darken($primary, 20%)
+  position fixed
+  bottom 0
+  display flex
+  width 100%
+  border-top 1px solid $stop-nav-border-color
+  .current-stop-number
+    font-weight 800
+    font-size 1.5em
+    position absolute
+    top 50%
+    left 50%
+    transform translate(-50%,-50%)
+    padding 0 1em
+    border-radius 4px
+    color white
+    background alpha($stop-nav-border-color, 95%)
+    text-align center
   > div
     padding 0
-  div
+  a
     &:first-of-type
-      border-right 1px solid darken($primary, 20%)
+      border-right 1px solid $stop-nav-border-color
+      justify-content flex-start
     &:last-of-type
-      border-left 1px solid darken($primary, 20%)
+      border-left 1px solid $stop-nav-border-color
+      justify-content flex-end
+    span
+      &:first-of-type
+        padding-right .25em
+        font-weight 600
+        color white
+      &:last-of-type
+        display none
+        +above(4)
+          display block
+
 
 .stop-nav-button
-  display block
-  padding 15px
-  text-align center
-  color white
+  flex 1 1 50%
+  display flex
+  align-items center
+  padding .85em 1em
+  color lighten($primary, 80%)
   background $primary
   transition .2s ease-in-out
-  text-shadow 0 1px 0 alpha($primary-dark, 50%)
+  font-size .85em
+  +above(5)
+    padding 1em
   &:hover
+  &:focus
+  &:hover:focus
     color white
     text-decoration none
+    background darken($primary, 10%)
   &:active
     background $primary-dark
     color white
@@ -105,8 +141,10 @@
     color lighten(@background, 65%)
     cursor not-allowed
   span
+    margin 0
+  span
   i
-    vertical-align middle
+    line-height 1
   i
     font-size 150%
     padding 0 4px

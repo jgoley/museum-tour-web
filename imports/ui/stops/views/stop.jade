@@ -1,10 +1,15 @@
 template(name="stop")
   if Template.subscriptionsReady
     .tour-stop
+      .tour-stop--info(class="{{#if stop.isGroup}} group {{/if}}")
+        span.stopNumber #{stop.stopNumber}
+        .tour-stop--info--title
+          h1
+            | #{stop.title}
+          unless stop.isGroup
+            unless isNull stop.speaker
+              p.child-stop-subTitle.single #{stop.speaker}
       if stop.isGroup
-        h1.group-title
-          span.stopNumber #{stop.stopNumber}
-          | #{stop.title}
         ul.child-stops
           each stop.children
             li.child-stop
@@ -16,21 +21,16 @@ template(name="stop")
                     p.child-stop-subTitle #{speaker}
               +stopContent stop=this
       else
-        h1.single-title
-          span.stopNumber #{stop.stopNumber}
-          | #{stop.title}
-        unless isNull stop.speaker
-          p.child-stop-subTitle.single #{stop.speaker}
         +stopContent stop=stop
       .stop-nav
-        .col-xs-6
-            a.stop-nav-button.prev-stop(href="#" disabled="{{#unless prevStop}} disabled {{/unless}}")
-              i.fa.fa-chevron-circle-left
-              span Previous stop
-
-        .col-xs-6
-            a.stop-nav-button.next-stop(href="#" disabled="{{#unless nextStop}} disabled {{/unless}}")
-              span Next stop
-              i.fa.fa-chevron-circle-right
+        .current-stop-number=stop.stopNumber
+        a.stop-nav-button.prev-stop(href="#" disabled="{{#unless prevStop}} disabled {{/unless}}")
+          i.fa.fa-chevron-circle-left
+          span=prevStop.stopNumber
+          span=prevStop.title
+        a.stop-nav-button.next-stop(href="#" disabled="{{#unless nextStop}} disabled {{/unless}}")
+          span=nextStop.stopNumber
+          span=nextStop.title
+          i.fa.fa-chevron-circle-right
   else
     +loading
