@@ -4,7 +4,7 @@ template(name="tour")
       .main-title-wrap.tour-title
         h1.main-title #{tour.mainTitle}:
           span.sub-title #{tour.subTitle}
-    +stopSearch stops=tourStops
+    +stopSearch stops=tourStops location="Tour"
     ul.tap-list.tour-stops
       each tourStops
         li.tour-stop
