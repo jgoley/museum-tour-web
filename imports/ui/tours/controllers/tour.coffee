@@ -1,9 +1,10 @@
-{ Tour }     = require '../../../api/tours/index'
-{ TourStop } = require '../../../api/tour_stops/index'
-{ _ }        = require 'meteor/underscore'
+import { Tour } from '../../../api/tours/index'
+import { TourStop } from '../../../api/tour_stops/index'
+import { _ } from 'meteor/underscore'
+import { analytics } from 'meteor/okgrow:analytics'
 
-require '../views/tour.jade'
-require '../../components/stop_search/stop_search.coffee'
+import '../views/tour.jade'
+import '../../components/stop_search/stop_search.coffee'
 
 Template.tour.onCreated ->
   @tourID = @data.tourID
@@ -16,7 +17,9 @@ Template.tour.onCreated ->
     if tour
       family = ''
       if tour.tourType is 1 then family = ' (Family)'
-      document.title = tour.mainTitle+': '+tour.subTitle+family
+      title = tour.mainTitle+': '+tour.subTitle+family
+      document.title = title
+      analytics.page(title)
 
 Template.tour.helpers
   tour: ->

@@ -1,12 +1,15 @@
-{ Tour } = require '../../../api/tours/index'
-moment   = require 'moment'
+import { Tour } from '../../../api/tours/index'
+import moment from 'moment'
+import { analytics } from 'meteor/okgrow:analytics'
 
-require '../views/archivedTours.jade'
-require '../../components/thumbnail/thumbnail.coffee'
+import '../views/archivedTours.jade'
+import '../../components/thumbnail/thumbnail.coffee'
 
 Template.archivedTours.onCreated ->
   @subscribe 'archivedTour'
-  document.title = 'Archived Tour'
+  title = 'Archived Tours'
+  document.title = title
+  analytics.page(title)
 
 Template.archivedTours.helpers
   tours: ->
