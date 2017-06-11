@@ -1,8 +1,9 @@
-{ ReactiveVar } = require 'meteor/reactive-var'
-{ TourStop }   = require '../../../api/tour_stops/index'
-{ go }          = require '../../../helpers/route_helpers'
+import { ReactiveVar } from 'meteor/reactive-var'
+import { TourStop } from '../../../api/tour_stops/index'
+import { go } from '../../../helpers/route_helpers'
+import { analytics } from 'meteor/okgrow:analytics'
 
-require './stop_search.jade'
+import './stop_search.jade'
 
 Template.stopSearch.onCreated ->
   @buttonState = new ReactiveVar(true)
@@ -17,7 +18,12 @@ Template.stopSearch.events
 
   'submit .goto-stop': (e, instance) ->
     e.preventDefault()
-    stop = TourStop.findOne stopNumber: +e.target.stopNumber.value
+    number = e.target.stopNumber.value
+    stop = TourStop.findOne stopNumber: +number
+    analytics.track 'Stop Search',
+      eventName: instance.data.location or 'Stop Search'
+      stopNumber: number
+
     go 'stop', {'tourID': stop.tour, 'stopID': stop._id}
 
 Template.stopSearch.helpers

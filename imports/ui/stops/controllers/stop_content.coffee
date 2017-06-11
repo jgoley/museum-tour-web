@@ -1,4 +1,4 @@
-require '../views/stop_content.jade'
+import '../views/stop_content.jade'
 
 Template.stopContent.onCreated ->
   @stop = @data.stop

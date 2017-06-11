@@ -1,8 +1,9 @@
-{ ReactiveVar } = require 'meteor/reactive-var'
-{ TourStop }    = require '../../../api/tour_stops/index'
-{ go }          = require '../../../helpers/route_helpers'
+import { ReactiveVar } from 'meteor/reactive-var'
+import { TourStop } from '../../../api/tour_stops/index'
+import { go } from  '../../../helpers/route_helpers'
+import { analytics } from 'meteor/okgrow:analytics'
 
-require '../views/stop.jade'
+import '../views/stop.jade'
 
 Template.stop.onCreated ->
   @stopID = new ReactiveVar @data.stopID
@@ -19,7 +20,9 @@ Template.stop.onRendered ->
   @autorun ->
     instance.stop = TourStop.findOne instance.stopID.get()
     if instance.stop
-      document.title = instance.stop.title
+      title = instance.stop.title
+      document.title = title
+      analytics.page(title)
 
   @autorun ->
     stopID = FlowRouter.getParam 'stopID'
