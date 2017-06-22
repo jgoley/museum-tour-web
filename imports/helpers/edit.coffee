@@ -1,8 +1,8 @@
-parsley              = require 'parsleyjs'
-{ TourStop }         = require '../api/tour_stops/index'
-{ go }               = require './route_helpers'
-{ uploadFiles,
-  formatFileName }   = require './files'
+import parsley from 'parsleyjs'
+import { TourStop } from '../api/tour_stops/index'
+import { go } from './route_helpers'
+import { uploadFiles,
+         formatFileName } from './files'
 
 saveStop = (stop, props) ->
   new Promise (resolve, reject) ->
@@ -52,7 +52,7 @@ buildStop = (props, stop, form) ->
 getLastStopNum = (stops) ->
   _.last(stops)?.stopNumber
 
-parsley = (formElement) ->
+parsleyValidate = (formElement) ->
   $(formElement).parsley
     trigger: 'change'
 
@@ -65,5 +65,5 @@ module.exports =
   saveStop            : saveStop
   updateStop          : updateStop
   getLastStopNum      : getLastStopNum
-  parsley             : parsley
+  parsley             : parsleyValidate
   stopEditing         : stopEditing

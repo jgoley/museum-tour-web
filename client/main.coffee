@@ -1,1 +1,1 @@
-require '../imports/startup/client/index'
+import '../imports/startup/client/index'

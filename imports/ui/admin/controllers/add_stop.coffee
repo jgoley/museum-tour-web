@@ -1,11 +1,11 @@
-{ ReactiveVar }      = require 'meteor/reactive-var'
-{ parsley,
-  updateStop,
-  getLastStopNum }   = require '../../../helpers/edit'
-{ formFiles }        = require '../../../helpers/files'
-{ showNotification } = require '../../../helpers/notifications'
+import { ReactiveVar } from 'meteor/reactive-var'
+import { parsley,
+         updateStop,
+         getLastStopNum } from '../../../helpers/edit'
+import { formFiles } from '../../../helpers/files'
+import { showNotification } from '../../../helpers/notifications'
 
-require '../views/add_stop.jade'
+import '../views/add_stop.jade'
 
 Template.addStop.onCreated ->
   @newStopType  = new ReactiveVar 'single'

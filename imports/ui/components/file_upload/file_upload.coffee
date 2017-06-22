@@ -1,6 +1,6 @@
-{ ReactiveVar } = require 'meteor/reactive-var'
+import { ReactiveVar } from 'meteor/reactive-var'
 
-require './file_upload.jade'
+import './file_upload.jade'
 
 Template.fileUpload.onCreated ->
   @fileName = new ReactiveVar('No file selected')

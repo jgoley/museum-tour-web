@@ -1,7 +1,7 @@
-{Meteor}   = require 'meteor/meteor'
-{Template} = require 'meteor/templating'
+import { Meteor } from 'meteor/meteor'
+import { Template } from 'meteor/templating'
 
-require './image.jade'
+import './image.jade'
 
 Template.image.events
   'click .delete-tour-image': (e, template) ->

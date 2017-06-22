@@ -1,2 +1,2 @@
-require './controllers/stop_content'
-require './controllers/stop'
+import './controllers/stop_content'
+import './controllers/stop'

@@ -1,4 +1,4 @@
-require './media_types.jade'
+import './media_types.jade'
 
 Template.mediaTypes.helpers
   stopTypesForm: () ->

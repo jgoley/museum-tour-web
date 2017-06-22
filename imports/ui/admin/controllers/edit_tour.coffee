@@ -1,20 +1,20 @@
-{ ReactiveVar }        = require 'meteor/reactive-var'
-{ showNotification }   = require '../../../helpers/notifications'
-{ Tour }               = require '../../../api/tours/index'
-{ TourStop }           = require '../../../api/tour_stops/index'
-{ go }                 = require '../../../helpers/route_helpers'
-{ parsley,
-  setStopEditingState,
-  getLastStopNum }     = require '../../../helpers/edit'
-{ updateSortOrder }    = require '../../../helpers/sort'
-Sort                   = require 'sortablejs'
+import { ReactiveVar } from 'meteor/reactive-var'
+import { showNotification } from '../../../helpers/notifications'
+import { Tour } from '../../../api/tours/index'
+import { TourStop } from '../../../api/tour_stops/index'
+import { go } from '../../../helpers/route_helpers'
+import { parsley,
+         setStopEditingState,
+         getLastStopNum } from '../../../helpers/edit'
+import { updateSortOrder } from '../../../helpers/sort'
+import Sort from 'sortablejs'
 
 
-require '../../../ui/components/upload_progress/upload_progress.coffee'
-require './stop_title'
-require './edit_stop'
-require './child_stops'
-require '../views/edit_tour.jade'
+import '../../../ui/components/upload_progress/upload_progress.coffee'
+import './stop_title'
+import './edit_stop'
+import './child_stops'
+import '../views/edit_tour.jade'
 
 Template.editTour.onCreated ->
   Session.set 'editingAStop', false

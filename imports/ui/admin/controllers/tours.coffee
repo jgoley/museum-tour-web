@@ -1,6 +1,6 @@
-{ Tour } = require '../../../api/tours/index'
+import { Tour } from '../../../api/tours/index'
 
-require '../views/tours.jade'
+import '../views/tours.jade'
 
 Template.editTours.onCreated ->
   @subscribe 'tours'

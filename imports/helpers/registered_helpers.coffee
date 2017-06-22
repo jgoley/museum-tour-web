@@ -1,4 +1,4 @@
-{ FlowRouter } = require 'meteor/kadira:flow-router'
+import { FlowRouter } from 'meteor/kadira:flow-router'
 
 Template.registerHelper 'awsUrl', ->
   Meteor.settings.public.awsUrl

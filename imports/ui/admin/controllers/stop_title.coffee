@@ -1,10 +1,10 @@
-{ ReactiveVar }         = require 'meteor/reactive-var'
-{ setStopEditingState,
-  stopEditing,
-  parsley }             = require '../../../helpers/edit'
-{ updateSortOrder }     = require '../../../helpers/sort'
+import { ReactiveVar } from 'meteor/reactive-var'
+import { setStopEditingState,
+         stopEditing,
+         parsley } from '../../../helpers/edit'
+import { updateSortOrder } from '../../../helpers/sort'
 
-require '../views/stop_title.jade'
+import '../views/stop_title.jade'
 
 openStop = (instance, event) ->
   editing = instance.editingStop

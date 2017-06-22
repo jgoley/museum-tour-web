@@ -1,4 +1,4 @@
-{ showNotification } = require './notifications'
+import { showNotification } from './notifications'
 
 checkAuth = ->
   if not Meteor.userId()

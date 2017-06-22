@@ -1,5 +1,5 @@
-require '../views/nav.jade'
-require '../views/offCanvasMenu.jade'
+import '../views/nav.jade'
+import '../views/offCanvasMenu.jade'
 
 Template.offCanvasMenu.onCreated ->
   @menuState = @data.menuState

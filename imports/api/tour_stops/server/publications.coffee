@@ -1,5 +1,5 @@
-{ Tour }     = require '../../tours/index'
-{ TourStop } = require '../index'
+import { Tour } from '../../tours/index'
+import { TourStop } from '../index'
 
 Meteor.publish 'stop', (stopID) ->
   TourStop.find stopID

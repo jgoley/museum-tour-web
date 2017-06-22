@@ -1,2 +1,2 @@
-require './controllers/header'
-require './controllers/offCanvasMenu'
+import './controllers/header'
+import './controllers/offCanvasMenu'

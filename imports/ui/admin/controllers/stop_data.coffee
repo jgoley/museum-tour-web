@@ -1,1 +1,1 @@
-require '../views/stop_data.jade'
+import '../views/stop_data.jade'

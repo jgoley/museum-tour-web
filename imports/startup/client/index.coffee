@@ -2,6 +2,6 @@ Meteor.startup ->
   if Meteor.isCordova
     StatusBar.hide()
 
-require '../../helpers/registered_helpers'
-require './accounts'
-require './router'
+import '../../helpers/registered_helpers'
+import './accounts'
+import './router'
