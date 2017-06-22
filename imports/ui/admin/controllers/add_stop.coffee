@@ -47,12 +47,13 @@ Template.addStop.events
   'submit .add-stop' : (event, instance) ->
     event.preventDefault()
 
-    data = instance.data
+    data      = instance.data
     form      = event.target
-    tour      = instance.data.tour
-    stops     = instance.data.stops
-    siblings  = instance.data.siblings?.fetch()
-    type      = instance.data.type
+    tour      = data.tour
+    stops     = data.stops?.fetch()
+    type      = data.type
+    siblings  = data.siblings?.fetch()
+    type      = data.type
 
     props =
       files: formFiles instance.$(form)
@@ -62,7 +63,7 @@ Template.addStop.events
 
     switch type
       when 'new-parent'
-        props.values.stopNumber = getLastStopNum(stops?.fetch())+1 or tour.baseNum+1
+        props.values.stopNumber = getLastStopNum(stops)+1 or tour.baseNum+1
         props.values.type = form.type.value
       when 'new-child'
         if siblings and siblings.length
@@ -73,7 +74,7 @@ Template.addStop.events
         props.values.parent = instance.data.parent
         props.values.type = 'child'
       else
-        props.values.stopNumber = getLastStopNum(stops.fetch())+1 or tour.baseNum+1
+        props.values.stopNumber = getLastStopNum(stops)+1 or tour.baseNum+1
 
     updateStop(null, props, form)
       .then ->

@@ -27,12 +27,22 @@ updateStop = (stop, props, form, uploading) ->
 buildStop = (props, stop, form) ->
   baseValues =
     title     : form.title?.value or stop.title
-    speaker   : form.speaker?.value
-    mediaType : +form.mediaType?.value
-    order     : props.values.order or +form.order?.value
+
+  speaker = form.speaker?.value
+  if speaker
+    baseValues.peaker = speaker
+
+  order = props.values.order or +form.order?.value
+  if order
+    baseValues.order = order
+
+  mediaType = +form.mediaType?.value
+  if mediaType
+    baseValues.mediaType = mediaType
 
   if form.media?.files[0]
     baseValues.media = formatFileName form.media
+
   if form.posterImage?.files[0]
     baseValues.posterImage = formatFileName form.posterImage
 

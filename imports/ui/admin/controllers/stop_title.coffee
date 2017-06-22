@@ -32,6 +32,13 @@ Template.stopTitle.helpers
     if Session.get('editingAStop') and not Template.instance().editingStop.get() and not @stop.isChild()
       true
 
+  stopOrder: ->
+    stop = Template.instance().data.stop
+    if stop.order and not _.isNaN(stop.order)
+      stop.order
+    else
+      stop.stopNumber
+
 Template.stopTitle.events
   'click .edit-title-btn' : (event, instance) ->
     event.stopPropagation()
