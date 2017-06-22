@@ -30,16 +30,15 @@ Template.editTour.onCreated ->
       @stopsLoaded.set true
 
 Template.editTour.onRendered ->
-  instance = @
-  @autorun ->
+  @autorun =>
     tour = Tour.findOne @tourID
-    if instance.stopsLoaded.get() and TourStop.findOne() and not instance.deleting.get()
-      Meteor.setTimeout ->
+    if @stopsLoaded.get() and TourStop.findOne() and not @deleting.get()
+      Meteor.setTimeout =>
         Sort.create stopList,
           handle: '.handle'
-          onSort: (event) ->
+          onSort: (event) =>
             indices = [event.oldIndex, event.newIndex]
-            updateSortOrder indices, instance.$(event.item).data('id')
+            updateSortOrder indices, TourStop.findOne(@$(event.item).data('stopid'))
       , 250
 
 Template.editTour.helpers
