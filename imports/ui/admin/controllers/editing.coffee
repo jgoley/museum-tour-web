@@ -48,7 +48,10 @@ Template.editing.events
     if @stop.isSingle()
       Session.set 'editingAStop', false
       return
-    $('html, body').animate scrollTop: $('.group:not(.not-editing)').offset().top, 800
+    headerHeight = Meteor.settings.public.headerHeight
+    $('html, body').animate
+      scrollTop: $('.group:not(.not-editing)').offset().top - headerHeight
+    , 800
 
   'submit .edit-stop': (event, instance) ->
     event.preventDefault()

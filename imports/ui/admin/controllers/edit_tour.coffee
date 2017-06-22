@@ -93,6 +93,9 @@ Template.editTour.events
 
   'click .show-add-stop': (event, instance) ->
     instance.addingStop.set true
-    setTimeout (->
-      $('html, body').animate({ scrollTop: $(".add-stop").offset().top - 55 }, 800)
-      ), 0
+    setTimeout ->
+      headerHeight = Meteor.settings.public.headerHeight
+      $('html, body').animate
+        scrollTop: $(".add-stop").offset().top - headerHeight
+      , 800
+    , 0

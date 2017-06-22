@@ -9,7 +9,10 @@ import '../views/stop_title.jade'
 openStop = (instance, event) ->
   editing = instance.editingStop
   editing.set not editing.get()
-  $('html, body').animate scrollTop: instance.$(event.target).parent().offset().top, 500
+  headerHeight = Meteor.settings.public.headerHeight
+  $('html, body').animate
+    scrollTop: instance.$(event.target).parent().offset().top - headerHeight
+  , 500
 
 Template.stopTitle.onCreated ->
   @editingStop = @data.editingStop
