@@ -1,4 +1,4 @@
-require './upload_progress.jade'
+import './upload_progress.jade'
 
 uploadingFiles = ->
   files = _.filter S3.collection.find().fetch(), (file) ->

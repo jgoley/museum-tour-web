@@ -1,11 +1,11 @@
-require '../../ui/layout.coffee'
-require '../../ui/menu/index'
-require '../../ui/tours/index'
-require '../../ui/stops/index'
-require '../../ui/admin/index'
-require '../../ui/help/help.coffee'
+import '../../ui/layout.coffee'
+import '../../ui/menu/index'
+import '../../ui/tours/index'
+import '../../ui/stops/index'
+import '../../ui/admin/index'
+import '../../ui/help/help.coffee'
 
-require '../../ui/components/loading/loading.jade'
+import '../../ui/components/loading/loading.jade'
 
 
 BlazeLayout.setRoot 'body'

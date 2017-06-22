@@ -1,7 +1,7 @@
-{Meteor} = require 'meteor/meteor'
-{Template} = require 'meteor/templating'
+import {Meteor} from 'meteor/meteor'
+import {Template} from 'meteor/templating'
 
-require './upload.jade'
+import './upload.jade'
 
 Template.upload.events
   'submit .upload': (e) ->

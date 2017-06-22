@@ -1,9 +1,9 @@
-{ Mongo }                = require 'meteor/mongo'
-{ Class }                = require 'meteor/jagi:astronomy'
-{ TourStop }             = require '../tour_stops/index'
-{ showNotification }     = require '../../helpers/notifications'
-{ classEvents }          = require '../../helpers/class_helpers'
-{ deleteFile }           = require '../../helpers/files'
+import { Mongo } from 'meteor/mongo'
+import { Class } from 'meteor/jagi:astronomy'
+import { TourStop } from '../tour_stops/index'
+import { showNotification } from '../../helpers/notifications'
+import { classEvents } from '../../helpers/class_helpers'
+import { deleteFile } from '../../helpers/files'
 
 Tours = new Mongo.Collection 'tours'
 Tour = Class.create

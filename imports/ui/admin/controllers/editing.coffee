@@ -1,12 +1,12 @@
-{ ReactiveVar }      = require 'meteor/reactive-var'
-{ TourStop }         = require '../../../api/tour_stops/index'
-{ parsley,
-  stopEditing,
-  updateStop }       = require '../../../helpers/edit'
-{ formFiles }        = require '../../../helpers/files'
-{ showNotification } = require '../../../helpers/notifications'
+import { ReactiveVar } from 'meteor/reactive-var'
+import { TourStop } from '../../../api/tour_stops/index'
+import { parsley,
+         stopEditing,
+         updateStop }        from '../../../helpers/edit'
+import { formFiles }         from '../../../helpers/files'
+import { showNotification }  from '../../../helpers/notifications'
 
-require '../views/editing.jade'
+import '../views/editing.jade'
 
 Template.editing.onCreated ->
   @mediaType = new ReactiveVar()

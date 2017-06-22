@@ -1,6 +1,6 @@
-{Template} = require 'meteor/templating'
+import { Template } from 'meteor/templating'
 
-require './posterImage.jade'
+import './posterImage.jade'
 
 Template.posterImage.helpers
   mediaIsVideo: ->

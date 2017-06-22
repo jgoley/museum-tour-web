@@ -1,4 +1,4 @@
-require './thumbnail.jade'
+import './thumbnail.jade'
 
 Template.thumbnail.helpers
   type: ->

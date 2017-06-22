@@ -1,4 +1,4 @@
-{ Tour } = require '../index'
+import { Tour } from '../index'
 
 Meteor.publish 'tours', ->
   Tour.find()

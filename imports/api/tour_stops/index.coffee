@@ -1,8 +1,8 @@
-{ Mongo }           = require 'meteor/mongo'
-{ Class }           = require 'meteor/jagi:astronomy'
-{ showNotification} = require '../../helpers/notifications'
-{ classEvents }     = require '../../helpers/class_helpers'
-{ formatFileName }  = require '../../helpers/files'
+import { Mongo } from 'meteor/mongo'
+import { Class } from 'meteor/jagi:astronomy'
+import { showNotification} from '../../helpers/notifications'
+import { classEvents } from '../../helpers/class_helpers'
+import { formatFileName } from '../../helpers/files'
 
 TourStops = new Mongo.Collection 'tourStops'
 

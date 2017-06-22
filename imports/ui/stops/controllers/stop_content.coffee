@@ -21,7 +21,6 @@ Template.stopContent.helpers
 
 Template.stopContent.events
   'click video': (event, instance) ->
-    console.log event, instance
 
 Template.stopContent.onDestroyed ->
   $('video').off 'ended'

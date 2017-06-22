@@ -1,15 +1,14 @@
-{ Tour }             = require '../../../api/tours/index'
-{ showNotification } = require '../../../helpers/notifications'
-{ ReactiveVar }      = require 'meteor/reactive-var'
-moment               = require 'moment'
-{ go }               = require '../../../helpers/route_helpers'
-{ formatFileName,
-  formFiles,
-  uploadFiles }      = require '../../../helpers/files'
-{ finishTourSave,
-  parsley }          = require '../../../helpers/edit'
+import { Tour } from '../../../api/tours/index'
+import { showNotification } from '../../../helpers/notifications'
+import { ReactiveVar } from 'meteor/reactive-var'
+import moment from 'moment'
+import { go } from '../../../helpers/route_helpers'
+import { formatFileName,
+         formFiles,
+         uploadFiles } from '../../../helpers/files'
+import { parsley } from '../../../helpers/edit'
 
-require '../views/tour_details.jade'
+import '../views/tour_details.jade'
 
 finishTourSave = (tourID, isNew) ->
   if isNew

@@ -1,5 +1,8 @@
 template(name="stopTitle")
-  li(class="stop #{stop.type}-title #{stop.type} {{#if editingAStop}} not-editing {{/if}}" data-id=stop._id)
+  li(
+    class="stop #{stop.type}-title #{stop.type} {{#if editingAStop}} not-editing {{/if}}"
+    data-id=stopOrder
+    data-stopId=stop._id)
     i.handle.fa.fa-bars
     span.stop-number
       if stop.isChild

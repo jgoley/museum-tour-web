@@ -1,8 +1,8 @@
-{ ReactiveVar }      = require 'meteor/reactive-var'
-{ deleteFile }       = require '../../../helpers/files'
-{ showNotification } = require '../../../helpers/notifications'
+import { ReactiveVar } from 'meteor/reactive-var'
+import { deleteFile } from '../../../helpers/files'
+import { showNotification } from '../../../helpers/notifications'
 
-require './media_preview.jade'
+import './media_preview.jade'
 
 Template.media_preview.onCreated ->
   @deleting = new ReactiveVar false

@@ -1,8 +1,8 @@
-parsley              = require 'parsleyjs'
-{ TourStop }         = require '../api/tour_stops/index'
-{ go }               = require './route_helpers'
-{ uploadFiles,
-  formatFileName }   = require './files'
+import parsley from 'parsleyjs'
+import { TourStop } from '../api/tour_stops/index'
+import { go } from './route_helpers'
+import { uploadFiles,
+         formatFileName } from './files'
 
 saveStop = (stop, props) ->
   new Promise (resolve, reject) ->
@@ -27,12 +27,22 @@ updateStop = (stop, props, form, uploading) ->
 buildStop = (props, stop, form) ->
   baseValues =
     title     : form.title?.value or stop.title
-    speaker   : form.speaker?.value
-    mediaType : +form.mediaType?.value
-    order     : props.values.order or +form.order?.value
+
+  speaker = form.speaker?.value
+  if speaker
+    baseValues.peaker = speaker
+
+  order = props.values.order or +form.order?.value
+  if order
+    baseValues.order = order
+
+  mediaType = +form.mediaType?.value
+  if mediaType
+    baseValues.mediaType = mediaType
 
   if form.media?.files[0]
     baseValues.media = formatFileName form.media
+
   if form.posterImage?.files[0]
     baseValues.posterImage = formatFileName form.posterImage
 
@@ -42,7 +52,7 @@ buildStop = (props, stop, form) ->
 getLastStopNum = (stops) ->
   _.last(stops)?.stopNumber
 
-parsley = (formElement) ->
+parsleyValidate = (formElement) ->
   $(formElement).parsley
     trigger: 'change'
 
@@ -55,5 +65,5 @@ module.exports =
   saveStop            : saveStop
   updateStop          : updateStop
   getLastStopNum      : getLastStopNum
-  parsley             : parsley
+  parsley             : parsleyValidate
   stopEditing         : stopEditing

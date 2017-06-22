@@ -1,16 +1,16 @@
-{ ReactiveVar } = require 'meteor/reactive-var'
-{ TourStop }        = require '../../../api/tour_stops/index'
-{ showNotification } = require '../../../helpers/notifications'
-{ updateStop }       = require '../../../helpers/edit'
+import { ReactiveVar } from 'meteor/reactive-var'
+import { TourStop } from '../../../api/tour_stops/index'
+import { showNotification } from '../../../helpers/notifications'
+import { updateStop } from '../../../helpers/edit'
 
-require './editing'
-require './add_stop'
-require './stop_title'
-require './stop_title'
-require './stop_data'
-require '../../components/media_preview/media_preview.jade'
-require '../../components/media_types/media_types.coffee'
-require '../views/edit_stop.jade'
+import './editing'
+import './add_stop'
+import './stop_title'
+import './stop_title'
+import './stop_data'
+import '../../components/media_preview/media_preview.jade'
+import '../../components/media_types/media_types.coffee'
+import '../views/edit_stop.jade'
 
 
 Template.editStop.onCreated ->
@@ -43,7 +43,7 @@ Template.editStop.helpers
     not @stop.isGroup()
 
   hasChildren: ->
-    TourStop.findOne parent: Template.instance().data.stop._id
+    TourStop.findOne(parent: Template.instance().data.stop._id)?
 
   deleting: ->
     Template.instance().deleting
@@ -67,7 +67,6 @@ Template.editStop.events
   'click .convert-single': ->
     convertStop = confirm('Are you sure you want to convert this stop to a single stop?')
     if convertStop
-      that = @
       lastStopNumber = _.last(Template.instance().data.stops.fetch()).stopNumber
-      TourStop.update {_id: that.stop.parent}, {$pull:{childStops: that.stop._id}}, () ->
+      TourStop.update {_id: @stop.parent}, {$pull:{childStops: @stop._id}}, () ->
         showNotification(e)

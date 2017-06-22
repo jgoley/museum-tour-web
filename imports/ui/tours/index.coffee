@@ -1,3 +1,3 @@
-require './controllers/archivedTours'
-require './controllers/currentTours'
-require './controllers/tour'
+import './controllers/archivedTours'
+import './controllers/currentTours'
+import './controllers/tour'

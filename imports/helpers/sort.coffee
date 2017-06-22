@@ -1,4 +1,4 @@
-{ TourStop } = require '../api/tour_stops/index'
+import { TourStop } from '../api/tour_stops/index'
 
 updateSortOrder = (indices, stop, deleting=false) ->
 
