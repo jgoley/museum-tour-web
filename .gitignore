@@ -1,5 +1,4 @@
-mup.js
-mup.json
+mup.js*
 settings*
 /fn/
 /packages/s3/index.coffee
