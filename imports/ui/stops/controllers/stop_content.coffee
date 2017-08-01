@@ -1,26 +1,7 @@
 import '../views/stop_content.jade'
-
-Template.stopContent.onCreated ->
-  @stop = @data.stop
-
-Template.stopContent.onRendered ->
-  $('video').on 'ended', (event) ->
-    event.target.webkitExitFullScreen()
+import '../../components/videoContent/videoContent.coffee'
 
 Template.stopContent.helpers
-  autoplay: ->
-    Template.instance().stop.type is 'single'
-
-  posterImage: ->
-    stop = Template.instance().stop
-    url = Meteor.settings.public.awsUrl
-    if stop.posterImage and stop.mediaType in ['2', 2]
-      "http:#{url}/#{stop.tour}/#{stop.posterImage}"
-    else if stop.mediaType in ['1','4','5', 1, 4, 5]
-      "http:#{url}/audio-still.png"
-
-Template.stopContent.events
-  'click video': (event, instance) ->
-
-Template.stopContent.onDestroyed ->
-  $('video').off 'ended'
+  isVideoContent: ->
+    stop = Template.instance().data.stop
+    stop?.isVideo() or stop?.isAudio()
