@@ -30,7 +30,7 @@ buildStop = (props, stop, form) ->
 
   speaker = form.speaker?.value
   if speaker
-    baseValues.peaker = speaker
+    baseValues.speaker = speaker
 
   order = props.values.order or +form.order?.value
   if order
