@@ -24,6 +24,17 @@
     min-width 50px
     background-position center center
     background-size cover
-    border-radius 100%
+    border-radius 2px
+  li
+    &:nth-of-type(odd)
+      .image
+      .no-image
+        -webkit-clip-path polygon(0 0, 100% 0%, 100% 100%, 15% 100%)
+        clip-path polygon(0 0, 100% 0%, 100% 100%, 15% 100%)
+    &:nth-of-type(even)
+      .image
+      .no-image
+        -webkit-clip-path polygon(15% 0, 100% 0%, 100% 100%, 0 100%)
+        clip-path polygon(15% 0, 100% 0%, 100% 100%, 0 100%)
   .no-image
     background $secondary
