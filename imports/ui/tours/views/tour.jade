@@ -9,19 +9,21 @@ template(name="tour")
       each tourStops
         li.tour-stop
           a(href="{{pathFor 'stop' tourID=tour._id stopID=_id }}")
+            .stop-number
+              span #{stopNumber}
             .stop-info
-              span.stop-number #{stopNumber}
-              span.fa.fa-ellipsis-v.seperator
-              if isGroup
-                span.group Group
-                span.group-count (#{childStopCount})
-              ul.media-types.list-unstyled
+              .stop-type
                 if isGroup
-                  each getTypes
-                    li(class="type-#{this}")
-                else
-                  li(class="type-#{mediaType}")
-            span.tap-list-title.stop-title #{title}
+                  .stop-group-info
+                    span.group Group
+                    span.group-count (#{childStopCount})
+                ul.media-types.list-unstyled
+                  if isGroup
+                    each getTypes
+                      li(class="type-#{this}")
+                  else
+                    li(class="type-#{mediaType}")
+              span.tap-list-title.stop-title #{title}
       else
         p No tour stops found
   else
