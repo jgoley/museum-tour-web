@@ -9,29 +9,39 @@ $stop-info-color = darken($m-gray, 5%)
   +above(2)
     min-height 300px
 
-.stop-info
-  font-size
-  span
-  ul
-    vertical-align middle
-
 .seperator
   margin 0 2px
   color $stop-info-color
 
-.stop-number
-  font-weight 700
-  color $primary
+.stop-type
+  display flex
+  flex-direction row
+  align-items center
+
+.stop-info
+  display flex
+  flex-direction column
+
+.stop-group-info
+  margin-right 8px
 
 .tour-stops
   border-top 2px solid $primary
   a
-    flex-direction column
-    align-items flex-start
+    flex-direction row
+    align-items center
   .group
   .group-count
     color darken($stop-info-color, 10%)
     font-size 95%
+  .stop-number
+    font-weight 700
+    color $dd-gray
+    margin-right .5em
+    font-size 1.5em
+    background darken($ll-gray, 2%)
+    padding 8px 10px 8px 20px
+    border-radius 3px
 
 .group-count
   margin-left 3px
@@ -46,13 +56,15 @@ $types = {
 
 .media-types
   li
+    &:not(:last-of-type)
+      margin-right 5px
     &::before
-      margin 0 1px
       font-family 'icons'
       font-size 90%
       content ''
       color $stop-info-color
-      font-smoothing antialiased
+      line-height 0
+      -webkit-font-smoothing antialiased
   for $type, $code in $types
     .type-{$type}
       &::before
