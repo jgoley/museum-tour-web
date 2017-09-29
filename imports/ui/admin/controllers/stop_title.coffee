@@ -62,7 +62,7 @@ Template.stopTitle.events
       unless error
         instance.editingTitle.set false
 
-  'click .group-title, click .single-title': (event, instance)->
+  'click .group-title, click .single-title': (event, instance) ->
     editing = instance.editingStop
     openStop instance, event
     Session.set 'editingAStop', not Session.get 'editingAStop'

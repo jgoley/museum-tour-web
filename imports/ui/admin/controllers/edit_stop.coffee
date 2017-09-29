@@ -14,14 +14,23 @@ import '../views/edit_stop.jade'
 
 
 Template.editStop.onCreated ->
+  @stopID = @data.stop._id
+  editing = false
   @editingStop = new ReactiveVar false
   @addingStop = new ReactiveVar false
   @uploading = new ReactiveVar false
   @deleting = new ReactiveVar false
-  @stopID = @data.stop._id
   @subscribe 'childStops', @stopID, =>
     unless TourStop.findOne(parent: @stopID)
       @addingStop.set true
+
+  @autorun =>
+    selectedParents = @data.selectedParents?.get()
+    if not selectedParents or not selectedParents?.length
+      @editingStop.set(false)
+      return
+    if @stopID in selectedParents
+      @editingStop.set(true)
 
 Template.editStop.helpers
   editingStop: ->

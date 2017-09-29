@@ -13,7 +13,6 @@ Template.currentTours.onCreated ->
   document.title = title
   analytics.page(title)
 
-
 Template.currentTours.helpers
   tours: ->
     Tour.find()

@@ -23,7 +23,6 @@ Meteor.publish 'currentTours', ->
 Meteor.publish 'archivedTour', ->
   today = new Date()
   Tour.find
-    $query:
-      closeDate:
-        $lte: today
-    $orderby: 'closeDate': -1
+    closeDate:
+      $lte: today
+    {sort: 'closeDate': -1}

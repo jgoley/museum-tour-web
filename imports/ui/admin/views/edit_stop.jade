@@ -4,7 +4,8 @@ template(name="editStop")
       stop=stop
       editingStop=editingStop
       parentStopNumber=parentStopNumber
-      deleting=deleting)
+      deleting=deleting
+      highlightStop=highlightStop)
     if isEditingStop
       .stop-editing-wrapper
         if notParent
@@ -15,7 +16,8 @@ template(name="editStop")
             +childStops(
               stop=stop
               addingStop=addingStop
-              hasChildren=hasChildren)
+              hasChildren=hasChildren
+              foundChildren=foundChildren)
           if isAddingStop
             +addStop(
               type='new-child'

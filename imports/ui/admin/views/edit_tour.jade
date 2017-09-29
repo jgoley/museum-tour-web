@@ -8,12 +8,17 @@ template(name="editTour")
         i.fa.fa-link
       button.btn-plain.delete-tour(title="Delete Tour")
         i.fa.fa-trash
+      input.stop-search(type="text" placeholder="Search Stops")
     if editTourDetails
       +tourDetails tour=tour action='edit' editing=getEditing
     if stops.count
       ul.list-unstyled.tap-edit-list.edit-parent-stops#stopList
         each stops
-          +editStop stop=this tour=tour
+          +editStop(
+            stop=this
+            tour=tour
+            selectedParents=selectedParents
+            foundChildren=foundChildren)
         if isAddingStop
           .add-stop
             +addStop type='new-parent' stops=stops tour=tour addingStop=addingStop

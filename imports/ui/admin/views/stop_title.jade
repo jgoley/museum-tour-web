@@ -1,6 +1,6 @@
 template(name="stopTitle")
   li(
-    class="stop #{stop.type}-title #{stop.type} {{#if editingAStop}} not-editing {{/if}}"
+    class="stop #{stop.type}-title #{stop.type} {{#if editingAStop}} not-editing {{/if}} {{#if highlightStop}} found{{/if}}"
     data-id=stopOrder
     data-stopId=stop._id)
     i.handle.fa.fa-bars
