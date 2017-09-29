@@ -75,7 +75,7 @@ Template.editTour.helpers
 Template.editTour.events
   'click .delete-tour': (event, instance) ->
     deleteTour = confirm("Delete tour? All stops will be deleted")
-    tour = Tour.findOne @tourId
+    tour = Tour.findOne(instance.tourID)
     if deleteTour
       deleting = instance.deleting
       deleting.set true
