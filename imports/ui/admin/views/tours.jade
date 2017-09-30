@@ -6,22 +6,27 @@ template(name="editTours")
       i.fa.fa-plus-square-o.left
       span Create Tour
 
-    input.tour-search.form-control(type="text" name="tourTitle" placeholder="Search Tours")
+    .search-input
+      i.fa.fa-search
+      input.tour-search.form-control(type="text" name="tourTitle" placeholder="Search Tours")
 
   if Template.subscriptionsReady
     .edit-tours-lists
-      h2 Current
-      ul.tap-edit-list.current-tours
-        each currentTours
-          +editTourLink this
-      h2 Future
-      ul.tap-edit-list.future-tours
-        each futureTours
-          +editTourLink this
-      h2 Archived
-      ul.tap-edit-list.future-tours
-        each archivedTours
-          +editTourLink this
+      if currentTours.count
+        h2 Current
+        ul.tap-edit-list.current-tours
+          each currentTours
+            +editTourLink this
+      if futureTours.count
+        h2 Future
+        ul.tap-edit-list.future-tours
+          each futureTours
+            +editTourLink this
+      if archivedTours.count
+        h2 Archived
+        ul.tap-edit-list.future-tours
+          each archivedTours
+            +editTourLink this
   else
     +loading
 

@@ -1,14 +1,23 @@
 template(name="editTour")
   if Template.subscriptionsReady
-    .main-title-wrap
+    .main-title-wrap.edit-tour-title
       h1.main-title.edit-tour-title #{tour.mainTitle}: #{tour.subTitle}
-      button.btn.btn-plain.show-tour-details(type='button')
-        i.fa.fa-edit.right
-      a.btn.btn-plain.view-tour(href="{{pathFor 'tour' _id=tour._id}}")
-        i.fa.fa-link
-      button.btn-plain.delete-tour(title="Delete Tour")
-        i.fa.fa-trash
-      input.stop-search(type="text" placeholder="Search Stops")
+      .tour-options
+        a.btn.btn-plain.show-tour-details(
+          class="{{#if editTourDetails}}active{{/if}}"
+          title="Edit Tour Details")
+          i.fa.fa-edit.right
+        a.btn.btn-plain.view-tour(
+          type="button"
+          href="{{pathFor 'tour' _id=tour._id}}"
+          title="Goto Tour")
+          i.fa.fa-link
+        a.btn.btn-plain.delete-tour(
+          title="Delete Tour")
+          i.fa.fa-trash
+      .search-input
+        i.fa.fa-search
+        input.stop-search.form-control(type="text" placeholder="Search Stops")
     if editTourDetails
       +tourDetails tour=tour action='edit' editing=getEditing
     if stops.count
@@ -18,7 +27,8 @@ template(name="editTour")
             stop=this
             tour=tour
             selectedParents=selectedParents
-            foundChildren=foundChildren)
+            foundChildren=foundChildren
+            highlightStop=highlightStop)
         if isAddingStop
           .add-stop
             +addStop type='new-parent' stops=stops tour=tour addingStop=addingStop

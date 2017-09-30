@@ -16,6 +16,7 @@ import '../views/edit_tour.jade'
 
 Template.editTour.onCreated ->
   Session.set 'editingAStop', false
+  Session.set 'searching', false
   @editTourDetails = new ReactiveVar false
   @uploading = new ReactiveVar false
   @addingStop = new ReactiveVar false
@@ -79,6 +80,7 @@ Template.editTour.helpers
           {_id: $in: foundChildrenParents}
           {_id: $in: singleStops}
         ]
+        {sort: stopNumber: 1}
     else
       tourStops
 
@@ -103,6 +105,10 @@ Template.editTour.helpers
   foundChildren: ->
     Template.instance().foundChildren
 
+  highlightStop: ->
+    instance = Template.instance()
+    instance.stopID in instance.singleStops
+
 Template.editTour.events
   'click .delete-tour': (event, instance) ->
     deleteTour = confirm("Delete tour? All stops will be deleted")
@@ -120,7 +126,8 @@ Template.editTour.events
           showNotification error
 
   'click .show-tour-details': (event, instance) ->
-    instance.editTourDetails.set true
+    show = instance.editTourDetails
+    show.set(not show.get())
 
   'click .show-add-stop': (event, instance) ->
     instance.addingStop.set true
@@ -134,6 +141,11 @@ Template.editTour.events
   'keyup .stop-search': _.debounce (event, instance) ->
     queryText = event.target.value
     if queryText == ''
+      searching = false
       instance.selectedParents.set([])
+      Session.set('editingAStop', false)
+    else
+      searching = true
+    Session.set('searching', searching)
     instance.query.set(queryText)
   , 250

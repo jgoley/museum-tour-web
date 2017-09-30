@@ -11,7 +11,7 @@ openStop = (instance, event) ->
   editing.set not editing.get()
   headerHeight = Meteor.settings.public.headerHeight
   $('html, body').animate
-    scrollTop: instance.$(event.target).parent().offset().top - headerHeight
+    scrollTop: instance.$(event.target).parent().offset().top - headerHeight - 3
   , 500
 
 Template.stopTitle.onCreated ->
@@ -65,7 +65,10 @@ Template.stopTitle.events
   'click .group-title, click .single-title': (event, instance) ->
     editing = instance.editingStop
     openStop instance, event
-    Session.set 'editingAStop', not Session.get 'editingAStop'
+    if Session.get('searching')
+      Session.set('editingAStop', false)
+    else
+      Session.set 'editingAStop', not Session.get 'editingAStop'
     $(document).keyup (event) ->
       if event.which is 27
         stopEditing editing

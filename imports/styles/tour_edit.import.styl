@@ -71,7 +71,7 @@
     display flex
     align-items center
     &.found
-      background: lighten($confirm, 90%)
+      background: lighten($confirm, 95%)
     .stop-number
       font-size 1.5em
       +below(2)
@@ -188,32 +188,37 @@
 
 .main-title-wrap
   display flex
-  align-items center
+  align-items flex-end
   .main-title
     padding-right 15px
   .delete-tour
-    centerVertically()
-    right 3%
-    font-size 150%
-    margin-right 0
     &:hover
       color $primary
-  input
+  .search-input
     margin-left auto
+    width 25%
     max-width 300px
-  button
+
+.tour-options
   a
+  button
     margin-right 10px
-    &.show-tour-details
-      font-size 2em
-    &.view-tour
-      font-size 1.8em
-    &.view-tour
-    &.show-tour-details
-      &:focus
-        background none
-        box-shadow 0
-        outline 0
+    line-height 0
+    font-size 1.8em
+    &:focus
+    &:active
+      background none
+      box-shadow none
+      outline 0
+    &:active
+      transform scale(1.1)
+      transition .05s transform
+    &.active
+      color $confirm
+      box-shadow none
+    &:last-of-type
+      margin-right 0
+
 
 .add-stop
   padding-top 1em
@@ -296,3 +301,10 @@
 
 .tiny-media
   min-width 100px
+
+.search-wrapper
+  padding 15px 3% 10px 3%
+  border-bottom 2px solid $l-gray
+  input
+    width 50%
+    max-width 400px

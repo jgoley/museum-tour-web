@@ -1,12 +1,14 @@
 .stop-title
   font-weight 600
-  font-size 1.1em
+  font-size 1em
   letter-spacing .02em
 
 .group-title
   margin 0
 
 .tour-stop
+  a
+    padding-left 0
   .tour-stop--info
     display flex
     flex-direction row
@@ -33,14 +35,6 @@
     .stop-number
       background $primary
       color white
-  &:nth-of-type(odd)
-    .stop-number
-      -webkit-clip-path polygon(0 0, 100% 0%, 100% 100%, 15% 100%)
-      clip-path polygon(0 0, 100% 0%, 100% 100%, 15% 100%)
-  &:nth-of-type(even)
-    .stop-number
-      -webkit-clip-path polygon(15% 0, 100% 0%, 100% 100%, 0 100%)
-      clip-path polygon(15% 0, 100% 0%, 100% 100%, 0 100%)
 
 .child-stop
   margin-bottom 1.45em
