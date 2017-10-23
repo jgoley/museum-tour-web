@@ -2,7 +2,7 @@ template(name="childStops")
   .row
     ul.edit-child-stops.list-unstyled#childStopList
       each stop.children
-        +editStop stop=this parentStopNumber=../stop.stopNumber
+        +editStop stop=this parentStopNumber=../stop.stopNumber highlightStop=highlightStop
       unless isAddingChild
         li.child.add-stop-link.add-child
           a.title

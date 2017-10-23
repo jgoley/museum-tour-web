@@ -15,7 +15,7 @@ $list-border-color = darken($ll-gray, 10%)
     +mobile()
       padding 15px 3%
     &:last-of-type
-      border-bottom 2px solid $list-border-color
+      border-bottom 0
     &.open
       padding-bottom 0
 
@@ -40,7 +40,21 @@ $list-border-color = darken($ll-gray, 10%)
     flex 0
     font-weight 800
 
+.edit-tours-lists
+  margin-bottom 3em
+  h2
+    font-size 2em
+    padding 10px 3% 8px 3%
+    background $ll-gray
+    margin 0
+    border-bottom 1px solid $l-gray
+
 .current-tours
+.future-tours
+.archived-tours
+  border-bottom-width 1px
+  border-top 1px solid $l-gray
+  margin-bottom 0
   > li
     > a
       flex 1
@@ -64,8 +78,6 @@ $list-border-color = darken($ll-gray, 10%)
   margin-left auto
 
 .delete-tour
-  font-size 1em
-  color $m-gray
   &:hover
     color $primary
 
@@ -100,3 +112,6 @@ $list-border-color = darken($ll-gray, 10%)
     width 100%
   button
     margin-top 10px
+
+.main-title.edit-tour-title
+  font-size 3em

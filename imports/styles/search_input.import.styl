@@ -1,0 +1,16 @@
+.search-input
+  position relative
+  input[type=text]
+  input[type=password]
+  input[type=text]
+    padding-left 25px
+    margin 0
+    &:focus
+      border-color $d-gray
+      background lighten($ll-gray, 10%)
+  i
+    position absolute
+    left 8px
+    top 50%
+    transform translate(0, -50%)
+    color $m-gray

@@ -20,6 +20,12 @@ Template.childStops.helpers
   isAddingChild: ->
     Template.instance().addingChild.get()
 
+  highlightStop: ->
+    instance = Template.instance()
+    foundChildren = instance.data.foundChildren
+    return false if not foundChildren?.get()
+    @_id in instance.data.foundChildren?.get()
+
 Template.childStops.events
   'click .add-child': (event, instance) ->
     adding = instance.addingChild

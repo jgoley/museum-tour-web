@@ -6,14 +6,34 @@ template(name="editTours")
       i.fa.fa-plus-square-o.left
       span Create Tour
 
+    .search-input
+      i.fa.fa-search
+      input.tour-search.form-control(type="text" name="tourTitle" placeholder="Search Tours")
+
   if Template.subscriptionsReady
-    ul.tap-edit-list.current-tours
-      each tours
-        li
-          a.edit-tour(href="{{pathFor 'editTour' tourID=_id}}")
-            span.title #{mainTitle}
-              if isFamily
-                span.tour-type-icon.fa.fa-child
-            span.sub-title #{subTitle}
+    .edit-tours-lists
+      if currentTours.count
+        h2 Current
+        ul.tap-edit-list.current-tours
+          each currentTours
+            +editTourLink this
+      if futureTours.count
+        h2 Future
+        ul.tap-edit-list.future-tours
+          each futureTours
+            +editTourLink this
+      if archivedTours.count
+        h2 Archived
+        ul.tap-edit-list.future-tours
+          each archivedTours
+            +editTourLink this
   else
     +loading
+
+template(name="editTourLink")
+  li
+    a.edit-tour(href="{{pathFor 'editTour' tourID=_id}}")
+      span.title #{mainTitle}
+        if isFamily
+          span.tour-type-icon.fa.fa-child
+      span.sub-title #{subTitle}

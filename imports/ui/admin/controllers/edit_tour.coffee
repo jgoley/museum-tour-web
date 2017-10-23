@@ -8,8 +8,6 @@ import { parsley,
          getLastStopNum } from '../../../helpers/edit'
 import { updateSortOrder } from '../../../helpers/sort'
 import Sort from 'sortablejs'
-
-
 import '../../../ui/components/upload_progress/upload_progress.coffee'
 import './stop_title'
 import './edit_stop'
@@ -18,15 +16,19 @@ import '../views/edit_tour.jade'
 
 Template.editTour.onCreated ->
   Session.set 'editingAStop', false
+  Session.set 'searching', false
   @editTourDetails = new ReactiveVar false
   @uploading = new ReactiveVar false
   @addingStop = new ReactiveVar false
   @tourID = @data?.tourID
   @deleting = new ReactiveVar false
   @stopsLoaded = new ReactiveVar false
+  @selectedParents = new ReactiveVar([])
+  @foundChildren = new ReactiveVar([])
+  @query = new ReactiveVar('')
   if @tourID
     @subscribe 'tourDetails', @tourID
-    @subscribe 'tourParentStops', @tourID, () =>
+    @subscribe 'tourStops', @tourID, () =>
       @stopsLoaded.set true
 
 Template.editTour.onRendered ->
@@ -46,16 +48,41 @@ Template.editTour.helpers
     Tour.findOne Template.instance().tourID
 
   stops: ->
-    TourStop.find
-      $and:
-        [
-          $or:
-            [
-              {type: 'group'},
-              {type: 'single'}
-            ]
+    instance = Template.instance()
+    textQuery = instance.query.get()
+    query =
+      type: $in: ['group', 'single']
+
+    if textQuery
+      query.type.$in.push('child')
+      query = _.extend query,
+        $or: [
+          {title: new RegExp(textQuery, 'i')}
+          {stopNumber: +textQuery}
         ]
-      {sort: stopNumber: 1}
+
+    tourStops = TourStop.find(query, {sort: stopNumber: 1})
+
+    if textQuery
+      foundChildrenParents = []
+      foundChildren = []
+      singleStops = []
+      tourStops.forEach (stop) ->
+        if stop.type == 'child'
+          foundChildren.push(stop._id)
+          foundChildrenParents.push(stop.parent)
+        else
+          singleStops.push(stop._id)
+      instance.selectedParents.set(foundChildrenParents)
+      instance.foundChildren.set(foundChildren)
+      TourStop.find
+        $or: [
+          {_id: $in: foundChildrenParents}
+          {_id: $in: singleStops}
+        ]
+        {sort: stopNumber: 1}
+    else
+      tourStops
 
   sortableOptions : ->
     handle: '.handle'
@@ -71,6 +98,16 @@ Template.editTour.helpers
 
   addingStop: ->
     Template.instance().addingStop
+
+  selectedParents: ->
+    Template.instance().selectedParents
+
+  foundChildren: ->
+    Template.instance().foundChildren
+
+  highlightStop: ->
+    instance = Template.instance()
+    instance.stopID in instance.singleStops
 
 Template.editTour.events
   'click .delete-tour': (event, instance) ->
@@ -89,7 +126,8 @@ Template.editTour.events
           showNotification error
 
   'click .show-tour-details': (event, instance) ->
-    instance.editTourDetails.set true
+    show = instance.editTourDetails
+    show.set(not show.get())
 
   'click .show-add-stop': (event, instance) ->
     instance.addingStop.set true
@@ -99,3 +137,15 @@ Template.editTour.events
         scrollTop: $(".add-stop").offset().top - headerHeight
       , 800
     , 0
+
+  'keyup .stop-search': _.debounce (event, instance) ->
+    queryText = event.target.value
+    if queryText == ''
+      searching = false
+      instance.selectedParents.set([])
+      Session.set('editingAStop', false)
+    else
+      searching = true
+    Session.set('searching', searching)
+    instance.query.set(queryText)
+  , 250
