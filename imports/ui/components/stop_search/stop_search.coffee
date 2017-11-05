@@ -11,7 +11,12 @@ Template.stopSearch.onCreated ->
 
 Template.stopSearch.events
   'input .stopNumber': (e, instance) ->
-    if TourStop.findOne(stopNumber: +e.target.value)
+    enteredStop = e.target.value
+    unless enteredStop
+      instance.buttonState.set true
+      return
+    requestingHelp = +enteredStop == 0 or enteredStop.match(/help/i)
+    if TourStop.findOne(stopNumber: +enteredStop) or requestingHelp
       instance.buttonState.set false
     else
       instance.buttonState.set true
@@ -19,6 +24,9 @@ Template.stopSearch.events
   'submit .goto-stop': (e, instance) ->
     e.preventDefault()
     number = e.target.stopNumber.value
+    if +number == 0 or number.match(/help/i)
+      go('help')
+      return
     stop = TourStop.findOne stopNumber: +number
     analytics.track 'Stop Search',
       eventName: instance.data.location or 'Stop Search'

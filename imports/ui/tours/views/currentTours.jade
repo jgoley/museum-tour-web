@@ -11,5 +11,8 @@ template(name="currentTours")
               h2 #{mainTitle}
                 span #{subTitle}
     +stopSearch stops=stops location='Current Tours'
+    footer.tour-list__footer
+      a.btn.btn-primary(href="{{pathFor 'help'}}") Help
+
   else
     +loading
