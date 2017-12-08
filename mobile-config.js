@@ -7,7 +7,7 @@ App.info({
   website    : 'http://jonathangoley.com'
 });
 
-App.icons
+App.icons({
   'iphone_legacy'           : 'public/ios_icons/icon-57.png', // 57x57
   'iphone_legacy_2x'        : 'public/ios_icons/icon-114.png', // 114x114
   'iphone_2x'               : 'public/ios_icons/icon-60@2x.png', // 120x120
@@ -19,19 +19,19 @@ App.icons
   'ipad_app_legacy_2x'      : 'public/ios_icons/icon-144.png', // 144x144
   'ios_settings'            : 'public/ios_icons/icon-small.png', // 29x29
   'ios_settings_2x'         : 'public/ios_icons/icon-small@2x.png', // 59x59
-  'ios_settings_3x'         : 'public /ios_icons/icon-small@3x.png', // 87x87
+  'ios_settings_3x'         : 'public/ios_icons/icon-small@3x.png', // 87x87
   'ios_notification'        : 'public/ios_icons/icon-20.png', // 20x20
   'ios_notification_2x'     : 'public/ios_icons/icon-40.png', // 40x40
   'ios_notification_3x'     : 'public/ios_icons/icon-60.png', // 60x60
   'ios_spotlight'           : 'public/ios_icons/icon-40.png', // 40x40
   'ios_spotlight_2x'        : 'public/ios_icons/icon-40.png', // 40x40
   'ios_spotlight_3x'        : 'public/ios_icons/icon-60.png', // 60x60
-  'ipad_spotlight_legacy'   : 'public/ios_icons/icon-50.png' // 50x50
-  'ipad_spotlight_legacy_2x': 'public/ios_icons/icon-100.png' // 100x100
-  'iTunesArtwork'           : 'public/ios_icons/icon-40.png', // 40x40
-  'iTunesArtwork@2x'        : 'public/ios_icons/icon-40@2x.png', // 80x80
+  'ipad_spotlight_legacy'   : 'public/ios_icons/icon-50.png', // 50x50
+  'ipad_spotlight_legacy_2x': 'public/ios_icons/icon-100.png', // 100x100
+  // 'iTunesArtwork'           : 'public/ios_icons/icon-40.png', // 40x40
+  // 'iTunesArtwork@2x'        : 'public/ios_icons/icon-40@2x.png', // 80x80
   'app_store'               : 'public/ios_icons/app_store.png', // 1024x1024
-;
+});
 
 App.launchScreens({
   'iphone_2x'         : 'public/ios_lauchScreens/iphone@2x.png',

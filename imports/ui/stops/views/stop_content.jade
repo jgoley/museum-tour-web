@@ -1,6 +1,8 @@
 template(name="stopContent")
-  if isVideoContent
+  if stop.isVideo
     +videoContent stop=stop
-  else
+  else if stop.isAudio
+    +audioContent stop=stop
+  else 
     .img-wrap
       img(src="#{awsUrl}/#{stop.tour}/#{stop.media}" controls)

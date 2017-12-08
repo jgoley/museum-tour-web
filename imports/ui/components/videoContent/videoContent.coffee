@@ -23,10 +23,21 @@ Template.videoContent.helpers
   audioType: ->
     Template.instance().data.stop.audioType
 
+  showControls: ->
+    Template.instance().stop.mediaType is 2
+
 Template.videoContent.events
   'ended video': (event) ->
     event.target.webkitExitFullScreen()
-  'webkitendfullscreen video': ->
+
+  'webkitendfullscreen video': (event, instance) ->
     lockOrientation('portrait')
-  'playing video': ->
-    lockOrientation('landscape')
+
+  'playing video': (event, instance) ->
+    console.log instance.stop.mediaType
+    if instance.stop.mediaType is 2
+      lockOrientation('landscape')
+
+  'click video': (event, instance) ->
+    console.log '$$$$$$$$$$$'
+    event.currentTarget.play()

@@ -65,6 +65,9 @@ TourStop = Class.create
     isAudio: ->
       @mediaType in ['1','4',1,4]
 
+    isImage: ->
+      @mediaType in ['3','3',3,3]
+
     audioType: ->
       if @mediaType in ['1',1] then 'audio' else 'music'
 

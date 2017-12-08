@@ -39,45 +39,6 @@ a
   &:focus
     text-decoration none
 
-video
-audio
-img
-  display block
-  width 100%
-  margin 0
-  border-bottom 2px solid $l-gray
-  +above(4)
-    width 60%
-    margin 0 auto
-
-video
-  background-color $m-gray
-
-audio
-  min-height 200px
-  background-color #000
-  background-repeat no-repeat
-  background-size auto 120px
-  background-position center 40%
-
-video
-  &.audio
-  &.music
-  background-color #000
-  background-repeat no-repeat
-  background-position center center
-  &.audio
-    background-image url($awsUrl+'audio-poster.png')
-  &.music
-    background-image url($awsUrl+'music-poster.png')
-
-.img-wrap
-.video-wrap
-  background-color lighten($l-gray, 50%)
-
-.video-wrap
-  position relative
-
 .tap-list
   margin-bottom 30px
   list-style-type none
