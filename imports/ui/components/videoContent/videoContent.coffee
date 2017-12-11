@@ -34,10 +34,15 @@ Template.videoContent.events
     lockOrientation('portrait')
 
   'playing video': (event, instance) ->
-    console.log instance.stop.mediaType
     if instance.stop.mediaType is 2
       lockOrientation('landscape')
 
   'click video': (event, instance) ->
-    console.log '$$$$$$$$$$$'
     event.currentTarget.play()
+
+  'loadedmetadata video': (event, instance) ->
+    instance.data.stopLength.set(event.currentTarget.duration)
+
+  'play video': (event, instance) ->
+    $('audio, video').not(instance.$('video')[0]).each ->
+      @pause()

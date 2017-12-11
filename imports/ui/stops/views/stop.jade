@@ -13,24 +13,16 @@ template(name="stop")
         ul.child-stops
           each stop.children
             li.child-stop
-              .child-stop-info
-                .child-stop-number #{stop.stopNumber}.#{order}
-                .child-stop-titles-wrap
-                  h2.tap-list-title.child-stop-title=title
-                  unless isNull speaker
-                    p.child-stop-subTitle #{speaker}
-              +stopContent stop=this
-      else
-        +stopContent stop=stop
-      .stop-nav
-        .current-stop-number=stop.stopNumber
-        a.stop-nav-button.prev-stop(href="#" disabled="{{#unless prevStop}} disabled {{/unless}}")
-          i.fa.fa-chevron-circle-left
-          span=prevStop.stopNumber
-          span=prevStop.title
-        a.stop-nav-button.next-stop(href="#" disabled="{{#unless nextStop}} disabled {{/unless}}")
-          span=nextStop.stopNumber
-          span=nextStop.title
-          i.fa.fa-chevron-circle-right
+              +childStop stop=this parentStop=stop
+      //- else if stop.isAudio
+      //-   +stopAudio stop=stop
+      //- else if stop.isVideo
+      //-   +stopVideo stop=stop
+      //- else if stop.isImage
+      //-   +stopImage stop=stop
+        //- +stopContent stop=stop
+        
+      if stop
+        +stopNav stop=stop currentStop=stopID
   else
     +loading

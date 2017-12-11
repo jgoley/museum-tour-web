@@ -1,0 +1,12 @@
+template(name="childStop")
+  .child-stop-info
+    .child-stop-number #{parentStop.stopNumber}.#{stop.order}
+    .child-stop-titles-wrap
+      h2.tap-list-title.child-stop-title=stop.title
+      unless isNull stop.speaker
+        p.child-stop-subTitle #{stop.speaker}
+      unless stop.isImage
+        p.child-stop-subTitle
+         i.fa.fa-clock-o
+         span= stopLengthValue
+  +stopContent stop=stop stopLength=stopLength

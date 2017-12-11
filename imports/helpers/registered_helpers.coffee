@@ -29,3 +29,6 @@ Template.registerHelper 'hoverable', ->
 Template.registerHelper 'isDeleting', ->
   instance = Template.instance()
   instance.deleting?.get() or instance.data.deleting?.get()
+
+Template.registerHelper 'isNull', (value) ->
+  value and value.match(/NULL/gi)

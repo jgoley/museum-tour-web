@@ -1,0 +1,14 @@
+template(name='stopNav')
+  if Template.subscriptionsReady
+    .stop-nav
+      .current-stop-number=stop.stopNumber
+      a.stop-nav-button.prev-stop(href="#" disabled="{{#unless prevStop}} disabled {{/unless}}")
+        i.fa.fa-chevron-circle-left
+        span=prevStop.stopNumber
+        span=prevStop.title
+      a.stop-nav-button.next-stop(href="#" disabled="{{#unless nextStop}} disabled {{/unless}}")
+        span=nextStop.stopNumber
+        span=nextStop.title
+        i.fa.fa-chevron-circle-right
+  else
+    +loading

@@ -7,6 +7,7 @@ Template.audioContent.onCreated ->
   @currentTime = new ReactiveVar(0)
   @stopLength = new ReactiveVar(0)
   @stopLoaded = new ReactiveVar(false)
+  @active = new ReactiveVar(false)
   @setProgress = null
 
 Template.audioContent.onRendered ->
@@ -29,7 +30,10 @@ Template.audioContent.helpers
     Template.instance().playing.get()
 
   controlState: ->
-    if Template.instance().playing.get()
+    instance = Template.instance()
+    unless instance.stopLoaded.get()
+      return 'loading'
+    if instance.playing.get()
       'pause'
     else
       'play'
@@ -49,19 +53,24 @@ Template.audioContent.helpers
     Template.instance().currentTime.get()
 
   stopLength: ->
-    Template.instance().playTime.get()
+    Template.instance().playTime?.get()
 
   loaded: ->
     Template.instance().stopLoaded.get()
 
+  active: ->
+    Template.instance().active.get()
+
 Template.audioContent.events
   'click .audio-control': (event, instance) ->
     stopAudioEl = instance.stopAudioEl
+    $('audio, video').not(stopAudioEl).each -> @pause()
     playing = not stopAudioEl.paused
     if playing
       stopAudioEl.pause()
     else
       stopAudioEl.play()
+      instance.active.set(true)
     instance.playing.set(not playing)
 
   'loadeddata audio': (event, instance) ->
@@ -69,9 +78,12 @@ Template.audioContent.events
 
   'loadedmetadata audio': (event, instance) ->
     instance.stopLength.set(instance.$('audio')[0].duration)
+    instance.data.stopLength.set(event.currentTarget.duration)
 
   'ended audio': (event, instance) ->
-    instance.playing.set(playing)
-
-  'ended audio': (event, instance) ->
+    instance.active.set(false)
     instance.playing.set(false)
+
+  'pause audio': (event, instance) ->
+    instance.playing.set(false)
+    clearInterval(@setProgress)
