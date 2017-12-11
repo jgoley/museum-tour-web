@@ -89,6 +89,7 @@ Template.audioContent.events
   'ended audio': (event, instance) ->
     instance.active.set(false)
     instance.playing.set(false)
+    instance.currentTime.set(0)
 
   'pause audio': (event, instance) ->
     instance.playing.set(false)

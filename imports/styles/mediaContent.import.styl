@@ -67,6 +67,8 @@ video
     background: darken(white, 3%)
     .audio-time
       color: $d-gray
+      font-size .85rem
+      opacity 1
   &:not(.active)
     .audio-track__progress
       width 0% !important
@@ -133,6 +135,10 @@ video
   text-align: center
   margin-top: .1rem
   color: darken($m-gray, 20%)
+  transition .2s ease-in-out
+  overflow hidden
+  opacity 0
+  font-size 0
   +above(4)
     font-size: .75rem
 
