@@ -9,4 +9,9 @@ template(name="childStop")
         p.child-stop-subTitle
          i.fa.fa-clock-o
          span= stopLengthValue
-  +stopContent stop=stop stopLength=stopLength
+  if stop.isAudio
+    +audioContent stop=stop stopLength=stopLength
+  else if stop.isVideo
+    +videoContent stop=stop stopLength=stopLength
+  else if stop.isImage
+    +stopImage stop=stop

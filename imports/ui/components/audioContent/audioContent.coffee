@@ -1,13 +1,15 @@
-import './audioContent.jade'
 import { ReactiveVar } from 'meteor/reactive-var'
+import './audioContent.jade'
+import convertPlayTime from '../../../helpers/play_time'
 
 Template.audioContent.onCreated ->
   @stop = @data.stop
-  @playing = new ReactiveVar(false)
+  isSingle = @stop.isSingle()
+  @playing = new ReactiveVar(isSingle)
   @currentTime = new ReactiveVar(0)
   @stopLength = new ReactiveVar(0)
   @stopLoaded = new ReactiveVar(false)
-  @active = new ReactiveVar(false)
+  @active = new ReactiveVar(isSingle)
   @setProgress = null
 
 Template.audioContent.onRendered ->
@@ -50,10 +52,10 @@ Template.audioContent.helpers
     Math.ceil((currentTime / stopLength) * 100)
 
   currentTime: ->
-    Template.instance().currentTime.get()
+    convertPlayTime( Template.instance().currentTime.get() )
 
   stopLength: ->
-    Template.instance().playTime?.get()
+    convertPlayTime( Template.instance().stopLength?.get() )
 
   loaded: ->
     Template.instance().stopLoaded.get()
@@ -61,8 +63,12 @@ Template.audioContent.helpers
   active: ->
     Template.instance().active.get()
 
+  autoplay: ->
+    Template.instance().stop.isSingle()
+
 Template.audioContent.events
-  'click .audio-control': (event, instance) ->
+  'click .audio-track,
+   click .audio-control': (event, instance) ->
     stopAudioEl = instance.stopAudioEl
     $('audio, video').not(stopAudioEl).each -> @pause()
     playing = not stopAudioEl.paused

@@ -16,7 +16,9 @@ body
   padding 1em 3%
 
 .page-wrap
-  min-height 100%
+  min-height "calc(100% - %s)" % $header-height-tablet
+  margin-top $header-height-tablet
+  margin-bottom $footer-height * 2
   position relative
   &.mobile
     position absolute
@@ -28,7 +30,8 @@ body
     overflow-y scroll
     -webkit-overflow-scrolling touch
   +above(4)
-    padding-top $header-height
+    min-height "calc(100% - %s)" % $header-height
+    margin-top $header-height
   &.menu-open
     padding-top $header-height-tablet
     &:not(.mobile)

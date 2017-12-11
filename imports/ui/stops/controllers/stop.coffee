@@ -5,9 +5,13 @@ import { analytics } from 'meteor/okgrow:analytics'
 
 import '../views/stop.jade'
 import '../../components/stop_nav/stop_nav.coffee'
+import '../../components/videoContent/videoContent.coffee'
+import '../../components/audioContent/audioContent.coffee'
+import '../../components/imageContent/imageContent.jade'
 
 Template.stop.onCreated ->
   @stopID = new ReactiveVar @data.stopID
+  @stopLength = ReactiveVar(0)
 
 Template.stop.onRendered ->
   @stopID.set @data.stopID
@@ -37,3 +41,6 @@ Template.stop.helpers
 
   stopID: ->
     Template.instance().stopID
+
+  stopLength: ->
+    Template.instance().stopLength

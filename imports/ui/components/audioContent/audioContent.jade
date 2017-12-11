@@ -1,14 +1,14 @@
 template(name="audioContent")
   .audio-wrap(class="{{#if active}} active {{/if}}")
-    .audio-control(class=controlState)
-      unless loaded 
-        +loading small=true classes='no-bg'
+    .audio-controls
+      .audio-control(class=controlState)
+        unless loaded 
+          +loading small=true classes='no-bg'
+      .audio-time
+        span #{currentTime}/#{stopLength}
     .audio-track
       .audio-track__progress(style="width: #{playProgress}%")
-      .audio-track__time
-        //- .audio-track__current-time= currentTime
-        if playing 
-          .audio-track__total-time= stopLength
     audio(
       src="#{awsUrl}/#{stop.tour}/#{stop.media}"
-      preload)
+      preload
+      autoplay=autoplay)

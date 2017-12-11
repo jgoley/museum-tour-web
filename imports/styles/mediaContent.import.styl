@@ -30,16 +30,29 @@ video
   &.music
     background-image url($awsUrl+'music-poster.png')
 
-.img-wrap
-.video-wrap
-  background-color lighten($l-gray, 50%)
-
 .video-wrap
   position relative
 
+.tour-stop.single
+  .audio-wrap
+    justify-content center
+  .audio-controls
+    margin-bottom 10rem
+  .audio-control
+    height 10rem
+    width 10rem
+    font-size: 5rem
+    .play
+      &::before
+        content: '\f04b'
+        margin-left: 10px
+  .audio-time
+    font-size: 1.25rem
+    margin-top: 1rem
+
 .audio-wrap
   position: absolute
-  padding: 0 3%;
+  padding: .5rem 3%;
   top: 0
   bottom: 0
   right: 0
@@ -48,8 +61,24 @@ video
   justify-content flex-end
   align-items center
   transition .5s background ease-in-out
+  border-top 1px solid #EEEEEE
+  border-bottom 1px solid #EEEEEE
   &.active
     background: darken(white, 3%)
+    .audio-time
+      color: $d-gray
+  &:not(.active)
+    .audio-track__progress
+      width 0% !important
+  +above(4)
+    padding: 0 20%
+
+.audio-controls
+  position: relative
+  display: inline-flex
+  flex-direction column
+  align-items: center
+  z-index 3
 
 .audio-control
   position: relative
@@ -63,16 +92,20 @@ video
   height: 5rem
   width: 5rem
   cursor: pointer
-  z-index: 10
+  z-index: 1
+  font-size: 2rem
   &::before
     content: ''
     display: block
     icon-font()
     color: $m-gray;
-    font-size: 2rem;
     transition: .15s transform ease-in-out
     transform: scale(1)
     transform-origin: center
+  +above(4)
+    height: 3rem
+    width: 3rem
+    font-size: 1.5rem
 
   &:hover
     &::before
@@ -95,6 +128,14 @@ video
     &::before
       content: ''
 
+.audio-time
+  font-size: .85rem
+  text-align: center
+  margin-top: .1rem
+  color: darken($m-gray, 20%)
+  +above(4)
+    font-size: .75rem
+
 .audio-track
   position: absolute
   top: 0
@@ -102,6 +143,7 @@ video
   left: 0
   right: 0
   z-index: 1
+  cursor: pointer
 
 .audio-track__progress
   transition: width .1s ease-in-out

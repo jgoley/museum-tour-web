@@ -1,6 +1,6 @@
 template(name='stopNav')
   if Template.subscriptionsReady
-    .stop-nav
+    footer.stop-nav
       .current-stop-number=stop.stopNumber
       a.stop-nav-button.prev-stop(href="#" disabled="{{#unless prevStop}} disabled {{/unless}}")
         i.fa.fa-chevron-circle-left

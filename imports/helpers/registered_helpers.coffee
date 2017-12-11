@@ -32,3 +32,9 @@ Template.registerHelper 'isDeleting', ->
 
 Template.registerHelper 'isNull', (value) ->
   value and value.match(/NULL/gi)
+
+Template.registerHelper 'stopMediaType', ->
+  switch @mediaType
+    when 1, '1', 4, '4' then 'audio'
+    when 2, '2', 5, '5' then 'video'
+    when 3, '3' then 'video'

@@ -1,7 +1,7 @@
 template(name="stop")
   if Template.subscriptionsReady
-    .tour-stop
-      .tour-stop--info(class="{{#if stop.isGroup}} group {{/if}}")
+    .tour-stop(class="{{#if stop.isSingle}} single {{else}} group {{/if}}")
+      .tour-stop--info
         span.stopNumber #{stop.stopNumber}
         .tour-stop--info--title
           h1
@@ -9,18 +9,18 @@ template(name="stop")
           unless stop.isGroup
             unless isNull stop.speaker
               p.child-stop-subTitle.single #{stop.speaker}
+              
       if stop.isGroup
         ul.child-stops
           each stop.children
-            li.child-stop
+            li.child-stop(class="child-stop--#{stopMediaType}")
               +childStop stop=this parentStop=stop
-      //- else if stop.isAudio
-      //-   +stopAudio stop=stop
-      //- else if stop.isVideo
-      //-   +stopVideo stop=stop
-      //- else if stop.isImage
-      //-   +stopImage stop=stop
-        //- +stopContent stop=stop
+      else if stop.isAudio
+        +audioContent stop=stop stopLength=stopLength
+      else if stop.isVideo
+        +videoContent stop=stop stopLength=stopLength
+      else if stop.isImage
+        +stopImage stop=stop
         
       if stop
         +stopNav stop=stop currentStop=stopID
