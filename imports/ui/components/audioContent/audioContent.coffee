@@ -4,12 +4,12 @@ import convertPlayTime from '../../../helpers/play_time'
 
 Template.audioContent.onCreated ->
   @stop = @data.stop
-  isSingle = @stop.isSingle()
-  @playing = new ReactiveVar(isSingle)
+  @playing = new ReactiveVar(false)
   @currentTime = new ReactiveVar(0)
   @stopLength = new ReactiveVar(0)
-  @stopLoaded = new ReactiveVar(false)
-  @active = new ReactiveVar(isSingle)
+  @active = new ReactiveVar(false)
+  @stopLoading = new ReactiveVar(false)
+  @stopCanPlay = new ReactiveVar(false)
   @setProgress = null
 
 Template.audioContent.onRendered ->
@@ -33,15 +33,12 @@ Template.audioContent.helpers
 
   controlState: ->
     instance = Template.instance()
-    unless instance.stopLoaded.get()
+    if instance.stopLoading.get()
       return 'loading'
     if instance.playing.get()
       'pause'
     else
       'play'
-
-  stopLoaded: ->
-    Template.instance().stopLoaded.get()
 
   playProgress: ->
     instance = Template.instance()
@@ -58,20 +55,19 @@ Template.audioContent.helpers
     convertPlayTime( Template.instance().stopLength?.get() )
 
   loaded: ->
-    Template.instance().stopLoaded.get()
+    not Template.instance().stopLoading.get()
 
   active: ->
     Template.instance().active.get()
-
-  autoplay: ->
-    Template.instance().stop.isSingle()
 
 Template.audioContent.events
   'click .audio-track,
    click .audio-control': (event, instance) ->
     stopAudioEl = instance.stopAudioEl
-    $('audio, video').not(stopAudioEl).each -> @pause()
     playing = not stopAudioEl.paused
+    if not playing and not instance.stopCanPlay.get()
+      instance.stopLoading.set(true)
+    $('audio, video').not(stopAudioEl).each -> @pause()
     if playing
       stopAudioEl.pause()
     else
@@ -79,8 +75,9 @@ Template.audioContent.events
       instance.active.set(true)
     instance.playing.set(not playing)
 
-  'loadeddata audio': (event, instance) ->
-    instance.stopLoaded.set(true)
+  'canplaythrough audio': (event, instance) ->
+    instance.stopLoading.set(false)
+    instance.stopCanPlay.set(true)
 
   'loadedmetadata audio': (event, instance) ->
     instance.stopLength.set(instance.$('audio')[0].duration)

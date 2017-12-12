@@ -36,8 +36,6 @@ video
 .tour-stop.single
   .audio-wrap
     justify-content center
-  .audio-controls
-    margin-bottom 10rem
   .audio-control
     height 10rem
     width 10rem
@@ -69,6 +67,8 @@ video
       color: $d-gray
       font-size .85rem
       opacity 1
+      +above(4)
+        font-size .5rem
   &:not(.active)
     .audio-track__progress
       width 0% !important
@@ -139,8 +139,9 @@ video
   overflow hidden
   opacity 0
   font-size 0
+  width 5rem
   +above(4)
-    font-size: .75rem
+    width 3rem
 
 .audio-track
   position: absolute

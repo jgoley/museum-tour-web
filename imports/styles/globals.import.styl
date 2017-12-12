@@ -16,9 +16,10 @@ body
   padding 1em 3%
 
 .page-wrap
-  min-height "calc(100% - %s)" % $header-height-tablet
-  margin-top $header-height-tablet
-  margin-bottom $footer-height * 2
+  $header-footer-height = $header-height-tablet + $footer-height
+  min-height 100%
+  padding-top $header-height-tablet
+  padding-bottom $footer-height
   position relative
   &.mobile
     position absolute
@@ -31,12 +32,16 @@ body
     -webkit-overflow-scrolling touch
   +above(4)
     min-height "calc(100% - %s)" % $header-height
-    margin-top $header-height
+    padding-top $header-height
   &.menu-open
     padding-top $header-height-tablet
     &:not(.mobile)
       +above(4)
         padding-top $header-height
+
+.main-content
+  padding-bottom $footer-height
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 
 a
   &:focus
@@ -147,7 +152,7 @@ a
     &:active
     &:focus
       border-color darken(@background-color, 20%)
-      color darken(@background-color, 40%)
+      // color darken(@background-color, 40%)
       background $m-gray
 
 .stopNumber-wrap
