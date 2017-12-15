@@ -16,7 +16,10 @@ body
   padding 1em 3%
 
 .page-wrap
+  $header-footer-height = $header-height-tablet + $footer-height
   min-height 100%
+  padding-top $header-height-tablet
+  padding-bottom $footer-height
   position relative
   &.mobile
     position absolute
@@ -28,6 +31,7 @@ body
     overflow-y scroll
     -webkit-overflow-scrolling touch
   +above(4)
+    min-height "calc(100% - %s)" % $header-height
     padding-top $header-height
   &.menu-open
     padding-top $header-height-tablet
@@ -35,48 +39,13 @@ body
       +above(4)
         padding-top $header-height
 
+.main-content
+  padding-bottom $footer-height
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+
 a
   &:focus
     text-decoration none
-
-video
-audio
-img
-  display block
-  width 100%
-  margin 0
-  border-bottom 2px solid $l-gray
-  +above(4)
-    width 60%
-    margin 0 auto
-
-video
-  background-color $m-gray
-
-audio
-  min-height 200px
-  background-color #000
-  background-repeat no-repeat
-  background-size auto 120px
-  background-position center 40%
-
-video
-  &.audio
-  &.music
-  background-color #000
-  background-repeat no-repeat
-  background-position center center
-  &.audio
-    background-image url($awsUrl+'audio-poster.png')
-  &.music
-    background-image url($awsUrl+'music-poster.png')
-
-.img-wrap
-.video-wrap
-  background-color lighten($l-gray, 50%)
-
-.video-wrap
-  position relative
 
 .tap-list
   margin-bottom 30px
@@ -183,7 +152,6 @@ video
     &:active
     &:focus
       border-color darken(@background-color, 20%)
-      color darken(@background-color, 40%)
       background $m-gray
 
 .stopNumber-wrap

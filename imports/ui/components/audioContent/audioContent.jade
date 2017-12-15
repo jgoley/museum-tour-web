@@ -1,0 +1,13 @@
+template(name="audioContent")
+  .audio-wrap(class="{{#if active}} active {{/if}}")
+    .audio-controls
+      .audio-control(class=controlState)
+        unless loaded 
+          +loading small=true classes='no-bg'
+      .audio-time
+        span #{currentTime}/#{stopLength}
+    .audio-track
+      .audio-track__progress(style="width: #{playProgress}%")
+    audio(
+      src="#{awsUrl}/#{stop.tour}/#{stop.media}"
+      preload)

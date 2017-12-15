@@ -13,12 +13,11 @@
     display flex
     flex-direction row
     padding 15px 3% 0 3%
-    background $ll-gray
-    border-bottom 2px solid $l-gray
-    &.group
-      margin-bottom 1em
-    +above(5)
+    position relative
+    z-index 10
+    +above(4)
       padding-left 20%
+      padding-right 20%
     span
       @extend h1
       color $primary
@@ -35,19 +34,33 @@
     .stop-number
       background $primary
       color white
+  &.group
+    margin-bottom 1em
+    .tour-stop--info
+      margin-bottom 1em
 
 .child-stop
+  position: relative
   margin-bottom 1.45em
   +above(5)
     margin-bottom 20px
   &:last-of-type
     margin-bottom 40px
 
+.child-stop--audio
+  .child-stop-info
+    padding .75em calc(5.5rem + 3%) .95rem 3%
+    +above(4)
+      padding .75em calc(5.5rem + 20%) .95rem 20%
+
 .child-stop-info
-  padding 0 3% .5em 3%
+  padding .75em 3%
   color $body-text
-  +above(5)
-    padding 0 10px 0 20%
+  position relative
+  z-index 100
+  pointer-events none
+  +above(4)
+    padding .5rem 10px .5rem 20%
 
 .child-stop-number
 .child-stop-title
@@ -68,7 +81,8 @@
   font-weight 600
   margin 0 0 .1em 0
 
-.child-stop-subTitle
+.child-stop-subTitle,
+.child-stop-time
   margin 0
   color $d-gray
   font-size 95%
@@ -80,7 +94,9 @@
     padding 3px 0 10px 0
   &.single
     padding 3px 0 15px 0
-    background $ll-gray
+
+.child-stop-time
+  padding-bottom 0
 
 $stop-nav-border-color = darken($primary, 20%)
 
@@ -90,6 +106,8 @@ $stop-nav-border-color = darken($primary, 20%)
   display flex
   width 100%
   border-top 1px solid $stop-nav-border-color
+  z-index 1000
+  min-height: $footer-height
   .current-stop-number
     font-weight 800
     font-size 1.5em

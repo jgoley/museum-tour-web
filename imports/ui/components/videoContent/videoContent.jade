@@ -3,6 +3,7 @@ template(name="videoContent")
     video(
       src="#{awsUrl}/#{stop.tour}/#{stop.media}"
       poster=posterImage
-      controls
+      controls=showControls
       autoplay=autoplay
-      class=audioType)
+      class=audioType
+      playsinline)
