@@ -6,7 +6,7 @@ template(name="childStop")
       unless isNull stop.speaker
         p.child-stop-subTitle #{stop.speaker}
       unless stop.isImage
-        p.child-stop-subTitle
+        p.child-stop-time
          i.fa.fa-clock-o
          span= stopLengthValue
   if stop.isAudio
