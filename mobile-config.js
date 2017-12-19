@@ -48,3 +48,5 @@ App.launchScreens({
 App.setPreference('Fullscreen', true);
 App.setPreference('HideKeyboardFormAccessoryBar', true);
 App.setPreference('Orientation', 'portrait', 'ios');
+
+App.setPreference('WebAppStartupTimeout', 30);
