@@ -92,5 +92,11 @@ loggedIn.route '/tour/edit/:tourID',
       data:
         tourID: params.tourID
 
+loggedIn.route '/help-video',
+  name: 'helpVideo'
+  action: (params) ->
+    BlazeLayout.render 'layout',
+      content: 'helpVideo'
+
 module.exports =
   FlowRouter: FlowRouter

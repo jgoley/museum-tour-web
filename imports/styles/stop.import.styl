@@ -123,12 +123,6 @@ footer
   > div
     padding 0
   a
-    &:first-of-type
-      border-right 1px solid $stop-nav-border-color
-      justify-content flex-start
-    &:last-of-type
-      border-left 1px solid $stop-nav-border-color
-      justify-content flex-end
     span
       &:first-of-type
         padding-right .25em
@@ -138,6 +132,12 @@ footer
         display none
         +above(4)
           display block
+  .next-stop
+    border-left 1px solid $stop-nav-border-color
+    justify-content flex-end
+  .prev-stop
+    border-right 1px solid $stop-nav-border-color
+    justify-content flex-start
 
 
 .stop-nav-button
