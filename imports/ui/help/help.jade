@@ -1,5 +1,8 @@
 template(name="help")
   .main-title-wrap
     h1.main-title Help
-  .video-wrap
-    video(src="#{awsUrl}/help.mp4" controls)
+  if isLoading
+    +loading
+  else
+    .video-wrap
+      video(src=videoPath controls poster=posterPath)
