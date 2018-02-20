@@ -5,31 +5,33 @@ template(name='helpVideo')
     .main-title-wrap
       h1.main-title Help Video
     .container-fluid
-      .col-lg-10.row.media-preview
-        .col-md-6
-          h2 Help Video
-          if video
-            .video
+      .row
+        .col-lg-10.media-preview
+          .col-md-6
+            h2 Help Video
+            if video
+              .video
+                +media_preview(
+                  media=videoPath
+                  isVideo=true
+                  posterImage=posterPath
+                  asset=video
+                  typeName='media')
+            else
+              form.js-help-video
+                +fileUpload name='help-video' required=true label=label
+                button.btn.btn-success Save
+          .col-md-6
+            h2 Help Video Poster
+            if poster
               +media_preview(
-                media=videoPath
-                isVideo=true
-                posterImage=posterPath
-                asset=video
-                typeName='media')
-          else
-            form.js-help-video
-              +fileUpload name='help-video' required=true label=label
-              button.btn.btn-success Save
-        .col-md-6
-          h2 Help Video Poster
-          if poster
-            +media_preview(
-              media=posterPath
-              asset=poster
-              typeName='posterImage')
-          else
-            form.js-help-poster
-              +fileUpload name='help-video-poster' required=true label=label
-              button.btn.btn-success Save
-      if isUploading
-        +upload_progress
+                media=posterPath
+                asset=poster
+                typeName='posterImage')
+            else
+              form.js-help-poster
+                +fileUpload name='help-video-poster' required=true label=label
+                button.btn.btn-success Save
+      .row
+        .col-lg-6
+          +upload_progress

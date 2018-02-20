@@ -34,14 +34,16 @@ Template.helpVideo.helpers
 
   videoPath: ->
     video = Asset.findOne(name: 'help-video')
-    video.location + video.fileName
+    if video
+      video.location + video.fileName
 
   poster: ->
     Asset.findOne(name: 'help-video-poster')
 
   posterPath: ->
     poster = Asset.findOne(name: 'help-video-poster')
-    poster.location + poster.fileName
+    if poster
+      poster.location + poster.fileName
 
   isLoading: ->
     Template.instance().loading.get()

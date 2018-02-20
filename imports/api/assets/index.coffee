@@ -36,12 +36,11 @@ Asset = Class.create
   helpers:
     delete: ->
       new Promise (resolve) =>
-        console.log "#{@location}#{@fileName}", @
         S3.delete "#{@location}#{@fileName}", (error, res) =>
           if error
             showNotification error
           else
-            @delete()
+            @softRemove()
             resolve()
     upload: (file, path) ->
       new Promise (resolve) =>
@@ -53,6 +52,16 @@ Asset = Class.create
             if error
               showNotification error
             resolve()
+  behaviors: {
+    softremove: {
+       # The field name with a flag for marking a document as removed.
+      removedFieldName: 'removed',
+       # A flag indicating if a "removedAt" field should be present in a document.
+      hasRemovedAtField: true,
+       # The field name storing the removal date.
+      removedAtFieldName: 'removedAt'
+    }
+  }
 
 module.exports =
   Asset : Asset

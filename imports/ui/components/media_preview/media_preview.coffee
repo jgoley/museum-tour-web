@@ -6,7 +6,6 @@ import './media_preview.jade'
 
 Template.media_preview.onCreated ->
   @deleting = new ReactiveVar false
-  console.log @data
 
 Template.media_preview.helpers
   deleting: ->
@@ -21,9 +20,9 @@ Template.media_preview.events
     instanceData = instance.data
     deleting.set(true)
     if instanceData.asset
-      instanceData.asset.delete().then ->
+      instanceData.asset.delete().then (error) ->
         deleting.set(false)
-        showNotification()
+        showNotification(error)
     else
       deleteFile(@media, @tourID, instance.data.object, @typeName)
         .then (error) ->
