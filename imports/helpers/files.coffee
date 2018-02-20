@@ -43,7 +43,7 @@ deleteFile = (fileName, tourID, obj, objProp) ->
     S3.delete "/#{tourID}/#{_fileName}", (error) ->
       if error
         reject error
-      else
+      else if obj
         obj.set objProp, null
         obj.save resolve
 

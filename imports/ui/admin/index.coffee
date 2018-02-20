@@ -1,4 +1,5 @@
 import './views/login.jade'
+import './controllers/help_video'
 import './controllers/edit_media'
 import './controllers/edit_tour'
 import './controllers/tour_details'
