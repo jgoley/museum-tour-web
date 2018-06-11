@@ -6,7 +6,9 @@
   "dependencies": {
     "babel-runtime": "^6.20.0",
     "bcrypt": "^0.8.7",
+    "core-js": "^2.5.7",
     "moment": "^2.13.0",
+    "mongo": "^0.1.0",
     "parsleyjs": "^2.3.15",
     "rupture": "^0.6.1",
     "sortablejs": "^1.4.2",

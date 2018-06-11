@@ -13,14 +13,14 @@ template(name="nav")
         a(href="{{pathFor 'help'}}")
           i.fa.fa-info-circle
           span Help
+      li
+        a(href="{{pathFor 'feedback'}}")
+          i.fa.fa-edit
+          span Feedback
+
     if currentUser
       ul.admin
         h3 Admin
-
-        //- li
-        //-   a(href="{{pathFor 'feedback'}}")
-        //-     i.fa.fa-edit
-        //-     span Feedback
 
         li.admin
           a(href="{{pathFor 'createTour'}}")

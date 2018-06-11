@@ -4,6 +4,7 @@ import '../../ui/tours/index'
 import '../../ui/stops/index'
 import '../../ui/admin/index'
 import '../../ui/help/help.coffee'
+import '../../ui/feedback.coffee'
 
 import '../../ui/components/loading/loading.jade'
 
